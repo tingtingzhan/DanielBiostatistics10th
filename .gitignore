@@ -1,3 +1,8 @@
+inst/extdeveloper
+inst/extlecturer
+inst/extsolution
+inst/extR/
+
 # History files
 .Rhistory
 .Rapp.history
