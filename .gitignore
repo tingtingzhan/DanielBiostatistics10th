@@ -2,6 +2,7 @@ inst/extdeveloper
 inst/extlecturer
 inst/extsolution
 inst/extR/
+inst/.DS_Store
 
 # History files
 .Rhistory
