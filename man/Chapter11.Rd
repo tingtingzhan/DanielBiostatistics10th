@@ -44,36 +44,37 @@ abline(a = cf_main[1L] + cf_main[3L], b = cf_main[2L], col = 'magenta')
 d1123 = within(EXA_C11_S02_03, expr = {
   METHOD = factor(METHOD, levels = c('C', 'A', 'B')) # textbook designated 'C' as reference level
 })
-summary(mod_1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123)) # Figure 11.2.5
-confint(mod_1123)
+summary(m1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123)) # Figure 11.2.5
+confint(m1123)
 scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
             xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
 
 # Example 11.3.1; Page 561, 
 head(EXA_C11_S03_01)
 names(EXA_C11_S03_01) = c('JOBPER', 'ASRV', 'ENTH', 'AMB', 'COMM', 'PROB', 'INIT')
-summary(mod_1131_raw <- lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = EXA_C11_S03_01))
-# summary(mod_1131 <- MASS::stepAIC(mod_1131_raw, direction = 'backward'))
+summary(m1131_raw <- lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = EXA_C11_S03_01))
+# summary(m1131 <- MASS::stepAIC(m1131_raw, direction = 'backward'))
 # the stepwise selection criterion used in MINITAB is not necessarily AIC
 
 # Example 11.4.1; Page 572, 
 addmargins(d1141 <- array(c(92L, 21L, 15L, 20L), dim = c(2L, 2L), dimnames = list(
   OCAD = c('Present', 'Absent'), Sex = c('Male', 'Female')))) # Table 11.4.2
-(d1141a = within(as.data.frame(as.table(d1141)), expr = {
+(d1141a = within(as.data.frame.table(as.table(d1141)), expr = {
   OCAD = (OCAD == 'Present')
   Sex = factor(Sex, levels = c('Female', 'Male'))
 }))
-summary(m1141 <- glm(OCAD ~ Sex, family = binomial, weights = Freq, data = d1141a)) # Figure 11.4.1
+m1141 = glm(OCAD ~ Sex, family = binomial, weights = Freq, data = d1141a)
+summary(m1141) # Figure 11.4.1
 exp(m1141$coefficients[2L]) # exp(beta_M)
 exp(confint(m1141)) # confidence interval of exp(beta)
 predict(m1141, newdata = data.frame(Sex = setNames(nm = c('Male', 'Female'))), type = 'response')
 
 # Example 11.4.2; Page 573, 
 head(EXA_C11_S04_02)
-summary(mod_1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02)) # Figure 11.4.2
-exp(mod_1142$coefficients[2L])
-exp(confint(mod_1142))
-car::Anova(mod_1142) # Optional
+summary(m1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02)) # Figure 11.4.2
+exp(m1142$coefficients[2L])
+exp(confint(m1142))
+car::Anova(m1142) # Optional
 
 # Example 11.4.3; Page 576, 
 head(REV_C11_24)
@@ -82,6 +83,6 @@ summary(glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24)) # Figur
 summary(glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24)) 
 
 # Example 11.4.4-11.4.5; Page 578-579
-DescTools::PseudoR2(mod_1142, which = 'CoxSnell')
-DescTools::PseudoR2(mod_1142, which = 'Nagelkerke')
+DescTools::PseudoR2(m1142, which = 'CoxSnell')
+DescTools::PseudoR2(m1142, which = 'Nagelkerke')
 }

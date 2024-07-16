@@ -15,11 +15,8 @@ library(reshape2)
 
 # Example 8.2.1; Page 318 (10th ed), Page 280 (11th ed)
 head(EXA_C08_S02_01)
-d821 = within(EXA_C08_S02_01, expr = {
-  type = factor(type)
-})
-boxplot(selenium ~ type, data = d821, main = 'Figure 8.2.7')
-(aov_d821 = aov(selenium ~ type, data = d821)) 
+boxplot(selenium ~ type, data = EXA_C08_S02_01, main = 'Figure 8.2.7')
+(aov_d821 = aov(selenium ~ type, data = EXA_C08_S02_01)) 
 # ?stats::aov # analysis-of-variance model
 anova(aov_d821) 
 # ?stats::anova # ANOVA table

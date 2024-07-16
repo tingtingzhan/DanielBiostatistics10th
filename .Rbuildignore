@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+inst/extdeveloper
+inst/extlecturer
+inst/extsolution
+inst/extR
+
