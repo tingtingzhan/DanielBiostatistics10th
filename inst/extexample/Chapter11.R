@@ -1,6 +1,4 @@
 library(DanielBiostatistics10th)
-library(car) # ?car::scatterplot
-library(DescTools)
 
 # Example 11.1.1; Page 540, 
 head(EXA_C11_S01_01)
@@ -18,15 +16,16 @@ d1121 = within(EXA_C11_S02_01, expr = {
   SMOKE = as.logical(SMOKE)
 })
 xlab1121 = 'Length of gestation (weeks)'; ylab1121 = 'Birth weight (grams)'
-scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
+car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
             xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.1')
-summary(m1121_main <- lm(GRAMS ~ WEEKS + SMOKE, data = d1121)) # Figure 11.2.2
-confint(m1121_main)
-scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
+m1121 = lm(GRAMS ~ WEEKS + SMOKE, data = d1121)
+summary(m1121) # Figure 11.2.2
+confint(m1121)
+car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
             xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.3')
-(cf_main = m1121_main$coefficients)
-abline(a = cf_main[1L], b = cf_main[2L], col = 'blue') # regression line for non-smoking mothers
-abline(a = cf_main[1L] + cf_main[3L], b = cf_main[2L], col = 'magenta') 
+(cf1121 = m1121$coefficients)
+abline(a = cf1121[1L], b = cf1121[2L], col = 'blue') # regression line for non-smoking mothers
+abline(a = cf1121[1L] + cf1121[3L], b = cf1121[2L], col = 'magenta') 
 
 # Example 11.2.3; Page 551, 
 d1123 = within(EXA_C11_S02_03, expr = {
@@ -34,7 +33,7 @@ d1123 = within(EXA_C11_S02_03, expr = {
 })
 summary(m1123 <- lm(EFFECT ~ AGE * METHOD, data = d1123)) # Figure 11.2.5
 confint(m1123)
-scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
+car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
             xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
 
 # Example 11.3.1; Page 561, 
