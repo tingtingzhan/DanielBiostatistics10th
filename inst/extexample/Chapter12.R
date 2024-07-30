@@ -1,6 +1,6 @@
 library(DanielBiostatistics10th)
 
-# Example 12.3.1; Page 605, 
+# Example 12.3.1; Page 605 (10th ed)
 d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
 (d1231 = setNames( # Table 12.3.1
   c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L), 
@@ -12,7 +12,7 @@ pchisq(sum(chi1231), df = length(d1231) - 3L, lower.tail = FALSE)
 # (2) estimating mean
 # (3) estimating sd
 
-# Example 12.3.2; Page 609, 
+# Example 12.3.2; Page 609 (10th ed), 
 # 100 doctors, 25 patients per doctor
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
@@ -26,7 +26,7 @@ pchisq(sum(chi1232), df = length(o1232) - 2L, lower.tail = FALSE)
 # (1) making sum(o) == sum(e)
 # (2) estimating p1232
 
-# Example 12.3.3; Page 611, 
+# Example 12.3.3; Page 611 (10th ed), 
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
 p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
@@ -71,19 +71,19 @@ if (FALSE) {
 
 # Example 12.6.1; Page 638, 
 addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
-  Group = c('PI_Naive', 'PA_Experienced'), Regimen2yr = c('TRUE', 'FALSE'))))
+  Group = c('PI Naive', 'PA Experienced'), Regimen2yr = c('TRUE', 'FALSE'))))
 fisher.test(d1262)
 
 # Example 12.7.1; Page 644, 
-(d1271 = array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), dimnames = list(
-  Exercising = c('Extreme', 'No'), PretermLabor = c('TRUE', 'FALSE'))))
-summary(BooleanTable(t(d1271)))
-# textbook confidence interval (.65, 1.86) wrong (too many rounding in intermediate steps)
+addmargins(d1271 <- array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), dimnames = list(
+  Exercising = c('Extreme', 'No'), PretermLabor = c('Cases', 'Noncases'))))
+DescTools::RelRisk(d1271, conf.level = .95) # 95% CI for relative risk
+fisher.test(d1271) # 95% CI for odds ratio
 
 # Example 12.7.2; Page 647, 
-(d1272 = array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
-  SmkPregnancy = c('TRUE', 'FALSE'), Obesity = c('TRUE', 'FALSE'))))
-summary(BooleanTable(t(d1272)))
+addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
+  SmkPregnancy = c('Smoked Throughout', 'Never Smoked'), Obesity = c('Cases', 'Noncases'))))
+fisher.test(d1272)
 
 # Example 12.7.3-12.7.4; Page 650-652, 
 (d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), dimnames = list(
