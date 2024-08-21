@@ -1,5 +1,4 @@
 library(DanielBiostatistics10th)
-library(reshape2)
 
 # Example 8.2.1; Page 318 (10th ed), Page 280 (11th ed)
 head(EXA_C08_S02_01)
@@ -77,3 +76,4 @@ head(d852 <- within(EXA_C08_S05_02, expr = {
 anova(aov_852)
 summary(lm(HOME ~ A * B, data = d852)) 
 # produces alpha, beta and (alpha beta)'s in the formulation 
+

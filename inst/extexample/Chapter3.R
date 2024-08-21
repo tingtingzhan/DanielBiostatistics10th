@@ -4,9 +4,9 @@ library(DanielBiostatistics10th)
 (d341 = matrix(c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L), ncol = 2L, dimnames = list(
   FamilyHx = c('none', 'Bipolar', 'Unipolar', 'UniBipolar'), Onset = c('Early', 'Late'))))
 class(d341) # 'matrix', i.e., a two-dimensional 'array'
-proportions(d341)
-proportions(d341, margin = 2L)
-proportions(d341, margin = 1L)
+addProbs(d341)
+addProbs(d341, margin = 2L)
+addProbs(d341, margin = 1L)
 
 # Example 3.5.1; Page 81 (10th ed), Page 72 (11th ed)
 (d351 = matrix(c(436L, 14L, 5L, 495L), nrow = 2L, dimnames = list(

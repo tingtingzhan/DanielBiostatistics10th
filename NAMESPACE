@@ -3,6 +3,7 @@
 S3method(summary,BooleanTable)
 export(BooleanTable)
 export(Gosset_Welch)
+export(addProbs)
 export(aggregated_t)
 export(aggregated_var)
 export(aggregated_z)

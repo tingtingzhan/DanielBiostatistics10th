@@ -84,8 +84,8 @@ either \code{'two.sided'} (default), \code{'greater'} or \code{'less'}}
 
 \item{...}{potential arguments, not in use currently}
 
-\item{xsd}{\link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or
-\link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})},
+\item{xsd}{\link[base]{numeric} scalar \eqn{s} or
+\link[base]{length}-2 \link[base]{vector} \eqn{(s_1, s_2)},
 sample standard deviation(s)}
 
 \item{var.equal}{\link[base]{logical} scalar, whether to treat the two population variances as being equal

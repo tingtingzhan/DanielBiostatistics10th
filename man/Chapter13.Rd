@@ -11,10 +11,6 @@ Examples for Chapter 13, \emph{Nonparametric and Distribution-Free Statistics}.
 }
 \examples{
 library(DanielBiostatistics10th)
-library(reshape2); packageDate('reshape2')
-library(BSDA); packageDate('BSDA')
-library(robslopes); packageDate('robslopes')
-library(mblm); packageDate('mblm')
 
 # Example 13.3.1; Page 673, 
 d1331 = c(4, 5, 8, 8, 9, 6, 10, 7, 6, 6)
@@ -50,13 +46,21 @@ ks.test(EXA_C13_S07_01$GLUCOSE, y = pnorm, mean = 80, sd = 6)
 (d1381 = data.frame(Air = c(12.22, 28.44, 28.13, 38.69, 54.91),
                     Benzaldehyde = c(3.68, 4.05, 6.47, 21.12, 3.33),
                     Acetaldehyde = c(54.36, 27.87, 66.81, 46.27, 30.19))) # Table 13.8.1
-with(melt(d1381, id.vars = NULL, value.name = 'Eosinophil', variable.name = 'Exposure'), 
-     expr = kruskal.test(x = Eosinophil, g = Exposure))
+with(data = reshape2::melt(
+  data = d1381, 
+  id.vars = NULL, 
+  value.name = 'Eosinophil', 
+  variable.name = 'Exposure'
+), expr = kruskal.test(x = Eosinophil, g = Exposure))
 
 # Example 13.8.2; Page 708 (10th ed), Page 613 (11th ed) 
 head(EXA_C13_S08_02)
-with(melt(EXA_C13_S08_02, id.vars = NULL, value.name = 'Value', variable.name = 'Hospital'), 
-     expr = kruskal.test(x = Value, g = Hospital))
+with(data = reshape2::melt(
+  data = EXA_C13_S08_02, 
+  id.vars = NULL, 
+  value.name = 'Value', 
+  variable.name = 'Hospital'
+), expr = kruskal.test(x = Value, g = Hospital))
 
 # Example 13.9.1; Page 713 (10th ed); Page 618 (11th ed)
 head(EXA_C13_S09_01)

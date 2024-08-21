@@ -21,8 +21,12 @@
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar indicating the difference in 
 #' sample means \eqn{\bar{x}_1-\bar{x}_2} or sample proportions \eqn{\hat{p}_1-\hat{p}_2}
 #' 
-#' @param xsd \link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
-#' \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})},
+# @param xsd \link[base]{numeric} scalar \eqn{\sigma_{\bar{x}}} or 
+# \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_{\bar{x}_1}, \sigma_{\bar{x}_2})},
+# sample standard deviation(s)
+# wrong!!!!
+#' @param xsd \link[base]{numeric} scalar \eqn{s} or 
+#' \link[base]{length}-2 \link[base]{vector} \eqn{(s_1, s_2)},
 #' sample standard deviation(s)
 #' 
 #' @param sd \link[base]{numeric} scalar \eqn{\sigma} or 
