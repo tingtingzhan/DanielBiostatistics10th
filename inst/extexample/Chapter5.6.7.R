@@ -3,11 +3,12 @@ library(DanielBiostatistics10th)
 # Example 5.3.2; Page 142 (10th ed)
 aggregated_z(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
 
-# Example 5.3.3; Page 143 (10th ed)
+# Example 5.3.3; 
+# Page 143 (10th ed)
 pnorm(125, mean = 120, sd = 15/sqrt(50)) - pnorm(115, mean = 120, sd = 15/sqrt(50))
 aggregated_z(125, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value - 
   aggregated_z(115, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value
-# Example 5.3.3; Page 127 (11th ed)
+# Page 127 (11th ed)
 aggregated_z(110, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value - 
   aggregated_z(95, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value
 

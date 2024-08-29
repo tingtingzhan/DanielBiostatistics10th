@@ -5,3 +5,4 @@ inst/extlecturer
 inst/extsolution
 inst/extR
 
+^CRAN-SUBMISSION$
