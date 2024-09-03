@@ -202,10 +202,12 @@ summary.binTab <- function(object, prevalence, ...) {
   sens <- x11 / xr[2L]
   spec <- x00 / xr[1L]
   cat(do.call(sprintf, c(list(
-    fmt = 'Sensitivity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n', 
+    #fmt = 'Sensitivity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+    fmt = 'Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n', 
     1e2 * sens, x11, xr[2L]), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
   cat(do.call(sprintf, c(list(
-    fmt = 'Specificity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+    #fmt = 'Specificity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+    fmt = 'Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
     1e2 * spec, x00, xr[1L]), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
   
   if (!missing(prevalence)) {
@@ -221,11 +223,13 @@ summary.binTab <- function(object, prevalence, ...) {
   } else {
     cat(do.call(sprintf, c(list(
       #fmt = 'Positive Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = 'Positive Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      #fmt = 'Positive Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      fmt = 'Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
       1e2 * x11/xc[2L], x11, xc[2L]), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
     cat(do.call(sprintf, c(list(
       #fmt = 'Negative Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = 'Negative Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      #fmt = 'Negative Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      fmt = 'Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
       1e2 * x00/xc[1L], x00, xc[1L]), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
     cat('\n')
   }
@@ -260,7 +264,8 @@ summary.binTab <- function(object, prevalence, ...) {
   } # have not flipped
 
   cat(do.call(sprintf, c(list(
-    fmt = 'Diagnose Accuracy: %.1f%% (=(%d+%d)/%d, 95%% CI %.1f%%~%.1f%%)\n',
+    #fmt = 'Diagnose Accuracy: %.1f%% (=(%d+%d)/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+    fmt = 'Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
     1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
   # @importFrom e1071 classAgreement
