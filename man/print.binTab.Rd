@@ -2,17 +2,16 @@
 % Please edit documentation in R/binTab.R
 \name{print.binTab}
 \alias{print.binTab}
-\title{Summarize Boolean Test-&-Disease and/or Risk-&-Disease Table}
+\title{Print Boolean Test-&-Disease and/or Risk-&-Disease Table}
 \usage{
-\method{print}{binTab}(x, prevalence, ansi = (.Platform$GUI == "RStudio"), ...)
+\method{print}{binTab}(x, prevalence, ansi = identical(.Platform$GUI, "RStudio"), ...)
 }
 \arguments{
 \item{x}{a \link{binTab}}
 
-\item{prevalence}{(optional) \link[base]{numeric} scalar, prevalence of disease}
+\item{prevalence}{(optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease}
 
-\item{ansi}{\link[base]{logical} scalar, whether allow ANSI escapes in output,
-default \code{.Platform$GUI == 'RStudio'}.
+\item{ansi}{\link[base]{logical} scalar, whether to allow ANSI escapes.
 ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.}
 
 \item{...}{potential parameters, currently not in use}
@@ -21,19 +20,17 @@ ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla G
 Function \link{print.binTab} returns the sensitivity and specificity invisibly.
 }
 \description{
-Summarize Boolean test-&-disease and/or risk-&-disease table using
-sensitivity, specificity, diagnostic accuracy, predictive values, relative risk
-and odds ratio,
-together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
+Print Boolean test-&-disease and/or risk-&-disease table.
 }
 \details{
-..
+Function \link{print.binTab} prints the diagnostic test characteristics,
+e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
+together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 }
 \examples{
 (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 binTab(x)
 print(binTab(x), prevalence = c(.0001, .001, .01))
-
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}

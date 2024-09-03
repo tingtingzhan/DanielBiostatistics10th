@@ -115,25 +115,25 @@ binTab.formula <- function(formula, data, ...) {
 
 
 
-#' @title Summarize Boolean Test-&-Disease and/or Risk-&-Disease Table 
+#' @title Print Boolean Test-&-Disease and/or Risk-&-Disease Table 
 #' 
-#' @description
-#' Summarize Boolean test-&-disease and/or risk-&-disease table using 
-#' sensitivity, specificity, diagnostic accuracy, predictive values, relative risk 
-#' and odds ratio, 
-#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
+#' @description 
+#' Print Boolean test-&-disease and/or risk-&-disease table.
 #' 
 #' @param x a [binTab]
 #' 
-#' @param prevalence (optional) \link[base]{numeric} scalar, prevalence of disease
+#' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
 #' 
-#' @param ansi \link[base]{logical} scalar, whether allow ANSI escapes in output, 
-#' default `.Platform$GUI == 'RStudio'`.
+#' @param ansi \link[base]{logical} scalar, whether to allow ANSI escapes.
 #' ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.
 #' 
 #' @param ... potential parameters, currently not in use 
 #' 
-#' @details ..
+#' @details
+#' 
+#' Function [print.binTab] prints the diagnostic test characteristics, 
+#' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
+#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 #' 
 #' @returns 
 #' 
@@ -146,7 +146,6 @@ binTab.formula <- function(formula, data, ...) {
 #' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 #' binTab(x)
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
-#' 
 #' @keywords internal
 #' @importFrom cli ansi_strip
 #' @importFrom stats binom.test pnorm qnorm
@@ -155,7 +154,7 @@ binTab.formula <- function(formula, data, ...) {
 print.binTab <- function(
     x, 
     prevalence, 
-    ansi = (.Platform$GUI == 'RStudio'), 
+    ansi = identical(.Platform$GUI, 'RStudio'), 
     ...
 ) {
   
