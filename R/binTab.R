@@ -3,7 +3,6 @@
 # 'Boolean' indicates 0/1; https://en.wikipedia.org/wiki/Boolean_data_type
 # 'binary' indicates base-2 numerical system, i.e., er-jin-zhi; https://en.wikipedia.org/wiki/Binary_number
 
-# if `contains = 'table'`, then `unclass(object)` will have `attr(,'.S3Class') = 'table'`
 
 
 
@@ -111,12 +110,146 @@ binTab.formula <- function(formula, data, ...) {
 
 
 
-# @export print.binTab
+
+
+
+
+
+#' @title Summarize Boolean Test-&-Disease and/or Risk-&-Disease Table 
+#' 
+#' @description
+#' Summarize Boolean test-&-disease and/or risk-&-disease table using 
+#' sensitivity, specificity, diagnostic accuracy, predictive values, relative risk 
+#' and odds ratio, 
+#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
+#' 
+#' @param x a [binTab]
+#' 
+#' @param prevalence (optional) \link[base]{numeric} scalar, prevalence of disease
+#' 
+#' @param ansi \link[base]{logical} scalar, whether allow ANSI escapes in output, default `TRUE`.
+#' ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.
+#' 
+#' @param ... potential parameters, currently not in use 
+#' 
+#' @details ..
+#' 
+#' @returns 
+#' 
+#' Function [print.binTab] returns the sensitivity and specificity invisibly.
+#' 
+#' @references 
+#' \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
+#' 
+#' @examples 
+#' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
+#' binTab(x)
+#' print(binTab(x), prevalence = c(.0001, .001, .01))
+#' 
+#' @keywords internal
+#' @importFrom cli ansi_strip
+#' @importFrom stats binom.test pnorm qnorm
+#' @export print.binTab
 #' @export
-print.binTab <- function(x, ...) {
-  print(addmargins(unclass(x)))
-  return(invisible())
+print.binTab <- function(x, prevalence, ansi = TRUE, ...) {
+  
+  print.default(addmargins(x))
+  cat('\n')
+  
+  x11 <- x[2L,2L] # (+,+)
+  x00 <- x[1L,1L] # (-,-)
+  xr <- .rowSums(x, m = 2L, n = 2L) # Disease (-) and (+)
+  xc <- .colSums(x, m = 2L, n = 2L) # Test (-) and (+)
+  
+  foo <- if (ansi) identity else ansi_strip
+  
+  sens <- x11 / xr[2L]
+  spec <- x00 / xr[1L]
+  cat(do.call(sprintf, c(list(
+    fmt = foo('Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'), 
+    1e2 * sens, x11, xr[2L]), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
+  cat(do.call(sprintf, c(list(
+    fmt = foo('Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+    1e2 * spec, x00, xr[1L]), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
+  
+  if (!missing(prevalence)) {
+    if (!is.double(prevalence) || !length(prevalence) || anyNA(prevalence) ||
+        any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
+    ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
+    npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
+    cat('\n')
+    cat(sprintf(fmt = foo('Positive Predictive Value: %.3g%%, \033[36mprevalence %.3g%%\033[0m\n'), 1e2*ppv_, 1e2*prevalence), sep = '')
+    cat('\n')
+    cat(sprintf(fmt = foo('Negative Predictive Value: %.3g%%, \033[36mprevalence %.3g%%\033[0m\n'), 1e2*npv_, 1e2*prevalence), sep = '')
+    cat('\n')
+  } else {
+    cat(do.call(sprintf, c(list(
+      #fmt = 'Positive Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      fmt = foo('Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+      1e2 * x11/xc[2L], x11, xc[2L]), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
+    cat(do.call(sprintf, c(list(
+      #fmt = 'Negative Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
+      fmt = foo('Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+      1e2 * x00/xc[1L], x00, xc[1L]), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
+    cat('\n')
+  }
+  
+  if (FALSE) {
+    #  chisq <- sum(x) * (x11*x00 - x[2L,1L]*x[1L,2L])^2 / prod(xr, xc)
+    #  stopifnot(all.equal(chisq, unname(chisq.test(x, correct = FALSE)$statistic)))
+    
+    # relative risk
+    #  risks <- x[1L,] / .colSums(x, m = 2L, n = 2L)
+    #  logRR <- unname(log(risks[1L]) - log(risks[2L])) # Equation (12.7.2) (Page 644), Daniel Biostatistics, 10th
+    #  logRR_sd <- logRR / sqrt(chisq)
+    #  cat(do.call(sprintf, args = c(list(
+    #    fmt = 'Relative Risk: %.2f (=(%d/%d)/(%d/%d)), 95%% CI (%.2f, %.2f), p = %.3f\n',
+    #    exp(logRR), x11, xc[1L], x[1L,2L], xc[2L]
+    #  ), 
+    #  as.list.default(exp(logRR + qnorm(c(.025, .975)) * logRR_sd)),
+    #  list(pnorm(abs(logRR), sd = logRR_sd, lower.tail = FALSE)))))
+    
+    # odds ratio
+    #  odds <- x[1L,] / x[2L,]
+    #  logOR <- unname(log(odds[1L]) - log(odds[2L])) # Equation (12.7.4) (Page 646), Daniel Biostatistics, 10th
+    #  logOR_sd <- logOR / sqrt(chisq)
+    #  cat(do.call(sprintf, args = c(list(
+    #    fmt = 'Odds Ratio: %.2f (=(%d/%d)/(%d/%d)), 95%% CI (%.2f, %.2f), p = %.3f\n',
+    #    exp(logOR), x11, x[2L,1L], x[1L,2L], x00
+    #  ), 
+    #  as.list.default(exp(logOR + qnorm(c(.025, .975)) * logOR_sd)),
+    #  list(pnorm(abs(logOR), sd = logOR_sd, lower.tail = FALSE)))))
+    
+    #  cat('\n')
+  } # have not flipped
+  
+  cat(do.call(sprintf, c(list(
+    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+    1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
+  
+  # @importFrom e1071 classAgreement
+  #kp <- classAgreement(x)$kappa
+  #cat(sprintf(fmt = 'Cohen\'s Inter-Rater Agreement \u03ba = %.3f (%s)\n', kp, as.character.factor(cut_kappa(kp))))
+  # need to @include cut_kappa.R
+  
+  return(invisible(list(
+    sens = sens, spec = spec
+  )))
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' @title Predictive Values
@@ -155,142 +288,5 @@ npv <- function(prevalence, sensitivity, specificity) {
       any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
   (specificity * (1-prevalence)) / (specificity * (1-prevalence) + (1-sensitivity) * prevalence)
 }
-
-
-#' @title Summarize Boolean Test-&-Disease and/or Risk-&-Disease Table 
-#' 
-#' @description
-#' Summarize Boolean test-&-disease and/or risk-&-disease table using 
-#' sensitivity, specificity, diagnostic accuracy, predictive values, relative risk 
-#' and odds ratio, 
-#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
-#' 
-#' @param object a [binTab]
-#' 
-#' @param prevalence (optional) \link[base]{numeric} scalar, prevalence of disease
-#' 
-#' @param ... potential parameters, currently not in use 
-#' 
-#' @details ..
-#' 
-#' @returns 
-#' 
-#' Function [summary.binTab] returns the sensitivity and specificity invisibly.
-#' 
-#' @references 
-#' \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
-#' 
-#' @examples 
-#' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
-#' summary(binTab(x))
-#' summary(binTab(x), prevalence = c(.0001, .001, .01))
-#' 
-#' @keywords internal
-#' @importFrom stats binom.test pnorm qnorm
-#' @export summary.binTab
-#' @export
-summary.binTab <- function(object, prevalence, ...) {
-  
-  print.binTab(object); cat('\n')
-  
-  x <- unclass(object)
-  x11 <- x[2L,2L] # (+,+)
-  x00 <- x[1L,1L] # (-,-)
-  xr <- .rowSums(x, m = 2L, n = 2L) # Disease (-) and (+)
-  xc <- .colSums(x, m = 2L, n = 2L) # Test (-) and (+)
-  
-  sens <- x11 / xr[2L]
-  spec <- x00 / xr[1L]
-  cat(do.call(sprintf, c(list(
-    #fmt = 'Sensitivity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-    fmt = 'Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n', 
-    1e2 * sens, x11, xr[2L]), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
-  cat(do.call(sprintf, c(list(
-    #fmt = 'Specificity: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-    fmt = 'Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
-    1e2 * spec, x00, xr[1L]), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
-  
-  if (!missing(prevalence)) {
-    if (!is.double(prevalence) || !length(prevalence) || anyNA(prevalence) ||
-        any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
-    ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
-    npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
-    cat('\n')
-    cat(sprintf(fmt = 'Positive Predictive Value: %.3g%% (prevalence %.3g%%)\n', 1e2*ppv_, 1e2*prevalence), sep = '')
-    cat('\n')
-    cat(sprintf(fmt = 'Negative Predictive Value: %.3g%% (prevalence %.3g%%)\n', 1e2*npv_, 1e2*prevalence), sep = '')
-    cat('\n')
-  } else {
-    cat(do.call(sprintf, c(list(
-      #fmt = 'Positive Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      #fmt = 'Positive Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = 'Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
-      1e2 * x11/xc[2L], x11, xc[2L]), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
-    cat(do.call(sprintf, c(list(
-      #fmt = 'Negative Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      #fmt = 'Negative Predictive Value: %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = 'Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
-      1e2 * x00/xc[1L], x00, xc[1L]), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
-    cat('\n')
-  }
-  
-  if (FALSE) {
-  #  chisq <- sum(x) * (x11*x00 - x[2L,1L]*x[1L,2L])^2 / prod(xr, xc)
-  #  stopifnot(all.equal(chisq, unname(chisq.test(x, correct = FALSE)$statistic)))
-    
-    # relative risk
-  #  risks <- x[1L,] / .colSums(x, m = 2L, n = 2L)
-  #  logRR <- unname(log(risks[1L]) - log(risks[2L])) # Equation (12.7.2) (Page 644), Daniel Biostatistics, 10th
-  #  logRR_sd <- logRR / sqrt(chisq)
-  #  cat(do.call(sprintf, args = c(list(
-  #    fmt = 'Relative Risk: %.2f (=(%d/%d)/(%d/%d)), 95%% CI (%.2f, %.2f), p = %.3f\n',
-  #    exp(logRR), x11, xc[1L], x[1L,2L], xc[2L]
-  #  ), 
-  #  as.list.default(exp(logRR + qnorm(c(.025, .975)) * logRR_sd)),
-  #  list(pnorm(abs(logRR), sd = logRR_sd, lower.tail = FALSE)))))
-    
-    # odds ratio
-  #  odds <- x[1L,] / x[2L,]
-  #  logOR <- unname(log(odds[1L]) - log(odds[2L])) # Equation (12.7.4) (Page 646), Daniel Biostatistics, 10th
-  #  logOR_sd <- logOR / sqrt(chisq)
-  #  cat(do.call(sprintf, args = c(list(
-  #    fmt = 'Odds Ratio: %.2f (=(%d/%d)/(%d/%d)), 95%% CI (%.2f, %.2f), p = %.3f\n',
-  #    exp(logOR), x11, x[2L,1L], x[1L,2L], x00
-  #  ), 
-  #  as.list.default(exp(logOR + qnorm(c(.025, .975)) * logOR_sd)),
-  #  list(pnorm(abs(logOR), sd = logOR_sd, lower.tail = FALSE)))))
-    
-  #  cat('\n')
-  } # have not flipped
-
-  cat(do.call(sprintf, c(list(
-    #fmt = 'Diagnose Accuracy: %.1f%% (=(%d+%d)/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-    fmt = 'Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n',
-    1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
-  
-  # @importFrom e1071 classAgreement
-  #kp <- classAgreement(x)$kappa
-  #cat(sprintf(fmt = 'Cohen\'s Inter-Rater Agreement \u03ba = %.3f (%s)\n', kp, as.character.factor(cut_kappa(kp))))
-  # need to @include cut_kappa.R
-  
-  return(invisible(list(
-    sens = sens, spec = spec
-  )))
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

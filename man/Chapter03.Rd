@@ -23,5 +23,5 @@ addProbs(d341, margin = 1L)
 # Example 3.5.1; Page 81 (10th ed), Page 72 (11th ed)
 (d351 = matrix(c(495L, 14L, 5L, 436L), nrow = 2L, dimnames = list(
   Alzheimer = c('No', 'Yes'), Test = c('Negative', 'Positive'))))
-summary(binTab(d351), prevalence = .113)
+print(binTab(d351), prevalence = .113)
 }

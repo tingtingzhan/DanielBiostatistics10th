@@ -9,7 +9,7 @@ Description: Functions to accompany Wayne W. Daniel's Biostatistics:
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 4.4)
-Imports: e1071, methods, pracma
+Imports: cli, e1071, methods, pracma
 Suggests: BSDA, car, DescTools, mblm, psych, reshape2, robslopes,
        survival
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
