@@ -119,9 +119,25 @@ print.binTab <- function(x, ...) {
 }
 
 
-
-
-# positive predictive values
+#' @title Predictive Values
+#' 
+#' @description
+#' Positive and negative predictive values
+#' 
+#' @param prevalence \link[base]{double} scalar or \link[base]{vector}
+#' 
+#' @param sensitivity,specificity \link[base]{double} scalars
+#' 
+#' @details
+#' Function [ppv] calculates positive predictive values based on input `prevalence`.
+#' 
+#' Function [npv] calculates negative predictive values based on input `prevalence`.
+#' 
+#' @returns
+#' Functions [ppv] and [npv] return \link[base]{double} scalar or \link[base]{vector}.
+#' 
+#' @name predval
+#' @export
 ppv <- function(prevalence, sensitivity, specificity) {
   if (!is.double(sensitivity) || length(sensitivity) != 1L || is.na(sensitivity) || sensitivity < 0 || sensitivity > 1) stop('illegal sensitivity')
   if (!is.double(specificity) || length(specificity) != 1L || is.na(specificity) || specificity < 0 || specificity > 1) stop('illegal specificity')
@@ -130,7 +146,8 @@ ppv <- function(prevalence, sensitivity, specificity) {
   (sensitivity * prevalence) / (sensitivity * prevalence + (1-specificity) * (1-prevalence))
 }
 
-# negative predictive values
+#' @rdname predval
+#' @export
 npv <- function(prevalence, sensitivity, specificity) {
   if (!is.double(sensitivity) || length(sensitivity) != 1L || is.na(sensitivity) || sensitivity < 0 || sensitivity > 1) stop('illegal sensitivity')
   if (!is.double(specificity) || length(specificity) != 1L || is.na(specificity) || specificity < 0 || specificity > 1) stop('illegal specificity')
