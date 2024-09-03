@@ -4,14 +4,15 @@
 \alias{print.binTab}
 \title{Summarize Boolean Test-&-Disease and/or Risk-&-Disease Table}
 \usage{
-\method{print}{binTab}(x, prevalence, ansi = TRUE, ...)
+\method{print}{binTab}(x, prevalence, ansi = (.Platform$GUI == "RStudio"), ...)
 }
 \arguments{
 \item{x}{a \link{binTab}}
 
 \item{prevalence}{(optional) \link[base]{numeric} scalar, prevalence of disease}
 
-\item{ansi}{\link[base]{logical} scalar, whether allow ANSI escapes in output, default \code{TRUE}.
+\item{ansi}{\link[base]{logical} scalar, whether allow ANSI escapes in output,
+default \code{.Platform$GUI == 'RStudio'}.
 ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.}
 
 \item{...}{potential parameters, currently not in use}

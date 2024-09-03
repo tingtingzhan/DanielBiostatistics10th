@@ -127,7 +127,8 @@ binTab.formula <- function(formula, data, ...) {
 #' 
 #' @param prevalence (optional) \link[base]{numeric} scalar, prevalence of disease
 #' 
-#' @param ansi \link[base]{logical} scalar, whether allow ANSI escapes in output, default `TRUE`.
+#' @param ansi \link[base]{logical} scalar, whether allow ANSI escapes in output, 
+#' default `.Platform$GUI == 'RStudio'`.
 #' ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.
 #' 
 #' @param ... potential parameters, currently not in use 
@@ -151,7 +152,12 @@ binTab.formula <- function(formula, data, ...) {
 #' @importFrom stats binom.test pnorm qnorm
 #' @export print.binTab
 #' @export
-print.binTab <- function(x, prevalence, ansi = TRUE, ...) {
+print.binTab <- function(
+    x, 
+    prevalence, 
+    ansi = (.Platform$GUI == 'RStudio'), 
+    ...
+) {
   
   print.default(addmargins(x))
   cat('\n')
