@@ -254,7 +254,10 @@ print.binTab <- function(
 rmd_.binTab <- function(x, xnm = substitute(x), ...) {
   if (is.language(xnm)) xnm <- deparse1(xnm)
   if (!is.character(xnm) || length(xnm) != 1L || is.na(xnm) || !nzchar(xnm)) stop('illegal `xnm`')
-  if (!identical(make.names(xnm), xnm)) stop('illegal `xnm`')
+  
+  # if (!identical(make.names(xnm), xnm)) stop('illegal `xnm`')
+  # make.names('content[[1L]][[2L]]') # not what I want
+  
   c(
     '```{r comment = NA}', 
     paste0('print(', xnm, ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
