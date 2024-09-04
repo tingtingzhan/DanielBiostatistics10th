@@ -2,17 +2,17 @@
 % Please edit documentation in R/binTab.R
 \name{rmd_.binTab}
 \alias{rmd_.binTab}
-\title{rmd_.binTab}
+\title{Create R Markdown Script for \link{binTab} Object}
 \usage{
 rmd_.binTab(x, xnm = substitute(x), ...)
 }
 \arguments{
 \item{x}{a \link{binTab}}
 
-\item{xnm}{\link[base]{language}, call of \code{x}}
+\item{xnm}{\link[base]{language} or \link[base]{character} scalar, call of \code{x}}
 
 \item{...}{additional parameters, currently not in use}
 }
 \description{
-rmd_.binTab
+Method dispatch to \link{binTab} for S3 generic \code{rmd_} (in a different master package).
 }

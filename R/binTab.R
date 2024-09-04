@@ -238,20 +238,26 @@ print.binTab <- function(
 
 
 
-#' @title rmd_.binTab
+#' @title Create R Markdown Script for [binTab] Object
+#' 
+#' @description
+#' Method dispatch to [binTab] for S3 generic `rmd_` (in a different master package).
 #' 
 #' @param x a [binTab]
 #' 
-#' @param xnm \link[base]{language}, call of `x`
+#' @param xnm \link[base]{language} or \link[base]{character} scalar, call of `x`
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
 #' @export rmd_.binTab
 #' @export
 rmd_.binTab <- function(x, xnm = substitute(x), ...) {
+  if (is.language(xnm)) xnm <- deparse1(xnm)
+  if (!is.character(xnm) || length(xnm) != 1L || is.na(xnm) || !nzchar(xnm)) stop('illegal `xnm`')
+  if (!identical(make.names(xnm), xnm)) stop('illegal `xnm`')
   c(
     '```{r comment = NA}', 
-    paste0('print(', deparse1(xnm), ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
+    paste0('print(', xnm, ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
     '```'
   )
 }
