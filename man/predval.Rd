@@ -19,10 +19,10 @@ npv(prevalence, sensitivity, specificity)
 Functions \link{ppv} and \link{npv} return \link[base]{double} scalar or \link[base]{vector}.
 }
 \description{
-Positive and negative predictive values
+Positive and negative predictive values.
 }
 \details{
-Function \link{ppv} calculates positive predictive values based on input \code{prevalence}.
+Function \link{ppv} calculates positive predictive values.
 
-Function \link{npv} calculates negative predictive values based on input \code{prevalence}.
+Function \link{npv} calculates negative predictive values.
 }

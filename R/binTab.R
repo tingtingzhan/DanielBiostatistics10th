@@ -4,8 +4,6 @@
 # 'binary' indicates base-2 numerical system, i.e., er-jin-zhi; https://en.wikipedia.org/wiki/Binary_number
 
 
-
-
 #' @title Boolean Test-&-Disease or Risk-&-Disease Table 
 #' 
 #' @description
@@ -240,10 +238,23 @@ print.binTab <- function(
 
 
 
-
-
-
-
+#' @title rmd_.binTab
+#' 
+#' @param x a [binTab]
+#' 
+#' @param xnm \link[base]{language}, call of `x`
+#' 
+#' @param ... additional parameters, currently not in use
+#' 
+#' @export rmd_.binTab
+#' @export
+rmd_.binTab <- function(x, xnm = substitute(x), ...) {
+  c(
+    '```{r comment = NA}', 
+    paste0('print(', deparse1(xnm), ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
+    '```'
+  )
+}
 
 
 
@@ -255,16 +266,16 @@ print.binTab <- function(
 #' @title Predictive Values
 #' 
 #' @description
-#' Positive and negative predictive values
+#' Positive and negative predictive values.
 #' 
 #' @param prevalence \link[base]{double} scalar or \link[base]{vector}
 #' 
 #' @param sensitivity,specificity \link[base]{double} scalars
 #' 
 #' @details
-#' Function [ppv] calculates positive predictive values based on input `prevalence`.
+#' Function [ppv] calculates positive predictive values.
 #' 
-#' Function [npv] calculates negative predictive values based on input `prevalence`.
+#' Function [npv] calculates negative predictive values.
 #' 
 #' @returns
 #' Functions [ppv] and [npv] return \link[base]{double} scalar or \link[base]{vector}.
