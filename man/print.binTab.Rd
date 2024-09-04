@@ -17,7 +17,7 @@ ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla G
 \item{...}{potential parameters, currently not in use}
 }
 \value{
-Function \link{print.binTab} returns the sensitivity and specificity invisibly.
+Function \link{print.binTab} does not have a returned value.
 }
 \description{
 Print Boolean test-&-disease and/or risk-&-disease table.

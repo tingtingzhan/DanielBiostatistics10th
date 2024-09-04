@@ -134,7 +134,7 @@ binTab.formula <- function(formula, data, ...) {
 #' 
 #' @returns 
 #' 
-#' Function [print.binTab] returns the sensitivity and specificity invisibly.
+#' Function [print.binTab] does not have a returned value.
 #' 
 #' @references 
 #' \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
@@ -234,9 +234,7 @@ print.binTab <- function(
   #cat(sprintf(fmt = 'Cohen\'s Inter-Rater Agreement \u03ba = %.3f (%s)\n', kp, as.character.factor(cut_kappa(kp))))
   # need to @include cut_kappa.R
   
-  return(invisible(list(
-    sens = sens, spec = spec
-  )))
+  return(invisible())
 }
 
 
