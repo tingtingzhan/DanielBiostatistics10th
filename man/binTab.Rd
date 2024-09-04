@@ -16,7 +16,7 @@ binTab(x, ...)
 \method{binTab}{formula}(formula, data, ...)
 }
 \arguments{
-\item{x}{(an R object convertible to a) two-by-two \link[base]{integer} \link[base]{matrix},
+\item{x}{(an R object convertible to a) \eqn{2\times 2} \link[base]{integer} \link[base]{matrix},
 contingency table of two Boolean variables.
 The endpoint (i.e., disease) is on rows and the test/risk on columns.}
 
@@ -31,13 +31,13 @@ Function \link{binTab} returns a two-by-two \link[base]{integer} \link[base]{mat
 To create a Boolean test-&-disease or risk-&-disease table.
 }
 \details{
-Function \link{binTab} creates a two-by-two test-&-disease contingency table with layout
+Function \link{binTab} creates a \eqn{2\times 2} test-&-disease contingency table with layout
 \tabular{lcc}{
 \tab Test (\eqn{-}) \tab Test (\eqn{+}) \cr
 Disease (\eqn{-}) \tab \eqn{x_{--}} \tab \eqn{x_{-+}} \cr
 Disease (\eqn{+}) \tab \eqn{x_{+-}} \tab \eqn{x_{++}} \cr
 }
-or a two-by-two risk-&-disease contingency table with layout
+or a \eqn{2\times 2} risk-&-disease contingency table with layout
 \tabular{lcc}{
 \tab Risk Factor (\eqn{-}) \tab Risk Factor (\eqn{+}) \cr
 Disease (\eqn{-}) \tab \eqn{x_{--}} \tab \eqn{x_{-+}} \cr
@@ -47,10 +47,7 @@ The endpoint (i.e., disease) must be on the rows and the test/risk on the column
 }
 \examples{
 binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
-
-(x1 = matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
-binTab(x1)
-
+binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
 binTab(~ (mag < 4.5) + (depth > 400), data = quakes)
 }
 \seealso{

@@ -11,7 +11,7 @@
 #' @description
 #' To create a Boolean test-&-disease or risk-&-disease table.
 #' 
-#' @param x (an R object convertible to a) two-by-two \link[base]{integer} \link[base]{matrix}, 
+#' @param x (an R object convertible to a) \eqn{2\times 2} \link[base]{integer} \link[base]{matrix}, 
 #' contingency table of two Boolean variables.
 #' The endpoint (i.e., disease) is on rows and the test/risk on columns.
 #' 
@@ -21,13 +21,13 @@
 #' 
 #' @details
 #' 
-#' Function [binTab] creates a two-by-two test-&-disease contingency table with layout
+#' Function [binTab] creates a \eqn{2\times 2} test-&-disease contingency table with layout
 #' \tabular{lcc}{
 #'  \tab Test (\eqn{-}) \tab Test (\eqn{+}) \cr
 #' Disease (\eqn{-}) \tab \eqn{x_{--}} \tab \eqn{x_{-+}} \cr
 #' Disease (\eqn{+}) \tab \eqn{x_{+-}} \tab \eqn{x_{++}} \cr
 #' }
-#' or a two-by-two risk-&-disease contingency table with layout
+#' or a \eqn{2\times 2} risk-&-disease contingency table with layout
 #' \tabular{lcc}{
 #'  \tab Risk Factor (\eqn{-}) \tab Risk Factor (\eqn{+}) \cr
 #' Disease (\eqn{-}) \tab \eqn{x_{--}} \tab \eqn{x_{-+}} \cr
@@ -44,10 +44,7 @@
 #' 
 #' @examples 
 #' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
-#' 
-#' (x1 = matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
-#' binTab(x1)
-#' 
+#' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
 #' binTab(~ (mag < 4.5) + (depth > 400), data = quakes)
 #' @keywords internal
 #' @importFrom stats setNames
@@ -158,7 +155,7 @@ print.binTab <- function(
     ...
 ) {
   
-  print.default(addmargins(x))
+  print.default(addmargins(unclass(x)))
   cat('\n')
   
   x11 <- x[2L,2L] # (+,+)
@@ -171,10 +168,10 @@ print.binTab <- function(
   sens <- x11 / xr[2L]
   spec <- x00 / xr[1L]
   cat(do.call(sprintf, c(list(
-    fmt = foo('Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'), 
+    fmt = foo('Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'), 
     1e2 * sens, x11, xr[2L]), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
   cat(do.call(sprintf, c(list(
-    fmt = foo('Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+    fmt = foo('Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
     1e2 * spec, x00, xr[1L]), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
   
   if (!missing(prevalence)) {
@@ -189,12 +186,12 @@ print.binTab <- function(
     cat('\n')
   } else {
     cat(do.call(sprintf, c(list(
-      #fmt = 'Positive Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = foo('Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+      #fmt = 'Positive Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% exact CI (%.1f%%, %.1f%%)\n',
+      fmt = foo('Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
       1e2 * x11/xc[2L], x11, xc[2L]), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
     cat(do.call(sprintf, c(list(
-      #fmt = 'Negative Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% CI (%.1f%%, %.1f%%)\n',
-      fmt = foo('Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+      #fmt = 'Negative Predictive Value (unk. prevalence): %.1f%% (=%d/%d), 95%% exact CI (%.1f%%, %.1f%%)\n',
+      fmt = foo('Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
       1e2 * x00/xc[1L], x00, xc[1L]), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
     cat('\n')
   }
@@ -229,7 +226,7 @@ print.binTab <- function(
   } # have not flipped
   
   cat(do.call(sprintf, c(list(
-    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% CI (%.1f%%, %.1f%%)\n'),
+    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
     1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
   # @importFrom e1071 classAgreement
