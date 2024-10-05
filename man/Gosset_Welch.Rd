@@ -4,11 +4,25 @@
 \alias{Gosset_Welch}
 \title{Degree of Freedom and Standard Error of Two-Sample \eqn{t}-statistic, by Student and Welch–Satterthwaite Equation}
 \usage{
-Gosset_Welch(s1, s0, v1 = s1^2, v0 = s0^2, n1, n0, var.equal = FALSE)
+Gosset_Welch(
+  s1,
+  s0,
+  c1 = 1,
+  c0 = 1,
+  v1 = s1^2,
+  v0 = s0^2,
+  n1,
+  n0,
+  var.equal = FALSE
+)
 }
 \arguments{
 \item{s1, s0}{(optional) \link[base]{double} scalars or \link[base]{vector}s,
 sample standard deviations \eqn{s_1} and \eqn{s_0} of the treatment and control sample, respectively}
+
+\item{c1, c0}{\link[base]{double} scalars or \link[base]{vector}s,
+multipliers \eqn{c_1} and \eqn{c_0} of the treatment and control sample, respectively.
+Default \eqn{c_1=c_0=1}}
 
 \item{v1, v0}{\link[base]{double} scalars or \link[base]{vector}s,
 sample variances of the treatment and control sample, respectively.
