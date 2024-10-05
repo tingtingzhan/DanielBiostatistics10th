@@ -249,6 +249,10 @@ print.binTab <- function(
 #' 
 #' @param ... additional parameters, currently not in use
 #' 
+#' @returns 
+#' Function [rmd_.binTab] returns a \link[base]{character} \link[base]{vector}.
+#' 
+#' @keywords internal
 #' @export rmd_.binTab
 #' @export
 rmd_.binTab <- function(x, xnm = substitute(x), ...) {
@@ -290,6 +294,7 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
 #' Functions [ppv] and [npv] return \link[base]{double} scalar or \link[base]{vector}.
 #' 
 #' @name predval
+#' @keywords internal
 #' @export
 ppv <- function(prevalence, sensitivity, specificity) {
   if (!is.double(sensitivity) || length(sensitivity) != 1L || is.na(sensitivity) || sensitivity < 0 || sensitivity > 1) stop('illegal sensitivity')

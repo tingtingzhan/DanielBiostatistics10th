@@ -26,3 +26,4 @@ Function \link{ppv} calculates positive predictive values.
 
 Function \link{npv} calculates negative predictive values.
 }
+\keyword{internal}

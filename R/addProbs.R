@@ -43,6 +43,7 @@
 #' rowSums(proportions(VADeaths, margin = 1L))
 #' addmargins(VADeaths, margin = 1L)
 #' 
+#' @keywords internal
 #' @importFrom stats addmargins
 #' @export
 addProbs <- function(A, margin = seq_len(nd), fmt = '%d (%.1f%%)') {

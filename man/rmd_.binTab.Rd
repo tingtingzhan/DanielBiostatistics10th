@@ -13,6 +13,10 @@ rmd_.binTab(x, xnm = substitute(x), ...)
 
 \item{...}{additional parameters, currently not in use}
 }
+\value{
+Function \link{rmd_.binTab} returns a \link[base]{character} \link[base]{vector}.
+}
 \description{
 Method dispatch to \link{binTab} for S3 generic \code{rmd_} (in a different master package).
 }
+\keyword{internal}

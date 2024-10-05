@@ -48,3 +48,4 @@ addmargins(VADeaths, margin = 1L)
 \seealso{
 \link[base]{rowSums} \link[base]{colSums} \link[base]{proportions}
 }
+\keyword{internal}
