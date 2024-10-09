@@ -53,7 +53,7 @@
 #' @references 
 #' Student's \eqn{t}-test by William Sealy Gosset, \doi{10.1093/biomet/6.1.1}.
 #' 
-#' Welch–Satterthwaite equation by Bernard Lewis Welch and F. E. Satterthwaite, \doi{10.2307/3002019} and \doi{10.1093/biomet/34.1-2.28}.
+#' Welch–Satterthwaite equation by Bernard Lewis Welch \doi{10.1093/biomet/34.1-2.28} and F. E. Satterthwaite \doi{10.2307/3002019}.
 #' 
 # \url{https://en.wikipedia.org/wiki/Student%27s_t-test}
 #' 
