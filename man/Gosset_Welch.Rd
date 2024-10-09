@@ -39,8 +39,9 @@ whether to assume \eqn{v_1=v_0}, default \code{FALSE} (as in function \link[stat
 Function \link{Gosset_Welch} returns a \link[base]{numeric} scalar or \link[base]{vector}
 of the degree of freedom, with \link[base]{attributes},
 \describe{
-\item{\code{attr(., 'stderr')}}{\link[base]{numeric}, standard error \eqn{s_{\bar\Delta}}}
-\item{\code{attr(., 'stderr2')}}{\link[base]{numeric}, standard error squared \eqn{s^2_{\bar\Delta}}}
+\item{\code{attr(., 'stderr')}}{\link[base]{numeric} scalar or \link[base]{vector}, standard error \eqn{s_{\bar\Delta}};}
+\item{\code{attr(., 'stderr2')}}{\link[base]{numeric} scalar or \link[base]{vector}, standard error squared \eqn{s^2_{\bar\Delta}},
+included for downstream compute-intensive functions.}
 }
 }
 \description{
