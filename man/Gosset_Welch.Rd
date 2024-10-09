@@ -2,7 +2,7 @@
 % Please edit documentation in R/Gosset_Welch.R
 \name{Gosset_Welch}
 \alias{Gosset_Welch}
-\title{Degree of Freedom and Standard Error of Two-Sample \eqn{t}-statistic, by Student and Welch–Satterthwaite Equation}
+\title{Student's and Welch–Satterthwaite Equation}
 \usage{
 Gosset_Welch(
   s1,
@@ -21,7 +21,8 @@ Gosset_Welch(
 sample standard deviations \eqn{s_1} and \eqn{s_0} of the treatment and control sample, respectively}
 
 \item{c1, c0}{\link[base]{double} scalars or \link[base]{vector}s,
-multipliers \eqn{c_1} and \eqn{c_0} of the treatment and control sample, respectively.
+multipliers \eqn{c_1} and \eqn{c_0} of the treatment and control sample, respectively,
+to test the hypothesis \eqn{H_0: c_1\mu_1 - c_0\mu_0 = 0}.
 Default \eqn{c_1=c_0=1}}
 
 \item{v1, v0}{\link[base]{double} scalars or \link[base]{vector}s,
@@ -32,15 +33,14 @@ Default \eqn{v_1=s_1^2}, \eqn{v_0=s_0^2}.}
 sample sizes \eqn{n_1} and \eqn{n_0} of the treatment and control sample, respectively}
 
 \item{var.equal}{\link[base]{logical} scalar,
-whether to assume \eqn{v_1=v_0}, default \code{FALSE},
-see \link[stats]{t.test.default}.}
+whether to assume \eqn{v_1=v_0}, default \code{FALSE} (as in function \link[stats]{t.test.default}).}
 }
 \value{
 Function \link{Gosset_Welch} returns a \link[base]{numeric} scalar or \link[base]{vector}
 of the degree of freedom, with \link[base]{attributes},
 \describe{
 \item{\code{attr(., 'stderr')}}{\link[base]{numeric}, standard error \eqn{s_{\bar\Delta}}}
-\item{\code{attr(., 'stderr2')}}{\link[base]{numeric}, \eqn{s^2_{\bar\Delta}}, variance of \eqn{\bar\Delta}}
+\item{\code{attr(., 'stderr2')}}{\link[base]{numeric}, standard error squared \eqn{s^2_{\bar\Delta}}}
 }
 }
 \description{
@@ -48,17 +48,17 @@ To determine the degree of freedom, as well as the standard error,
 of two-sample \eqn{t}-statistic, with or without the equal-variance assumption.
 }
 \details{
-If \eqn{v_1=v_0} is assumed, the two-sample \eqn{t}-statistic
-from William Sealy Gosset (a.k.a., Student) has
-standard error \eqn{s_{\bar\Delta}=s_p\sqrt{1/n_1+1/n_0}}
-with degree-of-freedom \eqn{n_1+n_0-2},
+If \eqn{v_1=v_0} is assumed, the standard error of two-sample \eqn{t}-statistic
+from William Sealy Gosset (a.k.a., Student) satisfies that
+\eqn{s^2_{\bar\Delta}=s^2_p(1/n_1+1/n_0)},
+with degree-of-freedom \eqn{\text{df} = n_1+n_0-2},
 where \eqn{s_p} is the pooled standard deviation,
 \deqn{s^2_p=\dfrac{(n_1-1)v_1+(n_0-1)v_0}{n_1+n_0-2}}
 
-If \eqn{v_1\neq v_0}, the two-sample \eqn{t}-statistic has
-standard error \eqn{s_{\bar\Delta}=\sqrt{v_1/n_1 + v_0/n_0}} with
-degree of freedom based on Welch–Satterthwaite equation,
-\deqn{\dfrac{\left(\dfrac{v_1}{n_1}+\dfrac{v_0}{n_0}\right)^2}{\dfrac{(v_1/n_1)^2}{n_1-1}+\dfrac{(v_0/n_0)^2}{n_0-1}}}
+If \eqn{v_1\neq v_0}, the standard error of two-sample \eqn{t}-statistic satisfies that
+\eqn{s^2_{\bar\Delta}=v_1/n_1 + v_0/n_0}, with
+degree of freedom (Welch–Satterthwaite equation),
+\deqn{\text{df} = \dfrac{\left(\dfrac{v_1}{n_1}+\dfrac{v_0}{n_0}\right)^2}{\dfrac{(v_1/n_1)^2}{n_1-1}+\dfrac{(v_0/n_0)^2}{n_0-1}}}
 }
 \examples{
 x = rnorm(32L, sd = 1.6); y = rnorm(57L, sd = 2.1)

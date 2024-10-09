@@ -4,7 +4,7 @@
 # https://en.wikipedia.org/wiki/Welch–Satterthwaite_equation
 
 
-#' @title Degree of Freedom and Standard Error of Two-Sample \eqn{t}-statistic, by Student and Welch–Satterthwaite Equation
+#' @title Student's and Welch–Satterthwaite Equation
 #' 
 #' @description
 #' To determine the degree of freedom, as well as the standard error,
@@ -14,32 +14,32 @@
 #' sample standard deviations \eqn{s_1} and \eqn{s_0} of the treatment and control sample, respectively
 #' 
 #' @param v1,v0 \link[base]{double} scalars or \link[base]{vector}s, 
-#' sample variances of the treatment and control sample, respectively. 
+#' sample variances of the treatment and control sample, respectively.
 #' Default \eqn{v_1=s_1^2}, \eqn{v_0=s_0^2}.
 #' 
 #' @param c1,c0 \link[base]{double} scalars or \link[base]{vector}s, 
-#' multipliers \eqn{c_1} and \eqn{c_0} of the treatment and control sample, respectively.
+#' multipliers \eqn{c_1} and \eqn{c_0} of the treatment and control sample, respectively,
+#' to test the hypothesis \eqn{H_0: c_1\mu_1 - c_0\mu_0 = 0}.
 #' Default \eqn{c_1=c_0=1}
 #' 
 #' @param n1,n0 \link[base]{integer} scalars or \link[base]{vector}s, 
 #' sample sizes \eqn{n_1} and \eqn{n_0} of the treatment and control sample, respectively
 #' 
 #' @param var.equal \link[base]{logical} scalar, 
-#' whether to assume \eqn{v_1=v_0}, default `FALSE`,
-#' see \link[stats]{t.test.default}.
+#' whether to assume \eqn{v_1=v_0}, default `FALSE` (as in function \link[stats]{t.test.default}).
 #' 
 #' @details
-#' If \eqn{v_1=v_0} is assumed, the two-sample \eqn{t}-statistic 
-#' from William Sealy Gosset (a.k.a., Student) has 
-#' standard error \eqn{s_{\bar\Delta}=s_p\sqrt{1/n_1+1/n_0}}
-#' with degree-of-freedom \eqn{n_1+n_0-2},
+#' If \eqn{v_1=v_0} is assumed, the standard error of two-sample \eqn{t}-statistic 
+#' from William Sealy Gosset (a.k.a., Student) satisfies that 
+#' \eqn{s^2_{\bar\Delta}=s^2_p(1/n_1+1/n_0)},
+#' with degree-of-freedom \eqn{\text{df} = n_1+n_0-2},
 #' where \eqn{s_p} is the pooled standard deviation,
 #' \deqn{s^2_p=\dfrac{(n_1-1)v_1+(n_0-1)v_0}{n_1+n_0-2}}
 #' 
-#' If \eqn{v_1\neq v_0}, the two-sample \eqn{t}-statistic has 
-#' standard error \eqn{s_{\bar\Delta}=\sqrt{v_1/n_1 + v_0/n_0}} with 
-#' degree of freedom based on Welch–Satterthwaite equation,
-#' \deqn{\dfrac{\left(\dfrac{v_1}{n_1}+\dfrac{v_0}{n_0}\right)^2}{\dfrac{(v_1/n_1)^2}{n_1-1}+\dfrac{(v_0/n_0)^2}{n_0-1}}}
+#' If \eqn{v_1\neq v_0}, the standard error of two-sample \eqn{t}-statistic satisfies that 
+#' \eqn{s^2_{\bar\Delta}=v_1/n_1 + v_0/n_0}, with 
+#' degree of freedom (Welch–Satterthwaite equation),
+#' \deqn{\text{df} = \dfrac{\left(\dfrac{v_1}{n_1}+\dfrac{v_0}{n_0}\right)^2}{\dfrac{(v_1/n_1)^2}{n_1-1}+\dfrac{(v_0/n_0)^2}{n_0-1}}}
 #' 
 #' @returns 
 #' 
@@ -47,7 +47,7 @@
 #' of the degree of freedom, with \link[base]{attributes},
 #' \describe{
 #' \item{`attr(., 'stderr')`}{\link[base]{numeric}, standard error \eqn{s_{\bar\Delta}}}
-#' \item{`attr(., 'stderr2')`}{\link[base]{numeric}, \eqn{s^2_{\bar\Delta}}, variance of \eqn{\bar\Delta}}
+#' \item{`attr(., 'stderr2')`}{\link[base]{numeric}, standard error squared \eqn{s^2_{\bar\Delta}}}
 #' } 
 #' 
 #' @references 
