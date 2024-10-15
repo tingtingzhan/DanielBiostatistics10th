@@ -1,8 +1,8 @@
 Package: DanielBiostatistics10th
 Type: Package
 Title: Functions for Wayne W. Daniel's Biostatistics, Tenth Edition
-Version: 0.2.5
-Date: 2024-10-05
+Version: 0.2.6
+Date: 2024-10-15
 Description: Functions to accompany Wayne W. Daniel's Biostatistics: A
         Foundation for Analysis in the Health Sciences, Tenth Edition.
 License: GPL-2
@@ -11,9 +11,9 @@ Depends: R (>= 4.4)
 Imports: cli, e1071, methods, pracma, vcd
 Suggests: BSDA, car, DescTools, mblm, psych, reshape2, robslopes,
         survival
-Authors@R: c(person(given = 'Tingting', family = 'Zhan', role =
-        c('aut', 'cre', 'cph'), email = 'tingtingzhan@gmail.com',
-        comment = c(ORCID = '0000-0001-9971-4844')))
+Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
+        'cre', 'cph'), email = 'tingtingzhan@gmail.com', comment =
+        c(ORCID = '0000-0001-9971-4844')))
 Language: en-US
 LazyData: true
 LazyDataCompression: xz
