@@ -143,7 +143,8 @@ binTab.formula <- function(formula, data, ...) {
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
 #' @importFrom cli ansi_strip
-#' @importFrom stats binom.test pnorm qnorm
+#' @importFrom stats binom.test pnorm qnorm confint
+#' @importFrom vcd Kappa
 #' @export print.binTab
 #' @export
 print.binTab <- function(
@@ -224,15 +225,27 @@ print.binTab <- function(
   } # have not flipped
   
   cat(do.call(sprintf, c(list(
-    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
+    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n\n'),
     1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
   # @importFrom e1071 classAgreement
-  #kp <- classAgreement(x)$kappa
-  #cat(sprintf(fmt = 'Cohen\'s Inter-Rater Agreement \u03ba = %.3f (%s)\n', kp, as.character.factor(cut_kappa(kp))))
-  # need to @include cut_kappa.R
-  
+  #kp <- e1071::classAgreement(x)$kappa # no confidence interval
+  kp_ <- Kappa(x)
+  kp_ci_ <- confint(kp_) # vcd:::confint.Kappa
+  kp <- kp_$Weighted['value']
+  kp_ci <- kp_ci_[rownames(kp_ci_) == 'Weighted',]
+  cat(sprintf(
+    fmt = foo('Cohen\'s Agreement \u03ba = %.2f, %s, 95%% exact CI (%.2f, %.2f)\n'), 
+    kp, 
+    sprintf(fmt = foo('\033[1;35m%s\033[0m'), as.character.factor(cut.default(
+      # \url{https://en.wikipedia.org/wiki/Cohen\%27s_kappa}
+      x = kp, breaks = c(-Inf, 0, .2, .4, .6, .8, 1), 
+      labels = c('no', 'slight', 'fair', 'moderate', 'substantial', 'almost perfect'), 
+      right = TRUE, include.lowest = TRUE
+    ))), kp_ci[1L], kp_ci[2L]))
+
   return(invisible())
+  
 }
 
 
