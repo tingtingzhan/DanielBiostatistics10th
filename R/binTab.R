@@ -275,7 +275,14 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
   # if (!identical(make.names(xnm), xnm)) stop('illegal `xnm`')
   # make.names('content[[1L]][[2L]]') # not what I want
   
+  dnm <- dimnames(x)
+  
   c(
+    sprintf(fmt = 'Sensitivity, specificity and predictive values, as well as their 95%% exact confidence intervals, are provided for the 2-by-2 table of `%s` and `%s`. Cohen\'s \u03ba is provided by <u>**`R`**</u> package <u>**`vcd`**</u>.',
+            names(dnm)[1L], names(dnm)[2L]),
+    '```{r results = \'asis\'}', 
+    sprintf(fmt = 'as_flextable(addProbs(%s))', xnm),
+    '```', 
     '```{r comment = NA}', 
     paste0('print(', xnm, ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
     '```'
