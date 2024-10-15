@@ -235,7 +235,7 @@ print.binTab <- function(
   kp <- kp_$Weighted['value']
   kp_ci <- kp_ci_[rownames(kp_ci_) == 'Weighted',]
   cat(sprintf(
-    fmt = foo('Cohen\'s Agreement \u03ba = %.2f, %s, 95%% exact CI (%.2f, %.2f)\n'), 
+    fmt = foo('Cohen\'s Agreement \u03ba = %.2f, %s, 95%% CI (%.2f, %.2f)\n'), # this is aymptotic/approximate
     kp, 
     sprintf(fmt = foo('\033[1;35m%s\033[0m'), as.character.factor(cut.default(
       # \url{https://en.wikipedia.org/wiki/Cohen\%27s_kappa}
@@ -284,7 +284,7 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
     sprintf(fmt = 'as_flextable(addProbs(%s))', xnm),
     '```', 
     '```{r comment = NA}', 
-    paste0('print(', xnm, ', ansi = FALSE)'), # invoke ?DanielBiostatistics10th::print.binTab
+    paste0('print(', xnm, ', ansi = FALSE)'), # invoke [print.binTab]
     '```'
   )
 }
