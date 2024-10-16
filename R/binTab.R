@@ -270,9 +270,6 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
   if (is.language(xnm)) xnm <- deparse1(xnm)
   if (!is.character(xnm) || length(xnm) != 1L || is.na(xnm) || !nzchar(xnm)) stop('illegal `xnm`')
   
-  # if (!identical(make.names(xnm), xnm)) stop('illegal `xnm`')
-  # make.names('content[[1L]][[2L]]') # not what I want
-  
   dnm <- dimnames(x)
   
   # '\u03ba' # Unicode kappa
