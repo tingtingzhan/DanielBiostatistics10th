@@ -275,8 +275,10 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
   
   dnm <- dimnames(x)
   
+  # '\u03ba' # Unicode kappa
+  
   c(
-    sprintf(fmt = 'Sensitivity, specificity and predictive values, as well as their 95%% exact confidence intervals, are provided for the 2-by-2 table of `%s` and `%s`. Cohen\'s \u03ba coefficient for agreement is provided by <u>**`R`**</u> package <u>**`vcd`**</u>.',
+    sprintf(fmt = 'Sensitivity, specificity and predictive values, as well as their 95%% exact confidence intervals, are provided for the 2-by-2 table of `%s` and `%s`. Cohen\'s $\\kappa$ coefficient for agreement is provided by <u>**`R`**</u> package <u>**`vcd`**</u>.',
             names(dnm)[1L], names(dnm)[2L]),
     '```{r results = \'asis\'}', 
     sprintf(fmt = 'as_flextable(addProbs(%s))', xnm),
