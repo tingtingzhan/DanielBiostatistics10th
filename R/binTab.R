@@ -119,9 +119,6 @@ binTab.formula <- function(formula, data, ...) {
 #' 
 #' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
 #' 
-#' @param ansi \link[base]{logical} scalar, whether to allow ANSI escapes.
-#' ANSI escapes are rendered beautifully in RStudio console, but not in R vanilla GUI, nor in package \CRANpkg{rmarkdown}.
-#' 
 #' @param ... potential parameters, currently not in use 
 #' 
 #' @details
@@ -142,7 +139,7 @@ binTab.formula <- function(formula, data, ...) {
 #' binTab(x)
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
-#' @importFrom cli ansi_strip
+#' @importFrom cli col_green col_cyan col_magenta style_bold
 #' @importFrom stats binom.test pnorm qnorm confint
 #' @importFrom vcd Kappa
 #' @export print.binTab
@@ -150,7 +147,6 @@ binTab.formula <- function(formula, data, ...) {
 print.binTab <- function(
     x, 
     prevalence, 
-    ansi = identical(.Platform$GUI, 'RStudio'), 
     ...
 ) {
   
@@ -162,16 +158,18 @@ print.binTab <- function(
   xr <- .rowSums(x, m = 2L, n = 2L) # Disease (-) and (+)
   xc <- .colSums(x, m = 2L, n = 2L) # Test (-) and (+)
   
-  foo <- if (ansi) identity else ansi_strip
-  
   sens <- x11 / xr[2L]
   spec <- x00 / xr[1L]
   cat(do.call(sprintf, c(list(
-    fmt = foo('Sensitivity: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'), 
-    1e2 * sens, x11, xr[2L]), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
+    fmt = 'Sensitivity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n', 
+    1e2 * sens, 
+    col_green(sprintf(fmt = '=%d/%d', x11, xr[2L]))
+  ), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
   cat(do.call(sprintf, c(list(
-    fmt = foo('Specificity: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
-    1e2 * spec, x00, xr[1L]), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
+    fmt = 'Specificity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+    1e2 * spec, 
+    col_green(sprintf(fmt = '=%d/%d', x00, xr[1L]))
+  ), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
   
   if (!missing(prevalence)) {
     if (!is.double(prevalence) || !length(prevalence) || anyNA(prevalence) ||
@@ -179,17 +177,23 @@ print.binTab <- function(
     ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
     npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
     cat('\n')
-    cat(sprintf(fmt = foo('Positive Predictive Value: %.3g%%, \033[36mprevalence %.3g%%\033[0m\n'), 1e2*ppv_, 1e2*prevalence), sep = '')
-    cat('\n')
-    cat(sprintf(fmt = foo('Negative Predictive Value: %.3g%%, \033[36mprevalence %.3g%%\033[0m\n'), 1e2*npv_, 1e2*prevalence), sep = '')
+    cat(sprintf(
+      fmt = 'Positive vs. Negative Predictive Value: %.3g%% vs. %.3g%%, %s\n', 
+      1e2*ppv_, 1e2*npv_, 
+      col_cyan(sprintf(fmt = 'prevalence %.3g%%', 1e2*prevalence))
+    ), sep = '')
     cat('\n')
   } else {
     cat(do.call(sprintf, c(list(
-      fmt = foo('Positive Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
-      1e2 * x11/xc[2L], x11, xc[2L]), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
+      fmt = 'Positive Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+      1e2 * x11/xc[2L], 
+      col_green(sprintf(fmt = '=%d/%d', x11, xc[2L]))
+    ), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
     cat(do.call(sprintf, c(list(
-      fmt = foo('Negative Predictive Value: %.1f%% \033[32m=%d/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n'),
-      1e2 * x00/xc[1L], x00, xc[1L]), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
+      fmt = 'Negative Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+      1e2 * x00/xc[1L], 
+      col_green(sprintf(fmt = '=%d/%d', x00, xc[1L]))
+    ), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
     cat('\n')
   }
   
@@ -223,8 +227,10 @@ print.binTab <- function(
   } # have not flipped
   
   cat(do.call(sprintf, c(list(
-    fmt = foo('Diagnose Accuracy: %.1f%% \033[32m=(%d+%d)/%d\033[0m, 95%% exact CI (%.1f%%, %.1f%%)\n\n'),
-    1e2 * (x11+x00)/sum(x), x11, x00, sum(x)), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
+    fmt = 'Diagnose Accuracy: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n\n',
+    1e2 * (x11+x00)/sum(x), 
+    col_green(sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)))
+  ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
   # @importFrom e1071 classAgreement
   #kp <- e1071::classAgreement(x)$kappa # no confidence interval
@@ -233,14 +239,15 @@ print.binTab <- function(
   kp <- kp_$Weighted['value']
   kp_ci <- kp_ci_[rownames(kp_ci_) == 'Weighted',]
   cat(sprintf(
-    fmt = foo('Cohen\'s Agreement \u03ba = %.2f, %s, 95%% CI (%.2f, %.2f)\n'), # this is aymptotic/approximate
+    fmt = 'Cohen\'s Agreement \u03ba = %.2f, %s, 95%% CI (%.2f, %.2f)\n', # this is aymptotic/approximate
     kp, 
-    sprintf(fmt = foo('\033[1;35m%s\033[0m'), as.character.factor(cut.default(
+    style_bold(col_magenta(as.character.factor(cut.default(
       # \url{https://en.wikipedia.org/wiki/Cohen\%27s_kappa}
       x = kp, breaks = c(-Inf, 0, .2, .4, .6, .8, 1), 
       labels = c('no', 'slight', 'fair', 'moderate', 'substantial', 'almost perfect'), 
       right = TRUE, include.lowest = TRUE
-    ))), kp_ci[1L], kp_ci[2L]))
+    )))), 
+    kp_ci[1L], kp_ci[2L]))
 
   return(invisible())
   
