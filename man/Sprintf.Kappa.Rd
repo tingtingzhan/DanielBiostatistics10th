@@ -17,7 +17,9 @@ Summary Information of Cohen's \link[vcd]{Kappa}
 \examples{
 # ?vcd::Kappa
 library(vcd)
-data('SexualFun', package = 'vcd')
-cat(Sprintf.Kappa(Kappa(SexualFun)))
+(jobsat1 = xtabs(Freq ~ supervisor + own, data = JobSatisfaction))
+(jobsat2 = xtabs(Freq ~ management + own, data = JobSatisfaction))
+cat(Sprintf.Kappa(Kappa(jobsat1)))
+cat(Sprintf.Kappa(Kappa(jobsat2)))
 }
 \keyword{internal}
