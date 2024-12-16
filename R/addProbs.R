@@ -20,13 +20,13 @@
 #' probabilities of a two-dimensional contingency table.
 #' 
 #' @note 
-#' \link[base]{margin.table} 
-#' (which is to be renamed as \link[base]{marginSums}) 
-#' is much slower than \link[base]{colSums}.
+#' Function \link[base]{margin.table} 
+#' (which is to be renamed as function \link[base]{marginSums}) 
+#' is much slower than function \link[base]{colSums}.
 #' 
 #' The use of argument `margin` is 
-#' the same as \link[stats]{addmargins},
-#' and different from \link[base]{proportions}!
+#' the same as function \link[stats]{addmargins},
+#' but different from function \link[base]{proportions} !
 #' 
 #' @returns 
 #' Function [addProbs] returns an `'addProbs'` object, which inherits from \link[base]{table} and \link[base]{noquote}.
@@ -39,9 +39,10 @@
 #' 
 #' storage.mode(VADeaths) = 'integer'
 #' addProbs(VADeaths)
-#' addProbs(VADeaths, margin = 1L)
-#' rowSums(proportions(VADeaths, margin = 1L))
-#' addmargins(VADeaths, margin = 1L)
+#' addProbs(VADeaths, margin = 1L) # col-operation
+#' 
+#' proportions(VADeaths, margin = 1L) # row-operation !
+#' addmargins(VADeaths, margin = 1L) # col-operation
 #' 
 #' @keywords internal
 #' @importFrom stats addmargins
