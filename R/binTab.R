@@ -36,7 +36,7 @@
 #' @returns 
 #' Function [binTab] returns a two-by-two \link[base]{integer} \link[base]{matrix}.
 #' 
-#' @seealso 
+#' @note 
 #' Function `caret::confusionMatrix` does not provide confidence intervals of 
 #' sensitivity, specificity, etc.
 #' 
@@ -130,6 +130,9 @@ binTab.formula <- function(formula, data, ...) {
 #' @returns 
 #' 
 #' Function [print.binTab] does not have a returned value.
+#' 
+#' @note
+#' Function \link[e1071]{classAgreement} does not provide confidence interval of \eqn{\kappa}.
 #' 
 #' @references 
 #' \url{https://en.wikipedia.org/wiki/Diagnostic_odds_ratio}
@@ -232,26 +235,16 @@ print.binTab <- function(
     col_green(sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)))
   ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
-  # @importFrom e1071 classAgreement
-  #kp <- e1071::classAgreement(x)$kappa # no confidence interval
-  kp_ <- Kappa(x)
-  kp_ci_ <- confint(kp_) # vcd:::confint.Kappa
-  kp <- kp_$Weighted['value']
-  kp_ci <- kp_ci_[rownames(kp_ci_) == 'Weighted',]
-  cat(sprintf(
-    fmt = 'Cohen\'s Agreement \u03ba = %.2f, %s, 95%% CI (%.2f, %.2f)\n', # this is aymptotic/approximate
-    kp, 
-    style_bold(col_magenta(as.character.factor(cut.default(
-      # \url{https://en.wikipedia.org/wiki/Cohen\%27s_kappa}
-      x = kp, breaks = c(-Inf, 0, .2, .4, .6, .8, 1), 
-      labels = c('no', 'slight', 'fair', 'moderate', 'substantial', 'almost perfect'), 
-      right = TRUE, include.lowest = TRUE
-    )))), 
-    kp_ci[1L], kp_ci[2L]))
+  cat(Sprintf.Kappa(Kappa(x)), '\n')
 
   return(invisible())
   
 }
+
+
+
+
+
 
 
 

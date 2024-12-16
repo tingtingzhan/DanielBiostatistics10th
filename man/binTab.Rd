@@ -45,13 +45,13 @@ Disease (\eqn{+}) \tab \eqn{x_{+-}} \tab \eqn{x_{++}} \cr
 }
 The endpoint (i.e., disease) must be on the rows and the test/risk on the columns.
 }
+\note{
+Function \code{caret::confusionMatrix} does not provide confidence intervals of
+sensitivity, specificity, etc.
+}
 \examples{
 binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
 binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
 binTab(~ (mag < 4.5) + (depth > 400), data = quakes)
-}
-\seealso{
-Function \code{caret::confusionMatrix} does not provide confidence intervals of
-sensitivity, specificity, etc.
 }
 \keyword{internal}

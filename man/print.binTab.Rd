@@ -24,6 +24,9 @@ Function \link{print.binTab} prints the diagnostic test characteristics,
 e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
 together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 }
+\note{
+Function \link[e1071]{classAgreement} does not provide confidence interval of \eqn{\kappa}.
+}
 \examples{
 (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 binTab(x)
