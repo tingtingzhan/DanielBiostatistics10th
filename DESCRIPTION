@@ -9,8 +9,8 @@ License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 4.4)
 Imports: cli, e1071, methods, pracma, vcd
-Suggests: BSDA, car, DescTools, mblm, psych, reshape2, robslopes,
-        survival
+Suggests: BSDA, car, DescTools, ggplot2, ggfortify, mblm, psych, reshape2, robslopes,
+        survival, survminer
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
         'cre', 'cph'), email = 'tingtingzhan@gmail.com', comment =
         c(ORCID = '0000-0001-9971-4844')))

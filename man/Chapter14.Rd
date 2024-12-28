@@ -11,39 +11,53 @@ Examples for Chapter 14, \emph{Survival Analysis}.
 }
 \examples{
 library(DanielBiostatistics10th)
+library(survival)
+library(ggplot2)
+library(ggfortify)
+library(survminer)
 
 # Example 14.3.1; Page 756 (10th ed), Page 652 (11th ed) 
 head(EXA_C14_S03_01)
 head(d1431 <- within(EXA_C14_S03_01, expr = {
   TIME = .difftime(TIME, units = 'months')
-  OS = survival::Surv(time = TIME, event = (VITAL != 'ned'))
+  OS = Surv(time = TIME, event = (VITAL != 'ned'))
 }))
 class(d1431$OS) # 'Surv'
 head(d1431$OS)
-summary(sf_1431 <- survival::survfit(OS ~ TUMOR, data = d1431)) # Table 14.3.2
+summary(sf_1431 <- survfit(OS ~ TUMOR, data = d1431)) # Table 14.3.2
+# plot
 plot(sf_1431, lty = 2:3, xlab = 'month', ylab = 'OS', main = 'Figure 14.3.1'); legend(
   x = 250, y = .9, legend = c('High', 'Low'), lty = 2:3)
+# fancy plot via ?ggfortify:::autoplot.survfit
+autoplot(sf_1431) + xlim(0, 120) + labs(title = 'Figure 14.3.1')
+# fancy plot via ?survminer:::ggsurvplot
+ggsurvplot(sf_1431, title = 'Figure 14.3.1')
 
 # Example 14.4.1; Page 764 (10th ed), Page 659 (11th ed) 
-survival::survdiff(OS ~ TUMOR, data = d1431)
+survdiff(OS ~ TUMOR, data = d1431)
 
 # Example 14.5.1; Page 769 (10th ed), Page 663 (11th ed)  
 head(EXA_C14_S05_01)
 head(d1451 <- within(EXA_C14_S05_01, expr = {
   time = .difftime(time, units = 'weeks')
-  PFS = survival::Surv(time, status)
+  PFS = Surv(time, status)
   drug = relevel(structure(drug, levels = c('Opiate', 'Other'), class = 'factor'), ref = 'Other')
 }))
-summary(model1_1451 <- survival::coxph(PFS ~ drug + age, data = d1451))
+summary(model1_1451 <- coxph(PFS ~ drug + age, data = d1451))
 # 'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.407, p < .001)
 # With 'proportional hazard' assumption, 
 # ... we don't need to discuss Opiate vs. Other at any specific time point
 confint(model1_1451)
 # 'age' is not significant (p = .772), so it should be removed from the model
-summary(model2_1451 <- survival::coxph(PFS ~ drug, data = d1451))
+summary(model2_1451 <- coxph(PFS ~ drug, data = d1451))
 confint(model2_1451)
 # 'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.923, p < .001)
-plot(survival::survfit(PFS ~ drug, data = d1451), lty = 2:3, 
+# plot
+plot(survfit(PFS ~ drug, data = d1451), lty = 2:3, 
      xlab = 'weeks', ylab = 'PFS', main = 'Figure 14.5.1'); legend(
   x = 35, y = .9, legend = c('Other', 'Opiate'), lty = 2:3)
+# fancy plot
+autoplot(survfit(PFS ~ drug, data = d1451)) + labs(title = 'Figure 14.5.1')
+# another fancy plot
+ggsurvplot(survfit(PFS ~ drug, data = d1451), title = 'Figure 14.5.1')
 }
