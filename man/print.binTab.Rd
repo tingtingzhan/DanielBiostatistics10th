@@ -4,25 +4,18 @@
 \alias{print.binTab}
 \title{Print Boolean Test-&-Disease and/or Risk-&-Disease Table}
 \usage{
-\method{print}{binTab}(x, prevalence, ...)
+\method{print}{binTab}(x, ...)
 }
 \arguments{
-\item{x}{a \link{binTab}}
+\item{x}{a \link{binTab} object}
 
-\item{prevalence}{(optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease}
-
-\item{...}{potential parameters, currently not in use}
+\item{...}{potential parameters of function \link{Sprintf.binTab}}
 }
 \value{
 Function \link{print.binTab} does not have a returned value.
 }
 \description{
 Print Boolean test-&-disease and/or risk-&-disease table.
-}
-\details{
-Function \link{print.binTab} prints the diagnostic test characteristics,
-e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
-together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 }
 \note{
 Function \link[e1071]{classAgreement} does not provide confidence interval of \eqn{\kappa}.

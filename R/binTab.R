@@ -58,19 +58,22 @@ binTab.matrix <- function(x, ...) {
   
   # nm1 <- c('(+)', '(-)') # OLD!!!
   nm1 <- c('(-)', '(+)') # c(0,1) # more intuitive!!
-  nm2 <- c('Endpoint', 'Test/Risk')
+  nm2 <- c('Endpoint', 'Test or Risk')
   
   if (!length(dnm <- dimnames(x))) {
     dimnames(x) <- setNames(list(nm1, nm1), nm = nm2)
-    class(x) <- c('binTab', class(x))
+    #class(x) <- c('binTab', class(x))
+    class(x) <- c('binTab', 'table') # to invoke ?flextable:::as_flextable.table
     return(x)
   } 
   
   if (!length(names(dnm))) {
     names(dnm) <- nm2 
   } else {
-    names(dnm)[1L] <- if (!nzchar(names(dnm)[1L]) || (names(dnm)[1L] == 'Endpoint')) 'Endpoint' else trimws(paste0(names(dnm)[1L], ' [Endpoint]'))
-    names(dnm)[2L] <- if (!nzchar(names(dnm)[2L]) || (names(dnm)[2L] == 'Test/Risk')) 'Test/Risk' else trimws(paste0(names(dnm)[2L], ' [Test/Risk]'))
+    # do nothing
+    # flextable will force ?base::make.names
+    #names(dnm)[1L] <- if (!nzchar(names(dnm)[1L]) || (names(dnm)[1L] == 'Endpoint')) 'Endpoint' else trimws(paste0(names(dnm)[1L], ' [Endpoint]'))
+    #names(dnm)[2L] <- if (!nzchar(names(dnm)[2L]) || (names(dnm)[2L] == 'Test/Risk')) 'Test/Risk' else trimws(paste0(names(dnm)[2L], ' [Test/Risk]'))
   }
   
   if (!length(dnm[[1L]])) dnm[[1L]] <- nm1 else {
@@ -84,7 +87,8 @@ binTab.matrix <- function(x, ...) {
     if (!(dnm[[2L]][2L] %in% c('TRUE', '(+)'))) dnm[[2L]][2L] <- paste(dnm[[2L]][2L], '(+)')
   }
   dimnames(x) <- dnm
-  class(x) <- c('binTab', class(x))
+  #class(x) <- c('binTab', class(x))
+  class(x) <- c('binTab', 'table') # to invoke ?flextable:::as_flextable.table
   return(x)
 }
 
@@ -115,17 +119,9 @@ binTab.formula <- function(formula, data, ...) {
 #' @description 
 #' Print Boolean test-&-disease and/or risk-&-disease table.
 #' 
-#' @param x a [binTab]
+#' @param x a [binTab] object
 #' 
-#' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
-#' 
-#' @param ... potential parameters, currently not in use 
-#' 
-#' @details
-#' 
-#' Function [print.binTab] prints the diagnostic test characteristics, 
-#' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
-#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
+#' @param ... potential parameters of function [Sprintf.binTab]
 #' 
 #' @returns 
 #' 
@@ -142,19 +138,44 @@ binTab.formula <- function(formula, data, ...) {
 #' binTab(x)
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
+#' @importFrom flextable as_flextable
+#' @export print.binTab
+#' @export
+print.binTab <- function(x, ...) {
+  print(as_flextable(x)) # invokes ?flextable:::as_flextable.table
+  cat(Sprintf.binTab(x, ...), sep = '\n')
+}
+
+
+#' @title Printout for [binTab] Object
+#' 
+#' @param model a [binTab] object
+#' 
+#' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
+#' 
+#' @param ... potential parameters, currently not in use 
+#' 
+#' @details
+#' Function [Sprintf.binTab] prints the diagnostic test characteristics, 
+#' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
+#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
+#' 
+#' @returns 
+#' Function [Sprintf.binTab] returns a \link[base]{character} \link[base]{vector}.
+#' 
+#' @keywords internal
 #' @importFrom cli col_green col_cyan col_magenta style_bold
 #' @importFrom stats binom.test pnorm qnorm confint
 #' @importFrom vcd Kappa
-#' @export print.binTab
 #' @export
-print.binTab <- function(
-    x, 
+Sprintf.binTab <- function(
+    model, 
     prevalence, 
     ...
 ) {
   
-  print.default(addmargins(unclass(x)))
-  cat('\n')
+  x <- model
+  model <- NULL
   
   x11 <- x[2L,2L] # (+,+)
   x00 <- x[1L,1L] # (-,-)
@@ -163,13 +184,16 @@ print.binTab <- function(
   
   sens <- x11 / xr[2L]
   spec <- x00 / xr[1L]
-  cat(do.call(sprintf, c(list(
-    fmt = 'Sensitivity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n', 
+  
+  ret <- character(0L)
+  
+  ret <- c(ret, do.call(sprintf, c(list(
+    fmt = 'Sensitivity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)', 
     1e2 * sens, 
     col_green(sprintf(fmt = '=%d/%d', x11, xr[2L]))
   ), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
-  cat(do.call(sprintf, c(list(
-    fmt = 'Specificity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+  ret <- c(ret, do.call(sprintf, c(list(
+    fmt = 'Specificity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
     1e2 * spec, 
     col_green(sprintf(fmt = '=%d/%d', x00, xr[1L]))
   ), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
@@ -179,25 +203,25 @@ print.binTab <- function(
         any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
     ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
     npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
-    cat('\n')
-    cat(sprintf(
-      fmt = 'Positive vs. Negative Predictive Value: %.3g%% vs. %.3g%%, %s\n', 
+    ret <- c(ret, '')
+    ret <- c(ret, sprintf(
+      fmt = 'Positive vs. Negative Predictive Value: %.3g%% vs. %.3g%%, %s', 
       1e2*ppv_, 1e2*npv_, 
       col_cyan(sprintf(fmt = 'prevalence %.3g%%', 1e2*prevalence))
-    ), sep = '')
-    cat('\n')
+    ))
+    ret <- c(ret, '')
   } else {
-    cat(do.call(sprintf, c(list(
-      fmt = 'Positive Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+    ret <- c(ret, do.call(sprintf, c(list(
+      fmt = 'Positive Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
       1e2 * x11/xc[2L], 
       col_green(sprintf(fmt = '=%d/%d', x11, xc[2L]))
     ), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
-    cat(do.call(sprintf, c(list(
-      fmt = 'Negative Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n',
+    ret <- c(ret, do.call(sprintf, c(list(
+      fmt = 'Negative Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
       1e2 * x00/xc[1L], 
       col_green(sprintf(fmt = '=%d/%d', x00, xc[1L]))
     ), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
-    cat('\n')
+    ret <- c(ret, '')
   }
   
   if (FALSE) {
@@ -229,18 +253,19 @@ print.binTab <- function(
     #  cat('\n')
   } # have not flipped
   
-  cat(do.call(sprintf, c(list(
-    fmt = 'Diagnose Accuracy: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)\n\n',
+  ret <- c(ret, do.call(sprintf, c(list(
+    fmt = 'Diagnose Accuracy: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
     1e2 * (x11+x00)/sum(x), 
     col_green(sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)))
   ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
-  cat(Sprintf.Kappa(Kappa(x)), '\n')
-
-  return(invisible())
+  ret <- c(ret, '')
+  
+  ret <- c(ret, Sprintf.Kappa(Kappa(x)))
+  
+  return(ret)
   
 }
-
 
 
 
@@ -278,10 +303,10 @@ rmd_.binTab <- function(x, xnm = substitute(x), ...) {
     sprintf(fmt = 'Sensitivity, specificity and predictive values, as well as their 95%% exact confidence intervals, are provided for the 2-by-2 table of `%s` and `%s`. Cohen\'s $\\kappa$ coefficient for agreement is provided by <u>**`R`**</u> package <u>**`vcd`**</u>.',
             names(dnm)[1L], names(dnm)[2L]),
     '```{r results = \'asis\'}', 
-    sprintf(fmt = 'as_flextable(addProbs(%s))', xnm),
+    sprintf(fmt = 'as_flextable(%s)', xnm),
     '```', 
     '```{r comment = NA}', 
-    paste0('print(', xnm, ', ansi = FALSE)'), # invoke [print.binTab]
+    paste0('cat(Sprintf.binTab(', xnm, '), sep = \'\n\')'), # how to put in `prevalence` here??
     '```'
   )
 }

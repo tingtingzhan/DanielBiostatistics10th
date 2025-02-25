@@ -56,8 +56,9 @@ summary(m1131_raw <- lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = 
 # the stepwise selection criterion used in MINITAB is not necessarily AIC
 
 # Example 11.4.1; Page 572, 
-addmargins(d1141 <- array(c(92L, 21L, 15L, 20L), dim = c(2L, 2L), dimnames = list(
-  OCAD = c('Present', 'Absent'), Sex = c('Male', 'Female')))) # Table 11.4.2
+d1141 = as.table(array(c(92L, 21L, 15L, 20L), dim = c(2L, 2L), dimnames = list(
+  OCAD = c('Present', 'Absent'), Sex = c('Male', 'Female'))))
+as_flextable(d1141) # Table 11.4.2
 (d1141a = within(as.data.frame.table(as.table(d1141)), expr = {
   OCAD = (OCAD == 'Present')
   Sex = factor(Sex, levels = c('Female', 'Male'))

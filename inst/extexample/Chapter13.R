@@ -15,11 +15,12 @@ wilcox.test(d1341, mu = 5.05)
 # Example 13.5.1; Page 686, 
 head(EXA_C13_S05_01)
 (med1351 = median(unlist(EXA_C13_S05_01), na.rm = TRUE)) # common median
-addmargins(t1351 <- with(EXA_C13_S05_01, expr = {
-  tmp <- cbind(Urban = table(URBAN < med1351), Rural = table(RURAL < med1351, useNA = 'no'))
-  rownames(tmp) <- paste('Number of scores', c('above', 'below'), 'median')
-  tmp
-})) # Table 13.5.2
+t1351 = with(EXA_C13_S05_01, expr = {
+  tmp = cbind(Urban = table(URBAN < med1351), Rural = table(RURAL < med1351, useNA = 'no'))
+  rownames(tmp) = paste('Number of scores', c('above', 'below'), 'median')
+  as.table(tmp)
+}) 
+as_flextable(t1351) # Table 13.5.2
 chisq.test(t1351, correct = FALSE)
 
 # Example 13.6.1; Page 691, 

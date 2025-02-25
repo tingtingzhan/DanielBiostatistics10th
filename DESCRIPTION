@@ -7,7 +7,7 @@ Description: Functions to accompany Wayne W. Daniel's Biostatistics: A
         Foundation for Analysis in the Health Sciences, Tenth Edition.
 License: GPL-2
 Encoding: UTF-8
-Depends: R (>= 4.4)
+Depends: R (>= 4.4), flextable
 Imports: cli, e1071, methods, pracma, vcd
 Suggests: BSDA, car, DescTools, ggplot2, ggfortify, mblm, psych, reshape2, robslopes,
         survival, survminer

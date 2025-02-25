@@ -72,19 +72,22 @@ print_OE(d1235, prob = c(1, 2, 1))
 chisq.test(d1235, p = c(1, 2, 1), rescale.p = TRUE)
 
 # Example 12.4.1; Page 621 (10th ed)
-addmargins(d1241 <- array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(
+d1241 = as.table(array(c(260L, 15L, 7L, 299L, 41L, 14L), dim = c(3L, 2L), dimnames = list(
   Race = c('White', 'Black', 'Other'), FolicAcid = c('TRUE', 'FALSE'))))
+as_flextable(d1241)
 chisq.test(d1241) # ?stats::chisq.test
 
 # Example 12.4.2; Page 626 (10th ed), 
-addmargins(d1242 <- array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
+d1242 = as.table(array(c(131L, 14L, 52L, 36L), dim = c(2L, 2L), dimnames = list(
   Type = c('Faller', 'Non-Faller'), LifestyleChange = c('TRUE', 'FALSE'))))
+as_flextable(d1242)
 chisq.test(d1242, correct = FALSE)
 chisq.test(d1242, correct = TRUE) # Yates's Correction
 
 # Example 12.5.1; Page 631 (10th ed), 
-addmargins(d1251 <- array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
+d1251 = as.table(array(c(21L, 19L, 75L, 77L), dim = c(2L, 2L), dimnames = list(
   Group = c('Narcoleptic', 'Healthy'), Migraine = c('TRUE', 'FALSE'))))
+as_flextable(d1251)
 (chisq_1251 = chisq.test(d1251, correct = FALSE))
 if (FALSE) {
   # (optional) using test on two proportions
@@ -94,24 +97,27 @@ if (FALSE) {
 }
 
 # Example 12.6.1; Page 638 (10th ed), 
-addmargins(d1262 <- array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
+d1262 = as.table(array(c(2L, 8L, 7L, 4L), dim = c(2L, 2L), dimnames = list(
   Group = c('PI Naive', 'PA Experienced'), Regimen2yr = c('TRUE', 'FALSE'))))
+as_flextable(d1262)
 fisher.test(d1262)
 
 # Example 12.7.1; Page 644 (10th ed), 
-addmargins(d1271 <- array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), dimnames = list(
+d1271 = as.table(array(c(22L, 18L, 216L, 199L), dim = c(2L, 2L), dimnames = list(
   Exercising = c('Extreme', 'No'), PretermLabor = c('Cases', 'Noncases'))))
+as_flextable(d1271)
 DescTools::RelRisk(d1271, conf.level = .95) # 95\% CI for relative risk
 fisher.test(d1271) # 95\% CI for odds ratio
 
 # Example 12.7.2; Page 647 (10th ed), 
-addmargins(d1272 <- array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
+d1272 = as.table(array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
   SmkPregnancy = c('Smoked Throughout', 'Never Smoked'), Obesity = c('Cases', 'Noncases'))))
+as_flextable(d1272)
 fisher.test(d1272)
 
 # Example 12.7.3-12.7.4; Page 650-652 (10th ed), 
-(d1273 <- array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), dimnames = list(
-  HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), Age = c('<=55', '>55'))))
+d1273 = array(c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L), dim = c(2L, 2L, 2L), dimnames = list(
+  HTN = c('Present', 'Absent'), OCAD = c('Cases', 'Controls'), Age = c('<=55', '>55')))
 addmargins(d1273, margin = 1:2) # Table 12.7.6
 mantelhaen.test(d1273)
 }

@@ -9,8 +9,6 @@
 #' @return 
 #' No function defined for Chapter 3.
 #' 
-# @seealso \link[stats]{addmargins} \link[base]{rowSums} \link[base]{colSums} \link[base]{proportions} 
-#' 
 #' @example inst/extexample/Chapter3.R 
 #' 
 #' @name Chapter03
