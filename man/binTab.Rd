@@ -4,25 +4,18 @@
 \alias{binTab}
 \alias{binTab.matrix}
 \alias{binTab.table}
-\alias{binTab.formula}
 \title{Boolean Test-&-Disease or Risk-&-Disease Table}
 \usage{
-binTab(x, ...)
+binTab(x)
 
-\method{binTab}{matrix}(x, ...)
+\method{binTab}{matrix}(x)
 
-\method{binTab}{table}(x, ...)
-
-\method{binTab}{formula}(formula, data, ...)
+\method{binTab}{table}(x)
 }
 \arguments{
 \item{x}{(an R object convertible to a) \eqn{2\times 2} \link[base]{integer} \link[base]{matrix},
 contingency table of two Boolean variables.
 The endpoint (i.e., disease) is on rows and the test/risk on columns.}
-
-\item{formula}{\link[stats]{formula} in the fashion of \code{~disease+test} or \code{~disease+risk}, see function \link[stats]{xtabs}}
-
-\item{data}{a \link[base]{data.frame}}
 }
 \value{
 Function \link{binTab} returns a two-by-two \link[base]{integer} \link[base]{matrix}.

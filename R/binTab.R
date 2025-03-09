@@ -13,10 +13,6 @@
 #' contingency table of two Boolean variables.
 #' The endpoint (i.e., disease) is on rows and the test/risk on columns.
 #' 
-#' @param formula \link[stats]{formula} in the fashion of `~disease+test` or `~disease+risk`, see function \link[stats]{xtabs}
-#' 
-#' @param data a \link[base]{data.frame}
-#' 
 #' @details
 #' 
 #' Function [binTab] creates a \eqn{2\times 2} test-&-disease contingency table with layout
@@ -47,12 +43,12 @@
 #' @importFrom stats setNames
 #' @name binTab
 #' @export
-binTab <- function(x, ...) UseMethod('binTab')
+binTab <- function(x) UseMethod(generic = 'binTab')
 
 #' @rdname binTab
 #' @export binTab.matrix
 #' @export
-binTab.matrix <- function(x, ...) {
+binTab.matrix <- function(x) {
   if (!is.matrix(x) || (typeof(x) != 'integer') || any(dim(x) != 2L)) stop('input must be 2*2 integer matrix')
   
   # nm1 <- c('(+)', '(-)') # OLD!!!
@@ -95,16 +91,6 @@ binTab.matrix <- function(x, ...) {
 #' @export binTab.table
 #' @export
 binTab.table <- binTab.matrix
-
-#' @rdname binTab
-#' @importFrom stats na.omit xtabs
-#' @export binTab.formula
-#' @export
-binTab.formula <- function(formula, data, ...) {
-  ret <- y0 <- xtabs(formula, data = data, na.action = na.omit)
-  if (any(dim(y0) != 2L)) stop('cannot convert to binTab')
-  return(binTab(ret))
-}
 
 
 
