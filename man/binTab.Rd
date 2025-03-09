@@ -52,6 +52,5 @@ sensitivity, specificity, etc.
 \examples{
 binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
 binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
-binTab(~ (mag < 4.5) + (depth > 400), data = quakes)
 }
 \keyword{internal}

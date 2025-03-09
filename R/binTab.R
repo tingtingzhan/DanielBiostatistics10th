@@ -43,7 +43,6 @@
 #' @examples 
 #' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
 #' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
-#' binTab(~ (mag < 4.5) + (depth > 400), data = quakes)
 #' @keywords internal
 #' @importFrom stats setNames
 #' @name binTab
@@ -241,8 +240,6 @@ print.binTab <- function(
     1e2 * (x11+x00)/sum(x), 
     col_green(sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)))
   ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
-  
-  ret <- c(ret, '')
   
   cat(ret, sep = '\n')
   
