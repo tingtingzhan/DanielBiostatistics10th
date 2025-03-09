@@ -121,11 +121,19 @@ binTab.formula <- function(formula, data, ...) {
 #' 
 #' @param x a [binTab] object
 #' 
-#' @param ... potential parameters of function [Sprintf.binTab]
+#' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
+#' 
+#' @param print_flextable \link[base]{logical} scalar, default `TRUE`
+#' 
+#' @param ... potential parameters, currently not in use 
+#' 
+#' @details
+#' Function [print.binTab] prints the diagnostic test characteristics, 
+#' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
+#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 #' 
 #' @returns 
-#' 
-#' Function [print.binTab] does not have a returned value.
+#' Function [print.binTab] \link[base]{invisible}-y returns a \link[base]{character} \link[base]{vector}.
 #' 
 #' @note
 #' Function \link[e1071]{classAgreement} does not provide confidence interval of \eqn{\kappa}.
@@ -139,43 +147,18 @@ binTab.formula <- function(formula, data, ...) {
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
 #' @importFrom flextable as_flextable
-#' @export print.binTab
-#' @export
-print.binTab <- function(x, ...) {
-  print(as_flextable(x)) # invokes ?flextable:::as_flextable.table
-  cat(Sprintf.binTab(x, ...), sep = '\n')
-}
-
-
-#' @title Printout for [binTab] Object
-#' 
-#' @param model a [binTab] object
-#' 
-#' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
-#' 
-#' @param ... potential parameters, currently not in use 
-#' 
-#' @details
-#' Function [Sprintf.binTab] prints the diagnostic test characteristics, 
-#' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
-#' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
-#' 
-#' @returns 
-#' Function [Sprintf.binTab] returns a \link[base]{character} \link[base]{vector}.
-#' 
-#' @keywords internal
 #' @importFrom cli col_green col_cyan col_magenta style_bold
 #' @importFrom stats binom.test pnorm qnorm confint
-#' @importFrom vcd Kappa
+#' @export print.binTab
 #' @export
-Sprintf.binTab <- function(
-    model, 
+print.binTab <- function(
+    x, 
     prevalence, 
+    print_flextable = TRUE,
     ...
 ) {
   
-  x <- model
-  model <- NULL
+  if (print_flextable) print(as_flextable(x)) # invokes ?flextable:::as_flextable.table
   
   x11 <- x[2L,2L] # (+,+)
   x00 <- x[1L,1L] # (-,-)
@@ -261,13 +244,11 @@ Sprintf.binTab <- function(
   
   ret <- c(ret, '')
   
-  ret <- c(ret, Sprintf.Kappa(Kappa(x)))
+  cat(ret, sep = '\n')
   
-  return(ret)
+  return(invisible(ret))
   
 }
-
-
 
 
 
