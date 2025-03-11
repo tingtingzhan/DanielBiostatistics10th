@@ -1,37 +1,17 @@
 
 
 
-#' @title Create R Markdown Script for \link[DanielBiostatistics10th]{binTab} Object
+#' @title Description for \link[DanielBiostatistics10th]{binTab} Object
 #' 
 #' @description
-#' Create R Markdown Script for \link[DanielBiostatistics10th]{binTab} object.
+#' description for \link[DanielBiostatistics10th]{binTab} object.
 #' 
 #' @param x a \link[DanielBiostatistics10th]{binTab}
 #' 
-#' @param xnm \link[base]{language} or \link[base]{character} scalar, call of `x`
-#' 
-#' @param ... additional parameters, currently not in use
-#' 
 #' @returns 
-#' Function [rmd_.binTab()] returns a \link[base]{character} \link[base]{vector}.
+#' Function [Sprintf.binTab()] returns a \link[base]{character} scalar.
 #' 
 #' @keywords internal
-#' @name rmd_binTab
-#' @export
-rmd_.binTab <- function(x, xnm, ...) {
-  c(
-    Sprintf.binTab(x),
-    '```{r results = \'asis\'}', 
-    sprintf(fmt = 'as_flextable(%s)', xnm),
-    '```', 
-    '```{r comment = NA}', 
-    paste0('print.binTab(', xnm, ', print_flextable = TRUE)'), # how to put in `prevalence` here??
-    '```'
-  )
-}
-
-
-#' @rdname rmd_binTab
 #' @export
 Sprintf.binTab <- function(x) {
   dnm <- dimnames(x)
