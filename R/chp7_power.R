@@ -28,14 +28,11 @@
 #' }
 #' 
 #' @return 
-#' Function [power_z] returns a `'power_z'` object, 
+#' Function [power_z()] returns a `'power_z'` object, 
 #' which inherits from `'power.htest'` class. 
 #' 
 #' @seealso \link[stats]{power.t.test}
 #' 
-#' @example inst/extexample/Chapter7_power.R 
-#' 
-#' @name Chapter07_power
 #' @importFrom stats pnorm
 #' @export
 power_z <- function(

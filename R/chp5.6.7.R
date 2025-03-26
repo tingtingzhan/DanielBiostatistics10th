@@ -95,8 +95,6 @@
 #' 
 #' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 #' 
-#' @example inst/extexample/Chapter5.6.7.R 
-#' 
 #' @name Chapter05to07
 #' @importFrom stats pnorm setNames
 #' @export

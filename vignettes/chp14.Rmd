@@ -1,0 +1,123 @@
+---
+title: "Chapter 14: *Survival Analysis*"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{chp14}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+
+```{r setup}
+library(DanielBiostatistics10th)
+library(survival)
+library(ggplot2)
+library(ggfortify)
+library(survminer)
+```
+
+
+### Example 14.3.1
+
+Page 756 (10th ed), Page 652 (11th ed).
+
+```{r}
+head(EXA_C14_S03_01, n = 3L)
+d1431 = EXA_C14_S03_01 |> 
+  within.data.frame(, expr = {
+  TIME = .difftime(TIME, units = 'months')
+  OS = Surv(time = TIME, event = (VITAL != 'ned'))
+})
+class(d1431$OS)
+head(d1431$OS)
+```
+
+Table 14.3.2
+
+```{r}
+summary(sf_1431 <- survfit(OS ~ TUMOR, data = d1431))
+```
+
+Figure 14.3.1
+
+```{r}
+sf_1431 |> plot(lty = 2:3, xlab = 'month', ylab = 'OS', main = 'Figure 14.3.1')
+legend(x = 250, y = .9, legend = c('High', 'Low'), lty = 2:3)
+```
+
+Fancy plot via `?ggfortify:::autoplot.survfit`
+```{r}
+sf_1431 |> autoplot() + xlim(0, 120) + labs(title = 'Figure 14.3.1')
+```
+
+Fancy plot via `?survminer:::ggsurvplot`
+```{r}
+sf_1431 |> ggsurvplot(title = 'Figure 14.3.1')
+```
+
+
+### Example 14.4.1
+
+Page 764 (10th ed), Page 659 (11th ed) 
+```{r}
+survdiff(OS ~ TUMOR, data = d1431)
+```
+
+
+### Example 14.5.1
+
+Page 769 (10th ed), Page 663 (11th ed)  
+```{r}
+head(EXA_C14_S05_01)
+head(d1451 <- within(EXA_C14_S05_01, expr = {
+  time = .difftime(time, units = 'weeks')
+  PFS = Surv(time, status)
+  drug = relevel(structure(drug, levels = c('Opiate', 'Other'), class = 'factor'), ref = 'Other')
+}))
+```
+
+
+```{r}
+summary(model1_1451 <- coxph(PFS ~ drug + age, data = d1451))
+```
+'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.407, p < .001)
+With 'proportional hazard' assumption, we don't need to discuss Opiate vs. Other at any specific time point
+
+```{r}
+confint(model1_1451)
+```
+'age' is not significant (p = .772), so it should be removed from the model
+
+```{r}
+summary(model2_1451 <- coxph(PFS ~ drug, data = d1451))
+confint(model2_1451)
+```
+'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.923, p < .001)
+
+plot
+```{r}
+sf_1451 = survfit(PFS ~ drug, data = d1451)
+sf_1451 |> plot(lty = 2:3, xlab = 'weeks', ylab = 'PFS', main = 'Figure 14.5.1')
+legend(x = 35, y = .9, legend = c('Other', 'Opiate'), lty = 2:3)
+```
+
+fancy plot
+```{r}
+sf_1451 |> autoplot() + labs(title = 'Figure 14.5.1')
+```
+
+another fancy plot
+```{r}
+sf_1451 |> ggsurvplot(title = 'Figure 14.5.1')
+```
+
+

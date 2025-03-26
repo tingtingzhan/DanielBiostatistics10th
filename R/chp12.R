@@ -13,13 +13,11 @@
 #' 
 #' @return
 #' 
-#' Function [print_OE] prints a table with observed and expected frequencies, as well as 
+#' Function [print_OE()] prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  
 #' A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 #' 
-#' @example inst/extexample/Chapter12.R 
-#' 
-#' @name Chapter12
+#' @keywords internal
 #' @export
 print_OE <- function(O, prob) {
   if (!is.integer(O) || (nO <- length(O)) <= 1L || anyNA(O) || any(O < 0L)) stop('observed data must be non-negative integer')
@@ -36,7 +34,7 @@ print_OE <- function(O, prob) {
     'Expected Freq (%)' = sprintf(fmt = '%.2f (%.2f%%)', E, 1e2*prob),
     '(O-E)^2/E' = sprintf(fmt = '%.3f', chisq)
   )
-  print.noquote(noquote(ret, right = TRUE))
-  cat(sprintf(fmt = '\nSum (O-E)^2/E = %.2f\n', sum(chisq)))
+  ret |> noquote(right = TRUE) |> print.noquote()
+  chisq |> sum() |> sprintf(fmt = '\nSum (O-E)^2/E = %.2f\n') |> cat()
   return(invisible(chisq))
 }

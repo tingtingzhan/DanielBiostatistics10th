@@ -246,15 +246,15 @@ print.binTab <- function(
 #' @param sensitivity,specificity \link[base]{double} scalars
 #' 
 #' @details
-#' Function [ppv] calculates positive predictive values.
+#' Function [ppv()] calculates positive predictive values.
 #' 
-#' Function [npv] calculates negative predictive values.
+#' Function [npv()] calculates negative predictive values.
 #' 
 #' @returns
-#' Functions [ppv] and [npv] return \link[base]{double} scalar or \link[base]{vector}.
+#' Functions [ppv()] and [npv()] return \link[base]{double} scalar or \link[base]{vector}.
 #' 
-#' @name predval
 #' @keywords internal
+#' @name predval
 #' @export
 ppv <- function(prevalence, sensitivity, specificity) {
   if (!is.double(sensitivity) || length(sensitivity) != 1L || is.na(sensitivity) || sensitivity < 0 || sensitivity > 1) stop('illegal sensitivity')

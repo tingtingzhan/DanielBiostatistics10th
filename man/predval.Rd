@@ -16,14 +16,14 @@ npv(prevalence, sensitivity, specificity)
 \item{sensitivity, specificity}{\link[base]{double} scalars}
 }
 \value{
-Functions \link{ppv} and \link{npv} return \link[base]{double} scalar or \link[base]{vector}.
+Functions \code{\link[=ppv]{ppv()}} and \code{\link[=npv]{npv()}} return \link[base]{double} scalar or \link[base]{vector}.
 }
 \description{
 Positive and negative predictive values.
 }
 \details{
-Function \link{ppv} calculates positive predictive values.
+Function \code{\link[=ppv]{ppv()}} calculates positive predictive values.
 
-Function \link{npv} calculates negative predictive values.
+Function \code{\link[=npv]{npv()}} calculates negative predictive values.
 }
 \keyword{internal}

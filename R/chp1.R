@@ -21,9 +21,6 @@
 #' 
 #' @seealso \link[base]{sample.int}
 #' 
-#' @example inst/extexample/Chapter1.R
-#' 
-#' @name Chapter01
 #' @export
 sampleRow <- function(x, size, replace = FALSE, prob = NULL) {
   if (!is.data.frame(x)) stop('input must be data.frame')

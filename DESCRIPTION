@@ -9,13 +9,26 @@ License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 4.4), flextable
 Imports: cli, e1071, methods, pracma
-Suggests: BSDA, car, DescTools, ggplot2, ggfortify, mblm, psych, reshape2, robslopes,
-        survival, survminer
+Suggests: 
+    BSDA,
+    car,
+    DescTools,
+    ggplot2,
+    ggfortify,
+    mblm,
+    psych,
+    reshape2,
+    robslopes,
+    survival,
+    survminer,
+    knitr,
+    rmarkdown
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
-        'cre', 'cph'), email = 'tingtingzhan@gmail.com', comment =
+        'cre'), email = 'tingtingzhan@gmail.com', comment =
         c(ORCID = '0000-0001-9971-4844')))
 Language: en-US
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr
