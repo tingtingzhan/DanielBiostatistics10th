@@ -21,4 +21,3 @@
 # @keywords internal
 '_PACKAGE'
 
-# @importFrom raster cv # \pkg{raster} creates many problems

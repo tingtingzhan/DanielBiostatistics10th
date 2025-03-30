@@ -1,6 +1,6 @@
 
 
-#' @title Chapter 1: Introduction to Biostatistics
+#' @title Simple Random Sample from a \link[base]{data.frame}
 #' 
 #' @description 
 #' 
@@ -20,7 +20,7 @@
 #' Function [sampleRow] returns a \link[base]{data.frame}, a simple random sample from the input.
 #' 
 #' @seealso \link[base]{sample.int}
-#' 
+#' @keywords internal
 #' @export
 sampleRow <- function(x, size, replace = FALSE, prob = NULL) {
   if (!is.data.frame(x)) stop('input must be data.frame')

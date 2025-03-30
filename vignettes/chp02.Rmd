@@ -1,5 +1,5 @@
 ---
-title: "chp02"
+title: "Chapter 2: *Descriptive Statistics*"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{chp02}
@@ -16,35 +16,106 @@ opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+# Introduction
+
+This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of Chapter 2 *Descriptive Statistics* of 
+***Biostatistics: A Foundation for Analysis in the Health Sciences***, 
+[11th Edition](https://www.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+11th+Edition-p-9781119496571) by Wayne W. Daniel and Chad L. Cross.
+
+## Note to Users
+
+Examples in this vignette require that the `search` path has
+
 ```{r setup}
 library(DanielBiostatistics10th)
 ```
+
+## Terms and Abbreviations
+
+```{r echo = FALSE, results = 'asis'}
+c(
+  '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
+  '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
+  '`cut`', 'Convert numeric to factor', '`?base::cut`; `?base::cut.default`',
+  '`factor`', 'Factor', '`?base::factor`',
+  '`kurtosis`', 'Kurtosis', '`?e1071::kurtosis`',
+  '`mean`', 'Arithmetic mean', '`?base::mean`; `?base::mean.default`',
+  '`median`', 'Median', '`?stats::median`; `?stats::median.default`',
+  '`Mode`', 'Mode', '`?pracma::Mode`',
+  '`quantile`', 'Quantile', '`?stats::quantile`',
+  '`sd`', 'Standard deviation', '`?stats::sd`',
+  '`skewness`', 'Skewness', '`?e1071::skewness`',
+  '`sort`', 'Sorting vectors', '`?base::sort`',
+  '`var`', 'Variance', '`?stats::var`'
+) |>
+  matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable(format = 'html') 
+# ?knitr::kable
+# default: `|` shown as &...
+# format = 'html': `>` shown as &..
+```
+
+
 
 
 # Example 2.2.1
 Page 20 (10th ed), Page 19 (11th ed)
 ```{r}
-head(EXA_C01_S04_01)
-class(age <- EXA_C01_S04_01$AGE) # 'integer'
-sort(age) # Table 2.2.1
+EXA_C01_S04_01 |> 
+  head(n = 3L)
 ```
-# Example 2.3.1; Page 23 (10th ed); Page 22 (11th ed)
 ```{r}
-(r231 = print_freqs(age, breaks = seq.int(from=30, to=90, by=10), right = FALSE)) # Table 2.3.2
+EXA_C01_S04_01$AGE |> 
+  class()
 ```
-The open/close of interval ends is determined by textbook using 30-39, 40-49, etc.
 
-# Example 2.4.1-2.4.6; Page 38-42 (10th ed); Page 30-34 (11th ed)
-# Example 2.5.1-2.5.3; Page 44-46 (10th ed); Page 35-41 (11th ed)
+Table 2.2.1.
 ```{r}
-print_stats(age)
+EXA_C01_S04_01$AGE |> 
+  sort()
 ```
-# Example 2.5.4 (omitted); Page 49 (10th ed), Page 41 (11th ed)
 
-# Example 2.5.5; Page 50 (10th ed)
+
+# Example 2.3.1
+
+Page 23 (10th ed); Page 22 (11th ed).
+
+Table 2.3.2
 ```{r}
-head(EXA_C02_S05_05)
-boxplot(EXA_C02_S05_05$GRF, main = c('Example 2.5.5 (10th ed)'))
-print_stats(EXA_C02_S05_05$GRF)
-print_freqs(EXA_C02_S05_05$GRF, breaks = seq.int(10, 45, by = 5))
+EXA_C01_S04_01$AGE |>
+  cut(breaks = seq.int(from=30, to=90, by=10), right = FALSE) |>
+  viewFreq()
+```
+
+
+
+
+# Example 2.4.1-2.4.6; 2.5.1-2.5.3
+
+Page 38-42 (10th ed); Page 30-34 (11th ed).
+
+Page 44-46 (10th ed); Page 35-41 (11th ed).
+```{r}
+EXA_C01_S04_01$AGE |> 
+  viewStats()
+```
+
+# Example 2.5.4 (omitted)
+Page 49 (10th ed), Page 41 (11th ed)
+
+# Example 2.5.5
+Page 50 (10th ed)
+```{r}
+EXA_C02_S05_05 |>
+  head(n = 3L)
+```
+```{r}
+EXA_C02_S05_05$GRF |>
+  boxplot(main = c('Example 2.5.5 (10th ed)'))
+```
+```{r}
+EXA_C02_S05_05$GRF |> 
+  viewStats()
 ```

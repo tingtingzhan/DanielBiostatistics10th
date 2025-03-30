@@ -16,22 +16,78 @@ opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+# Introduction
+
+This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of Chapter 1 *Introduction to Biostatistics* of 
+***Biostatistics: A Foundation for Analysis in the Health Sciences***, 
+[11th Edition](https://www.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+11th+Edition-p-9781119496571) by Wayne W. Daniel and Chad L. Cross.
+
+## Note to Users
+
+Examples in this vignette require that the `search` path has
+
 ```{r setup}
 library(DanielBiostatistics10th)
 ```
 
+## Terms and Abbreviations
 
-# Example 1.4.1; Page 8 (10th ed), Page 7 (11th ed)
-```{r}
-class(EXA_C01_S04_01) # `EXA_C01_S04_01` is a 'data.frame' (a specific class defined in R)
-dim(EXA_C01_S04_01) # dimension, number-row and number-column
-head(EXA_C01_S04_01, n = 8L) # first `n` rows of a 'data.frame'
-names(EXA_C01_S04_01) # column names of a 'data.frame'
-EXA_C01_S04_01$AGE # use `$` to obtain one column from a 'data.frame' 
-sampleRow(EXA_C01_S04_01, size = 10L, replace = FALSE) # to answer Example 1.4.1
+```{r echo = FALSE, results = 'asis'}
+c(
+  '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
+  '`$`', 'Extract parts of an object', '`` ?base::`$` ``',
+  '`CRAN`, `R`', 'The Comprehensive R Archive Network', 'https://cran.r-project.org',
+  '`class`', 'Object class', '`?base::class`',
+  '`data.frame`', 'Data frame', '`?base::data.frame`',
+  '`dim`', 'Dimensions', '`?base::dim`',
+  '`head`, `tail`', 'First or last parts of an object', '`?utils::head`',
+  '`names`', 'Names of an object', '`?base::names`',
+  '`search`', 'Search path', '`?base::search`',
+  '`seed`', 'Random number generation seed', '`?base::set.seed`',
+  '`seq`, `seq.int`', 'Sequence generation', '`?base::seq`; `?base::seq.int`'
+) |>
+  matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable(format = 'html') 
+# ?knitr::kable
+# default: `|` shown as &...
+# format = 'html': `>` shown as &..
 ```
 
-# Example 1.4.2; Page 11 (10th ed), Page 10 (11th ed)
+
+# Example 1.4.1
+
+Page 8 (10th ed), Page 7 (11th ed).
+```{r}
+EXA_C01_S04_01 |> 
+  class() 
+```
+```{r}
+EXA_C01_S04_01 |>
+  dim()
+```
+```{r}
+EXA_C01_S04_01 |> 
+  head(n = 3L)
+```
+```{r}
+EXA_C01_S04_01 |> 
+  names()
+```
+```{r}
+EXA_C01_S04_01$AGE
+```
+
+To answer Example 1.4.1,
+```{r}
+set.seed(142); EXA_C01_S04_01 |>
+  sampleRow(size = 10L, replace = FALSE)
+```
+
+# Example 1.4.2
+
+Page 11 (10th ed), Page 10 (11th ed).
 ```{r}
 EXA_C01_S04_01[seq.int(from = 4L, to = 166L, by = 18L), ]
 ```
