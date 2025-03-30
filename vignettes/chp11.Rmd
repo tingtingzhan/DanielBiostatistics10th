@@ -22,26 +22,34 @@ library(DanielBiostatistics10th)
 
 
 
-### Example 11.1.1; Page 540, 
+### Example 11.1.1
+Page 540, 
 ```{r}
 head(EXA_C11_S01_01)
 head(log(EXA_C11_S01_01$conc, base = 10))
 head(EXA_C11_S01_01$logConc)
 ```
 
-# Example 11.1.2; Page 542, 
+# Example 11.1.2
+Page 542, 
 ```{r}
 head(EXA_C11_S01_02)
+```
+```{r}
 cor.test(~ sbp + weight, data = EXA_C11_S01_02)
+```
+```{r}
 cor.test(~ sbp + bmi, data = EXA_C11_S01_02) 
 ```
 
-# Example 11.2.1; Page 545, 
+# Example 11.2.1
+Page 545, 
 ```{r}
 head(EXA_C11_S02_01)
-d1121 = within(EXA_C11_S02_01, expr = {
-  SMOKE = as.logical(SMOKE)
-})
+d1121 = EXA_C11_S02_01 |>
+  within(expr = {
+    SMOKE = as.logical(SMOKE)
+  })
 xlab1121 = 'Length of gestation (weeks)'; ylab1121 = 'Birth weight (grams)'
 car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
             xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.1')
@@ -67,7 +75,8 @@ car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
 ```
 
 
-# Example 11.3.1; Page 561, 
+# Example 11.3.1
+Page 561, 
 ```{r}
 head(EXA_C11_S03_01)
 names(EXA_C11_S03_01) = c('JOBPER', 'ASRV', 'ENTH', 'AMB', 'COMM', 'PROB', 'INIT')
@@ -76,7 +85,8 @@ summary(m1131_raw <- lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = 
 # the stepwise selection criterion used in MINITAB is not necessarily AIC
 ```
 
-# Example 11.4.1; Page 572, 
+# Example 11.4.1
+Page 572, 
 ```{r}
 d1141 = as.table(array(c(92L, 21L, 15L, 20L), dim = c(2L, 2L), dimnames = list(
   OCAD = c('Present', 'Absent'), Sex = c('Male', 'Female'))))
@@ -92,7 +102,8 @@ exp(confint(m1141)) # confidence interval of exp(beta)
 predict(m1141, newdata = data.frame(Sex = setNames(nm = c('Male', 'Female'))), type = 'response')
 ```
 
-# Example 11.4.2; Page 573, 
+# Example 11.4.2
+Page 573, 
 ```{r}
 head(EXA_C11_S04_02)
 summary(m1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02)) # Figure 11.4.2
@@ -101,7 +112,8 @@ exp(confint(m1142))
 car::Anova(m1142) # Optional
 ```
 
-# Example 11.4.3; Page 576, 
+# Example 11.4.3
+Page 576, 
 ```{r}
 head(REV_C11_24)
 summary(glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24)) # Figure 11.4.4
@@ -109,7 +121,8 @@ summary(glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24)) # Figur
 summary(glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24)) 
 ```
 
-# Example 11.4.4-11.4.5; Page 578-579
+# Example 11.4.4-11.4.5
+Page 578-579
 ```{r}
 DescTools::PseudoR2(m1142, which = 'CoxSnell')
 DescTools::PseudoR2(m1142, which = 'Nagelkerke')

@@ -29,6 +29,7 @@ Examples in this vignette require that the `search` path has
 
 ```{r setup}
 library(DanielBiostatistics10th)
+library(scales)
 ```
 
 ## Terms and Abbreviations
@@ -80,19 +81,25 @@ Page 99 (10th ed).
 `d` for `density`; calculates $\text{Pr}(X = x)$.
 
 ```{r}
-dbinom(x = 3L, size = 5L, prob = .858)
+dbinom(x = 3L, size = 5L, prob = .858) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.3.1
 Page 87 (11th ed).
 ```{r}
-dbinom(x = 3L, size = 5L, prob = .899)
+dbinom(x = 3L, size = 5L, prob = .899) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.3.2
 Page 103 (10th ed), Page 90 (11th ed).
 ```{r}
-dbinom(x = 4L, size = 10L, prob = .14)
+dbinom(x = 4L, size = 10L, prob = .14) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.3.3
@@ -104,95 +111,138 @@ Page 103 (10th ed), Page 91 (11th ed).
 -   $\text{Pr}(X > x)$ if `lower.tail = FALSE`
 
 ```{r}
-(pL = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = TRUE))
-(pU = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE))
+pL = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = TRUE)
+pL |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
+pU = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE)
+pU |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 stopifnot(pL + pU == 1)
 ```
 
 # Example 4.3.4
 Page 105 (10th ed), Page 92 (11th ed) 
 ```{r}
-dbinom(x = 7L, size = 12L, prob = .55)
-pbinom(q = 5L, size = 12L, prob = .55)
-pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE)
+dbinom(x = 7L, size = 12L, prob = .55) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
+```
+```{r}
+pbinom(q = 5L, size = 12L, prob = .55) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
+```
+```{r}
+pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.4.1
 Page 110 (10th ed), Page 97 (11th ed) 
 ```{r}
-dpois(x = 3L, lambda = 12) 
+dpois(x = 3L, lambda = 12) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.4.2
 Page 110 (10th ed), Page 98 (11th ed) 
 ```{r}
-ppois(q = 2L, lambda = 12, lower.tail = FALSE)
+ppois(q = 2L, lambda = 12, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.4.3
 Page 110 (10th ed), Page 98 (11th ed) 
 ```{r}
-ppois(q = 1L, lambda = 2) 
+ppois(q = 1L, lambda = 2) |> 
+  label_percent(accuracy = .1)() |>
+  noquote() 
 ```
 
 # Example 4.4.4
 Page 111 (10th ed), Page 98 (11th ed) 
 ```{r}
-dpois(x = 3L, lambda = 2)
+dpois(x = 3L, lambda = 2) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.4.5
 Page 112 (10th ed), Page 98 (11th ed) 
 ```{r}
-ppois(q = 5L, lambda = 2, lower.tail = FALSE)
+ppois(q = 5L, lambda = 2, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.6.1
 Page 119 (10th ed), Page 106 (11th ed) 
 ```{r}
-pnorm(q = 2)
+pnorm(q = 2) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.6.2
 Page 120 (10th ed), Page 106 (11th ed) 
 ```{r}
-pnorm(2.55) - pnorm(-2.55)
-1 - 2 * pnorm(-2.55) # alternative solution
+(pnorm(2.55) - pnorm(-2.55)) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
+(1 - 2 * pnorm(-2.55)) |> 
+  label_percent(accuracy = .1)() |>
+  noquote() # alternative solution
 ```
 
 # Example 4.6.3
 Page 121 (10th ed), Page 107 (11th ed) 
 ```{r}
-pnorm(1.53) - pnorm(-2.74)
+(pnorm(1.53) - pnorm(-2.74)) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.6.4
 Page 121 (10th ed), Page 107 (11th ed) 
 ```{r}
-pnorm(2.71, lower.tail = FALSE)
+pnorm(2.71, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.6.5
 Page 122 (10th ed), Page 107 (11th ed) 
 ```{r}
-pnorm(2.45) - pnorm(.84)
+(pnorm(2.45) - pnorm(.84)) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.7.1
 Page 122 (10th ed), Page 109 (11th ed) 
 ```{r}
-pnorm(q = 3, mean = 5.4, sd = 1.3)
-pnorm(q = (3-5.4)/1.3) # manual solution
+pnorm(q = 3, mean = 5.4, sd = 1.3) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.7.2
 Page 125 (10th ed), Page 111 (11th ed) 
 ```{r}
-pnorm(q = 649, mean = 491, sd = 119) - pnorm(q = 292, mean = 491, sd = 119)
+(pnorm(q = 649, mean = 491, sd = 119) - pnorm(q = 292, mean = 491, sd = 119)) |> 
+  label_percent(accuracy = .1)() |>
+  noquote()
 ```
 
 # Example 4.7.3
 Page 122 (10th ed), Page 111 (11th ed) 
 ```{r}
-1e4L * pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE)
+pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE) |> 
+  label_percent(accuracy = .01)() |>
+  noquote()
 ```

@@ -22,9 +22,12 @@ library(DanielBiostatistics10th)
 
 
 
-# Example 8.2.1; Page 318 (10th ed), Page 280 (11th ed)
+# Example 8.2.1
+Page 318 (10th ed), Page 280 (11th ed)
 ```{r}
-head(EXA_C08_S02_01)
+EXA_C08_S02_01 |> head(n = 3L)
+```
+```{r}
 boxplot(selenium ~ type, data = EXA_C08_S02_01, main = 'Figure 8.2.7')
 (aov_d821 = aov(selenium ~ type, data = EXA_C08_S02_01)) 
 # ?stats::aov # analysis-of-variance model
@@ -32,13 +35,15 @@ anova(aov_d821)
 # ?stats::anova # ANOVA table
 ```
 
-# Example 8.2.2; Page 325 (10th ed), Page 286 (11th ed)
+# Example 8.2.2
+Page 325 (10th ed), Page 286 (11th ed)
 ```{r}
 (tukey_d822 <- TukeyHSD(aov_d821, conf.level = 0.95)) # Figure 8.2.8
 plot(tukey_d822)
 ```
 
-# Example 8.3.1; Page 339 (10th ed), Page 298 (11th ed)
+# Example 8.3.1
+Page 339 (10th ed), Page 298 (11th ed)
 ```{r}
 head(EXA_C08_S03_01)
 head(d831 <- within(EXA_C08_S03_01, expr = {
@@ -48,7 +53,8 @@ head(d831 <- within(EXA_C08_S03_01, expr = {
 anova(aov_831)
 ```
 
-# Example 8.4.1; Page 348 (10th ed), Page 307 (11th ed)
+# Example 8.4.1
+Page 348 (10th ed), Page 307 (11th ed)
 ```{r}
 head(EXA_C08_S04_01)
 head(d841 <- within(EXA_C08_S04_01, expr = {
@@ -58,8 +64,8 @@ head(d841 <- within(EXA_C08_S04_01, expr = {
 (aov_841 = aov(FUNC ~ SUBJ + TIME, data = d841))
 anova(aov_841)
 ```
-# Example 8.4.2; Page 352 (10th ed), Page 310 (11th ed)
-# (optional; out of the scope of this course)
+# Example 8.4.2
+Page 352 (10th ed), Page 310 (11th ed). Optional; out of the scope of this course.
 ```{r}
 head(EXA_C08_S04_02)
 names(EXA_C08_S04_02)[3:6] = c('baseline', '2wk', '4wk', '6wk')
@@ -97,7 +103,8 @@ anova(aov(OralScores ~ treatment * time + subject, data = d842b))
 # .. 'subject' is considered as a block factor 
 ```
 
-# Example 8.5.2; Page 364 (10th ed), Page 321 (11th ed)
+# Example 8.5.2
+Page 364 (10th ed), Page 321 (11th ed)
 ```{r}
 head(EXA_C08_S05_02)
 head(d852 <- within(EXA_C08_S05_02, expr = {
