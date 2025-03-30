@@ -7,7 +7,7 @@
 viewFreq(x)
 }
 \arguments{
-\item{x}{\link[base]{factor}}
+\item{x}{an \link[base]{ordered} \link[base]{factor}}
 }
 \value{
 Function \code{\link[=viewFreq]{viewFreq()}} returns a \link[flextable]{flextable}

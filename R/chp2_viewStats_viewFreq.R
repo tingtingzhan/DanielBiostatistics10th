@@ -51,7 +51,7 @@ viewStats <- function(x, na.rm = TRUE) {
 
 #' @title View Frequency Table
 #' 
-#' @param x \link[base]{factor}
+#' @param x an \link[base]{ordered} \link[base]{factor}
 #' 
 #' @details
 #' Function [viewFreq()] shows the (relative) frequencies and cumulative (relative) frequencies.
@@ -64,7 +64,7 @@ viewStats <- function(x, na.rm = TRUE) {
 #' @export
 viewFreq <- function(x) {
   
-  if (!inherits(x, what = 'factor')) stop('input must be factor')
+  if (!inherits(x, what = 'ordered')) stop('input must be ordered factor')
   f <- x |> table() # frequency
   cf <- cumsum(f) # cumulative frequency
   rcf <- f |> rev.default() |> cumsum() |> rev.default() # reversed cumulative frequency

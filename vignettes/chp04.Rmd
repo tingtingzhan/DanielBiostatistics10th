@@ -61,7 +61,7 @@ Page 93-97 (10th ed), Page 81-85 (11th ed)
 Table 4.2.1, 4.2.2, Table 4.2.3
 ```{r}
 d421 |>
-  factor() |>
+  ordered() |>
   viewFreq()
 ```
 

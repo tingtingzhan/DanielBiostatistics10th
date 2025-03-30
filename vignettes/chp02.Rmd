@@ -85,7 +85,7 @@ Page 23 (10th ed); Page 22 (11th ed).
 Table 2.3.2
 ```{r}
 EXA_C01_S04_01$AGE |>
-  cut(breaks = seq.int(from=30, to=90, by=10), right = FALSE) |>
+  cut(breaks = seq.int(from=30, to=90, by=10), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
 
