@@ -42,6 +42,8 @@ c(
   '`dim`', 'Dimensions', '`?base::dim`',
   '`head`, `tail`', 'First or last parts of an object', '`?utils::head`',
   '`names`', 'Names of an object', '`?base::names`',
+  '`nrow`', 'Number of rows', '`?base::nrow`',
+  '`sample`, `sample.int`', 'Random samples', '`?base::sample`; `?base::sample.int`', 
   '`search`', 'Search path', '`?base::search`',
   '`seed`', 'Random number generation seed', '`?base::set.seed`',
   '`seq`, `seq.int`', 'Sequence generation', '`?base::seq`; `?base::seq.int`'
@@ -81,8 +83,8 @@ EXA_C01_S04_01$AGE
 
 To answer Example 1.4.1,
 ```{r}
-set.seed(142); EXA_C01_S04_01 |>
-  sampleRow(size = 10L, replace = FALSE)
+(nr = EXA_C01_S04_01 |> nrow())
+set.seed(142); EXA_C01_S04_01[sample.int(n = nr, size = 10L), ]
 ```
 
 # Example 1.4.2

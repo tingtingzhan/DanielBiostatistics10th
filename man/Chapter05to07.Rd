@@ -98,16 +98,16 @@ number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 currently used only in one-sample \eqn{z}-test on proportion \link{prop_CLT}}
 }
 \value{
-Function \link{aggregated_z} returns an \code{'htest'} object when \code{null.value} is provided,
+Function \code{\link[=aggregated_z]{aggregated_z()}} returns an \code{'htest'} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \link{aggregated_t} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided,
+Function \code{\link[=aggregated_t]{aggregated_t()}} returns an \link[stats:t.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \link{prop_CLT} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided,
+Function \code{\link[=prop_CLT]{prop_CLT()}} returns an \link[stats:prop.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 
-Function \link{aggregated_var} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided,
+Function \code{\link[=aggregated_var]{aggregated_var()}} returns an \link[stats:var.test]{htest} object when \code{null.value} is provided,
 otherwise returns a length-two \link[base]{numeric} vector.
 }
 \description{
@@ -116,21 +116,21 @@ Chapter 6, \emph{Estimation} and
 Chapter 7, \emph{Hypothesis Testing}.
 }
 \details{
-Function \link{aggregated_z} performs one- or two-sample \eqn{z}-test
+Function \code{\link[=aggregated_z]{aggregated_z()}} performs one- or two-sample \eqn{z}-test
 using the aggregated statistics of sample mean(s) and sample size(s) when
 \code{null.value} is provided.  Otherwise, only the confidence interval based on
 \eqn{z}-distribution is computed.
 
-Function \link{aggregated_t} performs one- or two-sample \eqn{t}-test
+Function \code{\link[=aggregated_t]{aggregated_t()}} performs one- or two-sample \eqn{t}-test
 using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
 when \code{null.value} is provided.  Otherwise, only the confidence interval based on
 \eqn{t}-distribution is computed.
 
-Function \link{prop_CLT} performs one- or two-sample \eqn{z}-test on proportion(s),
+Function \code{\link[=prop_CLT]{prop_CLT()}} performs one- or two-sample \eqn{z}-test on proportion(s),
 using Central Limit Theorem when \code{null.value} is provided.
 Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 
-Function \link{aggregated_var} performs one-sample \eqn{\chi^2}-test on variance,
+Function \code{\link[=aggregated_var]{aggregated_var()}} performs one-sample \eqn{\chi^2}-test on variance,
 or two-sample \eqn{F}-test on variances, using the aggregated statistics of
 sample standard deviation(s) and sample size(s) when \code{null.value} is provided.
 Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
@@ -138,3 +138,4 @@ Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distri
 \seealso{
 \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 }
+\keyword{internal}

@@ -61,40 +61,41 @@
 #' 
 #' @details  
 #' 
-#' Function [aggregated_z] performs one- or two-sample \eqn{z}-test 
+#' Function [aggregated_z()] performs one- or two-sample \eqn{z}-test 
 #' using the aggregated statistics of sample mean(s) and sample size(s) when 
 #' `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{z}-distribution is computed.
 #' 
-#' Function [aggregated_t] performs one- or two-sample \eqn{t}-test 
+#' Function [aggregated_t()] performs one- or two-sample \eqn{t}-test 
 #' using the aggregated statistics of sample mean(s), sample standard deviation(s) and sample size(s)
 #' when `null.value` is provided.  Otherwise, only the confidence interval based on 
 #' \eqn{t}-distribution is computed.
 #' 
-#' Function [prop_CLT] performs one- or two-sample \eqn{z}-test on proportion(s),
+#' Function [prop_CLT()] performs one- or two-sample \eqn{z}-test on proportion(s),
 #' using Central Limit Theorem when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{z}-distribution is computed.
 #' 
-#' Function [aggregated_var] performs one-sample \eqn{\chi^2}-test on variance, 
+#' Function [aggregated_var()] performs one-sample \eqn{\chi^2}-test on variance, 
 #' or two-sample \eqn{F}-test on variances, using the aggregated statistics of 
 #' sample standard deviation(s) and sample size(s) when `null.value` is provided.  
 #' Otherwise, only the confidence interval based on \eqn{\chi^2}- or \eqn{F}-distribution is computed.
 #' 
 #' @return 
-#' Function [aggregated_z] returns an `'htest'` object when `null.value` is provided, 
+#' Function [aggregated_z()] returns an `'htest'` object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [aggregated_t] returns an \link[stats:t.test]{htest} object when `null.value` is provided, 
+#' Function [aggregated_t()] returns an \link[stats:t.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [prop_CLT] returns an \link[stats:prop.test]{htest} object when `null.value` is provided, 
+#' Function [prop_CLT()] returns an \link[stats:prop.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
-#' Function [aggregated_var] returns an \link[stats:var.test]{htest} object when `null.value` is provided, 
+#' Function [aggregated_var()] returns an \link[stats:var.test]{htest} object when `null.value` is provided, 
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @seealso \link[stats]{t.test} \link[stats]{prop.test} \link[stats]{var.test}
 #' 
+#' @keywords internal
 #' @name Chapter05to07
 #' @importFrom stats pnorm setNames
 #' @export

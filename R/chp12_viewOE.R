@@ -13,18 +13,21 @@
 #' 
 #' @return
 #' 
-#' Function [print_OE()] prints a table with observed and expected frequencies, as well as 
+#' Function [viewOE()] prints a table with observed and expected frequencies, as well as 
 #' the category-wise \eqn{\chi^2} statistics.  
 #' A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 #' 
 #' @keywords internal
 #' @export
-print_OE <- function(O, prob) {
-  if (!is.integer(O) || (nO <- length(O)) <= 1L || anyNA(O) || any(O < 0L)) stop('observed data must be non-negative integer')
+viewOE <- function(O, prob) {
+  if (!is.integer(O) || anyNA(O) || any(O < 0L)) stop('observed data must be non-negative integer')
+  
+  nc <- length(O)
+  if (nc <= 1L) stop('observed data must be non-negative integer')
   if (missing(prob)) {
-    prob <- rep(1/nO, times = nO)
+    prob <- rep(1/nc, times = nc)
   } else {
-    if (!is.numeric(prob) || length(prob) != nO || anyNA(prob) || any(prob < 0)) stop('prob must be non-negative numerics')
+    if (!is.numeric(prob) || length(prob) != nc || anyNA(prob) || any(prob < 0)) stop('prob must be non-negative numerics')
     prob <- prob / sum(prob)
   }
   E <- sum(O) * prob
