@@ -4,5 +4,6 @@ inst/extdeveloper
 inst/extlecturer
 inst/extsolution
 inst/extR
-
 ^CRAN-SUBMISSION$
+vignettes/.*_files
+vignettes/.*.html
