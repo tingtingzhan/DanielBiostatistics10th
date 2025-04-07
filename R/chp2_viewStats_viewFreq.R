@@ -36,7 +36,7 @@ viewStats <- function(x, na.rm = TRUE) {
     sprintf(fmt = 'coefficient of variation = %.1f%%\n', 1e2 * sd(x, na.rm = na.rm) / mean.default(x, na.rm = na.rm)) |> cat()
   } else cat('(coefficient of variation only applicable to all-non-negative observations)\n')
   Q <- quantile(x, probs = c(.25, .5, .75), na.rm = na.rm)
-  sprintf('Quartiles: Q1 = %.1f, Q2 = %.1f, Q3 = %.1f\n', Q[1L], Q[2L], Q[3L]) |> cat()
+  sprintf('quartiles: Q1 = %.1f, Q2 = %.1f, Q3 = %.1f\n', Q[1L], Q[2L], Q[3L]) |> cat()
   sprintf('IQR = %.1f\n', Q[3L] - Q[1L]) |> cat()
   sprintf('range = %.1f (%.1f ~ %.1f)\n', diff.default(range.default(x, na.rm = na.rm)), min(x, na.rm = na.rm), max(x, na.rm = na.rm)) |> cat()
   x |> skewness(na.rm = na.rm) |> sprintf(fmt = 'skewness = %.3f\n') |> cat()

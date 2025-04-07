@@ -30,67 +30,51 @@
 #' The endpoint (i.e., disease) must be on the rows and the test/risk on the columns.
 #' 
 #' @returns 
-#' Function [binTab] returns a two-by-two \link[base]{integer} \link[base]{matrix}.
+#' Function [binTab()] returns a two-by-two \link[base]{integer} \link[base]{matrix}.
 #' 
 #' @note 
 #' Function `caret::confusionMatrix` does not provide confidence intervals of 
 #' sensitivity, specificity, etc.
 #' 
 #' @examples 
-#' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
-#' binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
+#' matrix(c(7L, 3L, 8L, 6L), nrow = 2L) |> binTab()
+#' matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)) |> 
+#'  binTab()
 #' @keywords internal
 #' @importFrom stats setNames
-#' @name binTab
 #' @export
-binTab <- function(x) UseMethod(generic = 'binTab')
-
-#' @rdname binTab
-#' @export binTab.matrix
-#' @export
-binTab.matrix <- function(x) {
+binTab <- function(x) {
+  
   if (!is.matrix(x) || (typeof(x) != 'integer') || any(dim(x) != 2L)) stop('input must be 2*2 integer matrix')
   
-  # nm1 <- c('(+)', '(-)') # OLD!!!
-  nm1 <- c('(-)', '(+)') # c(0,1) # more intuitive!!
-  nm2 <- c('Endpoint', 'Test or Risk')
+  dnm <- dimnames(x)
   
-  if (!length(dnm <- dimnames(x))) {
-    dimnames(x) <- setNames(list(nm1, nm1), nm = nm2)
-    #class(x) <- c('binTab', class(x))
-    class(x) <- c('binTab', 'table') # to invoke ?flextable:::as_flextable.table
-    return(x)
-  } 
-  
-  if (!length(names(dnm))) {
-    names(dnm) <- nm2 
+  if (!length(dnm)) {
+    
+    dimnames(x) <- list(Endpoint = c('(-)', '(+)'), 'Test or Risk' = c('(-)', '(+)'))
+    
   } else {
-    # do nothing
-    # flextable will force ?base::make.names
-    #names(dnm)[1L] <- if (!nzchar(names(dnm)[1L]) || (names(dnm)[1L] == 'Endpoint')) 'Endpoint' else trimws(paste0(names(dnm)[1L], ' [Endpoint]'))
-    #names(dnm)[2L] <- if (!nzchar(names(dnm)[2L]) || (names(dnm)[2L] == 'Test/Risk')) 'Test/Risk' else trimws(paste0(names(dnm)[2L], ' [Test/Risk]'))
+
+    if (!length(names(dnm))) {
+      names(dnm) <- c('Endpoint', 'Test or Risk') 
+    } #else # do nothing
+    
+    dimnames(x)[] <- dnm |> lapply(FUN = \(nm) {
+      if (!length(nm)) return(c('(-)', '(+)'))
+      if (!all(nzchar(nm))) stop('do not allow zchar in rownames or colnames')
+      if (!(nm[1L] %in% c('FALSE', '(-)'))) nm[1L] <- paste(nm[1L], '(-)')
+      if (!(nm[2L] %in% c('TRUE', '(+)'))) nm[2L] <- paste(nm[2L], '(+)')
+      return(nm)
+    })
+    
   }
   
-  if (!length(dnm[[1L]])) dnm[[1L]] <- nm1 else {
-    if (!all(nzchar(dnm[[1L]]))) stop('do not allow zchar rownames')
-    if (!(dnm[[1L]][1L] %in% c('FALSE', '(-)'))) dnm[[1L]][1L] <- paste(dnm[[1L]][1L], '(-)')
-    if (!(dnm[[1L]][2L] %in% c('TRUE', '(+)'))) dnm[[1L]][2L] <- paste(dnm[[1L]][2L], '(+)')
-  }
-  if (!length(dnm[[2L]])) dnm[[2L]] <- nm1 else {
-    if (!all(nzchar(dnm[[2L]]))) stop('do not allow zchar rownames')
-    if (!(dnm[[2L]][1L] %in% c('FALSE', '(-)'))) dnm[[2L]][1L] <- paste(dnm[[2L]][1L], '(-)')
-    if (!(dnm[[2L]][2L] %in% c('TRUE', '(+)'))) dnm[[2L]][2L] <- paste(dnm[[2L]][2L], '(+)')
-  }
-  dimnames(x) <- dnm
-  #class(x) <- c('binTab', class(x))
   class(x) <- c('binTab', 'table') # to invoke ?flextable:::as_flextable.table
   return(x)
+  
 }
 
-#' @rdname binTab
-#' @export binTab.table
-#' @export
-binTab.table <- binTab.matrix
+
 
 
 
@@ -108,17 +92,15 @@ binTab.table <- binTab.matrix
 #' 
 #' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
 #' 
-#' @param print_flextable \link[base]{logical} scalar, default `TRUE`
-#' 
 #' @param ... potential parameters, currently not in use 
 #' 
 #' @details
-#' Function [print.binTab] prints the diagnostic test characteristics, 
+#' Function [summary.binTab] prints the diagnostic test characteristics, 
 #' e.g., sensitivity, specificity, predictive values, and diagnostic accuracy,
 #' together with their \eqn{95\%} Clopper-Pearson exact confidence intervals.
 #' 
 #' @returns 
-#' Function [print.binTab] \link[base]{invisible}-y returns a \link[base]{character} \link[base]{vector}.
+#' Function [summary.binTab] \link[base]{invisible}-y returns a \link[base]{character} \link[base]{vector}.
 #' 
 #' @note
 #' Function \link[e1071]{classAgreement} does not provide confidence interval of \eqn{\kappa}.
@@ -132,18 +114,15 @@ binTab.table <- binTab.matrix
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
 #' @importFrom flextable as_flextable
-#' @importFrom cli col_green col_cyan col_magenta style_bold
+#' @importFrom cli col_green col_cyan col_magenta
 #' @importFrom stats binom.test pnorm qnorm confint
-#' @export print.binTab
+#' @export summary.binTab
 #' @export
-print.binTab <- function(
+summary.binTab <- function(
     x, 
     prevalence, 
-    print_flextable = TRUE,
     ...
 ) {
-  
-  if (print_flextable) print(as_flextable(x)) # invokes ?flextable:::as_flextable.table
   
   x11 <- x[2L,2L] # (+,+)
   x00 <- x[1L,1L] # (-,-)
@@ -158,12 +137,12 @@ print.binTab <- function(
   ret <- c(ret, do.call(sprintf, c(list(
     fmt = 'Sensitivity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)', 
     1e2 * sens, 
-    col_green(sprintf(fmt = '=%d/%d', x11, xr[2L]))
+    sprintf(fmt = '=%d/%d', x11, xr[2L]) |> col_green()
   ), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
   ret <- c(ret, do.call(sprintf, c(list(
     fmt = 'Specificity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
     1e2 * spec, 
-    col_green(sprintf(fmt = '=%d/%d', x00, xr[1L]))
+    sprintf(fmt = '=%d/%d', x00, xr[1L]) |> col_green()
   ), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
   
   if (!missing(prevalence)) {
@@ -175,19 +154,19 @@ print.binTab <- function(
     ret <- c(ret, sprintf(
       fmt = 'Positive vs. Negative Predictive Value: %.3g%% vs. %.3g%%, %s', 
       1e2*ppv_, 1e2*npv_, 
-      col_cyan(sprintf(fmt = 'prevalence %.3g%%', 1e2*prevalence))
+      sprintf(fmt = 'prevalence %.3g%%', 1e2*prevalence) |> col_cyan()
     ))
     ret <- c(ret, '')
   } else {
-    ret <- c(ret, do.call(sprintf, c(list(
+    ret <- c(ret, do.call(what = sprintf, c(list(
       fmt = 'Positive Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
       1e2 * x11/xc[2L], 
-      col_green(sprintf(fmt = '=%d/%d', x11, xc[2L]))
+      sprintf(fmt = '=%d/%d', x11, xc[2L]) |> col_green()
     ), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
-    ret <- c(ret, do.call(sprintf, c(list(
+    ret <- c(ret, do.call(what = sprintf, c(list(
       fmt = 'Negative Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
       1e2 * x00/xc[1L], 
-      col_green(sprintf(fmt = '=%d/%d', x00, xc[1L]))
+      sprintf(fmt = '=%d/%d', x00, xc[1L]) |> col_green()
     ), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
     ret <- c(ret, '')
   }
@@ -221,13 +200,13 @@ print.binTab <- function(
     #  cat('\n')
   } # have not flipped
   
-  ret <- c(ret, do.call(sprintf, c(list(
+  ret <- c(ret, do.call(what = sprintf, c(list(
     fmt = 'Diagnose Accuracy: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
     1e2 * (x11+x00)/sum(x), 
-    col_green(sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)))
+    sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)) |> col_green()
   ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
   
-  cat(ret, sep = '\n')
+  ret |> cat(sep = '\n')
   
   return(invisible(ret))
   

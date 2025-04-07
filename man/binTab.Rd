@@ -2,15 +2,9 @@
 % Please edit documentation in R/chp3_binTab.R
 \name{binTab}
 \alias{binTab}
-\alias{binTab.matrix}
-\alias{binTab.table}
 \title{Boolean Test-&-Disease or Risk-&-Disease Table}
 \usage{
 binTab(x)
-
-\method{binTab}{matrix}(x)
-
-\method{binTab}{table}(x)
 }
 \arguments{
 \item{x}{(an R object convertible to a) \eqn{2\times 2} \link[base]{integer} \link[base]{matrix},
@@ -18,7 +12,7 @@ contingency table of two Boolean variables.
 The endpoint (i.e., disease) is on rows and the test/risk on columns.}
 }
 \value{
-Function \link{binTab} returns a two-by-two \link[base]{integer} \link[base]{matrix}.
+Function \code{\link[=binTab]{binTab()}} returns a two-by-two \link[base]{integer} \link[base]{matrix}.
 }
 \description{
 To create a Boolean test-&-disease or risk-&-disease table.
@@ -43,7 +37,8 @@ Function \code{caret::confusionMatrix} does not provide confidence intervals of
 sensitivity, specificity, etc.
 }
 \examples{
-binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L))
-binTab(matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)))
+matrix(c(7L, 3L, 8L, 6L), nrow = 2L) |> binTab()
+matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)) |> 
+ binTab()
 }
 \keyword{internal}
