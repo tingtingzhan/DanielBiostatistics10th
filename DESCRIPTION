@@ -23,6 +23,7 @@ Suggests:
     survival,
     survminer,
     knitr,
+    quarto,
     rmarkdown
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
         'cre'), email = 'tingtingzhan@gmail.com', comment =
@@ -32,4 +33,4 @@ LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-VignetteBuilder: knitr
+VignetteBuilder: quarto

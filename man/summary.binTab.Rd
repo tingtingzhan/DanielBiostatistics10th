@@ -4,10 +4,10 @@
 \alias{summary.binTab}
 \title{Print Boolean Test-&-Disease and/or Risk-&-Disease Table}
 \usage{
-\method{summary}{binTab}(x, prevalence, ...)
+\method{summary}{binTab}(object, prevalence, ...)
 }
 \arguments{
-\item{x}{a \link{binTab} object}
+\item{object}{a \link{binTab} object}
 
 \item{prevalence}{(optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease}
 

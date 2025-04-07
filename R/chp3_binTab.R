@@ -88,7 +88,7 @@ binTab <- function(x) {
 #' @description 
 #' Print Boolean test-&-disease and/or risk-&-disease table.
 #' 
-#' @param x a [binTab] object
+#' @param object a [binTab] object
 #' 
 #' @param prevalence (optional) \link[base]{numeric} scalar or \link[base]{vector}, prevalence of disease
 #' 
@@ -119,10 +119,12 @@ binTab <- function(x) {
 #' @export summary.binTab
 #' @export
 summary.binTab <- function(
-    x, 
+    object, 
     prevalence, 
     ...
 ) {
+  
+  x <- object; object <- NULL
   
   x11 <- x[2L,2L] # (+,+)
   x00 <- x[1L,1L] # (-,-)
