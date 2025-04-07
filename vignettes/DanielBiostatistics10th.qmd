@@ -18,7 +18,7 @@ vignette: >
 
 # Introduction
 
-This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of ***Biostatistics: A Foundation for Analysis in the Health Sciences***, [11th Edition](https://www.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+11th+Edition-p-9781119496571) by Wayne W. Daniel and Chad L. Cross.
+This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of ***Biostatistics: A Foundation for Analysis in the Health Sciences***, [10th Edition](https://dev.store.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+10th+Edition-p-9781119625506) by Wayne W. Daniel and Chad L. Cross.
 
 ## Note to Users
 
@@ -49,12 +49,15 @@ library(knitr) # for tables in this vignette
 c(
   '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
   '`$`', 'Extract parts of an object', '`` ?base::`$` ``',
+  '`aov`, `anova`', 'Analysis-of-variance (ANOVA) model; ANOVA table', '`?stats::aov`; `?stats::anova`',
   '`CRAN`, `R`', 'The Comprehensive R Archive Network', '<https://cran.r-project.org>',
   '`class`', 'Object class', '`?base::class`',
   '`cut`', 'Convert numeric to factor', '`?base::cut`; `?base::cut.default`',
   '`data.frame`', 'Data frame', '`?base::data.frame`',
   '`dim`', 'Dimensions', '`?base::dim`',
-  '`dbinom`, `pbinom`, etc.', 'Binomial density and distribution', '`?stats::dbinom`',
+  '`dbinom`, `pbinom`, `qbinom`', 'Binomial density, probability, quantile', '`?stats::dbinom`',
+  '`dpois`, `ppois`, `qpois`', 'Poisson density, probability, quantile', '`?stats::dpois`',
+  '`dnorm`, `pnorm`, `qnorm`', 'Normal density, probability, quantile', '`?stats::dnorm`',
   '`factor`', 'Factor', '`?base::factor`',
   '`flextable`', 'Flexible tables', '`?flextable::flextable`',
   '`head`, `tail`', 'First or last parts of an object', '`?utils::head`',
@@ -154,6 +157,56 @@ EXA_C01_S04_01$AGE |>
   viewFreq()
 ```
 
+### Exercise 2.3.1
+Page 30
+```{r}
+EXR_C02_S03_01$pindex |> viewStats()
+```
+```{r}
+EXR_C02_S03_01$pindex |>
+  cut(breaks = seq.int(0, 3, by = .5), right = FALSE, ordered_result = TRUE) |>
+  viewFreq()
+```
+
+### Exercise 2.3.2
+Page 31
+```{r}
+EXR_C02_S03_02$sizes |>
+  cut(breaks = seq(0, 30, by = 5), right = FALSE, ordered_result = TRUE) |>
+  viewFreq()
+```
+
+### Exercise 2.3.3
+Page 32
+```{r}
+EXR_C02_S03_03$bmi |> viewStats()
+```
+```{r}
+EXR_C02_S03_03$bmi |>
+  cut(breaks = seq.int(20, 55, by = 5), right = FALSE, ordered_result = TRUE) |>
+  viewFreq()
+```
+
+### Exercise 2.3.11
+Page 36
+```{r}
+EXR_C02_S03_11$SRratio |> viewStats()
+```
+```{r}
+EXR_C02_S03_11$SRratio |>
+  cut(breaks = seq(0, 1.2, by = .1), right = TRUE, ordered_result = TRUE) |>
+  viewFreq()
+```
+```{r}
+EXR_C02_S03_11$SRratio |>
+  cut(breaks = seq(0, 1.2, by = .1), right = FALSE, ordered_result = TRUE) |>
+  viewFreq()
+```
+
+
+
+
+
 ## Section 2.4 *Descriptive Statistics: Measures of Central Tendency*
 
 ### Example 2.4.1-2.4.6
@@ -164,23 +217,26 @@ Page 38-42 (10th ed); Page 30-34 (11th ed).
 EXA_C01_S04_01$AGE |> viewStats()
 ```
 
-
 ## Section 2.5 *Descriptive Statistics: Measures of Dispersion*
 
 ### Example 2.5.1-2.5.3
+
 Page 44-46 (10th ed); Page 35-41 (11th ed).
 
 See previous section.
 
-### Example 2.5.4 (omitted)
+### Example 2.5.4
 
 Page 49 (10th ed), Page 41 (11th ed)
+
+Data not available. Omitted.
 
 ### Example 2.5.5
 
 Page 50 (10th ed)
 
 ```{r}
+#| fig-width: 4
 EXA_C02_S05_05$GRF |> boxplot(main = 'EXA_C02_S05_05$GRF')
 ```
 
@@ -190,7 +246,7 @@ EXA_C02_S05_05$GRF |> viewStats()
 
 # Chapter 3: *Some Basic Probability Concepts*
 
-## Section 3.4 *Calculating the Probability of an Event* 
+## Section 3.4 *Calculating the Probability of an Event*
 
 ### Example 3.4.1 - 3.4.9
 
@@ -206,7 +262,7 @@ c(28L, 19L, 41L, 53L, 35L, 38L, 44L, 60L) |>
   as_flextable()
 ```
 
-## Section 3.5 *Bayes\' Theorem, Screening Tests, Sensitivity, Specificity, and Predictive Value Positive and Negative*
+## Section 3.5 *Bayes' Theorem, Screening Tests, Sensitivity, Specificity, and Predictive Value Positive and Negative*
 
 ### Example 3.5.1
 
@@ -227,6 +283,34 @@ d351 |> as_flextable()
 
 ```{r}
 d351 |> summary(prevalence = .113)
+```
+
+
+
+### Exercise 3.5.1
+Page 83 (10th ed)
+```{r}
+e351 = c(1380L - 21L, 775L - 744L, 21L, 744L) |> 
+  matrix(ncol = 2L) |>
+  binTab(nm = c('Disease', 'Symptom'))
+e351 |> as_flextable()
+e351 |> summary(prevalence = c(.0001, .001, .01, .1))
+```
+
+### Exercise 3.5.2
+Page 83 (10th ed)
+```{r}
+e352 = c(18L, 5L, 10L, 38L) |>
+  matrix(ncol = 2L) |>
+  binTab(nm = c('Confirmed Tear', 'Absent Bow-Tie'))
+e352 |> as_flextable()
+e351 |> summary()
+```
+### Exercise 3.5.3
+Page 83 (10th ed)
+```{r}
+ppv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
+npv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 ```
 
 # Chapter 4: *Probability Distributions*
@@ -292,34 +376,37 @@ dbinom(x = 4L, size = 10L, prob = .14) |>
 
 Page 103 (10th ed), Page 91 (11th ed).
 
-`p` for `probability` or `distribution`; calculates
+`p` for `probability`; calculates
 
 -   $\text{Pr}(X \leq x)$ if `lower.tail = TRUE` (default)
 -   $\text{Pr}(X > x)$ if `lower.tail = FALSE`
 
 ```{r}
-pL = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = TRUE)
-pL |> 
+pbinom(q = 5L, size = 25L, prob = .1, lower.tail = TRUE) |>
   label_percent(accuracy = .1)()
-pU = pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE)
-pU |> 
+pbinom(q = 5L, size = 25L, prob = .1, lower.tail = FALSE) |> 
   label_percent(accuracy = .1)()
-stopifnot(pL + pU == 1)
 ```
 
 ### Example 4.3.4
 
 Page 105 (10th ed), Page 92 (11th ed)
 
+#### (a)
+
 ```{r}
 dbinom(x = 7L, size = 12L, prob = .55) |> 
   label_percent(accuracy = .1)()
 ```
 
+#### (b)
+
 ```{r}
 pbinom(q = 5L, size = 12L, prob = .55) |> 
   label_percent(accuracy = .1)()
 ```
+
+#### (c)
 
 ```{r}
 pbinom(q = 7L, size = 12L, prob = .55, lower.tail = FALSE) |> 
@@ -460,7 +547,7 @@ pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE) |>
 Page 142 (10th ed)
 
 ```{r}
-aggregated_z(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
+z_test(xbar = 190, sd = 12.7, n = 10L, null.value = 185.6, alternative = 'greater')
 ```
 
 ### Example 5.3.3
@@ -470,16 +557,16 @@ Page 143 (10th ed)
 ```{r}
 (pnorm(125, mean = 120, sd = 15/sqrt(50)) - pnorm(115, mean = 120, sd = 15/sqrt(50))) |> 
   label_percent(accuracy = .1)()
-(aggregated_z(125, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value - 
-  aggregated_z(115, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value) |> 
+(z_test(125, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value - 
+  z_test(115, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value) |> 
   label_percent(accuracy = .1)()
 ```
 
 Page 127 (11th ed)
 
 ```{r}
-(aggregated_z(110, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value - 
-  aggregated_z(95, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value) |> 
+(z_test(110, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value - 
+  z_test(95, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value) |> 
   label_percent(accuracy = .1)()
 ```
 
@@ -490,7 +577,7 @@ Page 127 (11th ed)
 Page 145 (10th ed), Page 129 (11th ed)
 
 ```{r}
-aggregated_z(xbar = c(92, 105), sd = 20, n = 15L, null.value = 0, alternative = 'less') 
+z_test(xbar = c(92, 105), sd = 20, n = 15L, null.value = 0, alternative = 'less') 
 ```
 
 ### Example 5.4.2
@@ -498,7 +585,7 @@ aggregated_z(xbar = c(92, 105), sd = 20, n = 15L, null.value = 0, alternative = 
 Page 148 (10th ed),
 
 ```{r}
-aggregated_z(xbar = 20, sd = c(15, 20), n = c(35L, 40L), null.value = c(45, 30), alternative = 'greater')
+z_test(xbar = 20, sd = c(15, 20), n = c(35L, 40L), null.value = c(45, 30), alternative = 'greater')
 ```
 
 ## Section 5.5
@@ -508,7 +595,7 @@ aggregated_z(xbar = 20, sd = c(15, 20), n = c(35L, 40L), null.value = c(45, 30),
 Page 150 (10th ed),
 
 ```{r}
-prop_CLT(xbar = .4, n = 150L, null.value = .357, alternative = 'greater')
+prop_CLT(phat = .4, n = 150L, null.value = .357, alternative = 'greater')
 ```
 
 ### Example 5.5.2
@@ -516,7 +603,7 @@ prop_CLT(xbar = .4, n = 150L, null.value = .357, alternative = 'greater')
 Page 152 (10th ed),
 
 ```{r}
-prop_CLT(xbar = .45, n = 200L, null.value = .51, alternative = 'less')
+prop_CLT(phat = .45, n = 200L, null.value = .51, alternative = 'less')
 ```
 
 ## Section 5.6
@@ -526,7 +613,7 @@ prop_CLT(xbar = .45, n = 200L, null.value = .51, alternative = 'less')
 Page 155 (10th ed),
 
 ```{r}
-prop_CLT(xbar = .1, null.value = c(.28, .21), n = c(100L, 100L), alternative = 'greater')
+prop_CLT(phat = .1, null.value = c(.28, .21), n = c(100L, 100L), alternative = 'greater')
 ```
 
 ### Example 5.6.2
@@ -534,7 +621,7 @@ prop_CLT(xbar = .1, null.value = c(.28, .21), n = c(100L, 100L), alternative = '
 Page 155 (10th ed),
 
 ```{r}
-prop_CLT(xbar = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 'less')
+prop_CLT(phat = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 'less')
 ```
 
 # Chapter 6, *Estimation*
@@ -546,7 +633,7 @@ prop_CLT(xbar = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 
 Page 166 (10th ed), Page 147 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 22, n = 10L, sd = sqrt(45))
+z_test(xbar = 22, n = 10L, sd = sqrt(45))
 ```
 
 ### Example 6.2.2
@@ -554,7 +641,7 @@ aggregated_z(xbar = 22, n = 10L, sd = sqrt(45))
 Page 168 (10th ed), Page 149 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 84.3, n = 15L, sd = sqrt(144), conf.level = .99)
+z_test(xbar = 84.3, n = 15L, sd = sqrt(144), conf.level = .99)
 ```
 
 ### Example 6.2.3
@@ -562,7 +649,7 @@ aggregated_z(xbar = 84.3, n = 15L, sd = sqrt(144), conf.level = .99)
 Page 168 (10th ed), Page 150 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 17.2, n = 35L, sd = 8, conf.level = .9)
+z_test(xbar = 17.2, n = 35L, sd = 8, conf.level = .9)
 ```
 
 ### Example 6.2.4
@@ -570,8 +657,7 @@ aggregated_z(xbar = 17.2, n = 35L, sd = 8, conf.level = .9)
 Page 169 (10th ed), Page 150 (11th ed)
 
 ```{r}
-head(EXA_C06_S02_04)
-aggregated_z(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd = sqrt(.36))
+z_test(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd = sqrt(.36))
 ```
 
 ## Section 6.3
@@ -581,7 +667,7 @@ aggregated_z(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd 
 Page 173 (10th ed),
 
 ```{r}
-aggregated_t(xbar = 250.8, xsd = 130.9, n = 19L)
+t_test(xbar = 250.8, xsd = 130.9, n = 19L)
 ```
 
 ## Section 6.4
@@ -591,7 +677,7 @@ aggregated_t(xbar = 250.8, xsd = 130.9, n = 19L)
 Page 177 (10th ed),
 
 ```{r}
-aggregated_z(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L))
+z_test(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L))
 ```
 
 ### Example 6.4.2
@@ -599,7 +685,7 @@ aggregated_z(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L))
 Page 178 (10th ed),
 
 ```{r}
-aggregated_z(xbar = c(4.3, 13), sd = c(5.22, 8.97), n = c(328L, 64L), conf.level = .99)
+z_test(xbar = c(4.3, 13), sd = c(5.22, 8.97), n = c(328L, 64L), conf.level = .99)
 ```
 
 ### Example 6.4.3
@@ -607,7 +693,7 @@ aggregated_z(xbar = c(4.3, 13), sd = c(5.22, 8.97), n = c(328L, 64L), conf.level
 Page 180 (10th ed),
 
 ```{r}
-aggregated_t(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L), var.equal = TRUE)
+t_test(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L), var.equal = TRUE)
 ```
 
 ### Example 6.4.4
@@ -615,7 +701,7 @@ aggregated_t(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L), var.equal 
 Page 181 (10th ed),
 
 ```{r}
-aggregated_t(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L))
+t_test(xbar = c(4.7, 8.8), xsd = c(9.3, 11.5), n = c(18L, 10L))
 ```
 
 Welch slightly different from Cochran; textbook explained on Page 182
@@ -627,7 +713,7 @@ Welch slightly different from Cochran; textbook explained on Page 182
 Page 185 (10th ed),
 
 ```{r}
-prop_CLT(xbar = .18, n = 1220L)
+prop_CLT(phat = .18, n = 1220L)
 ```
 
 ## Section 6.6
@@ -674,7 +760,7 @@ Page 196 (10th ed),
 
 ```{r}
 d691 = c(9.7, 12.3, 11.2, 5.1, 24.8, 14.8, 17.7)
-aggregated_var(xsd = sd(d691), n = length(d691)) |> sqrt()
+var_test(xsd = sd(d691), n = length(d691)) |> sqrt()
 ```
 
 ## Section 6.10
@@ -684,7 +770,7 @@ aggregated_var(xsd = sd(d691), n = length(d691)) |> sqrt()
 Page 200 (10th ed),
 
 ```{r}
-aggregated_var(xsd = c(8.1, 5.9), n = c(16L, 4L))
+var_test(xsd = c(8.1, 5.9), n = c(16L, 4L))
 ```
 
 # Chapter 7: *Hypothesis Testing*
@@ -696,7 +782,7 @@ aggregated_var(xsd = c(8.1, 5.9), n = c(16L, 4L))
 Page 222 (10th ed); Page 201 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30)
+z_test(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30)
 ```
 
 ### Example 7.2.2
@@ -704,7 +790,7 @@ aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30)
 Page 226 (10th ed); Page 204 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30, alternative = 'less')
+z_test(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30, alternative = 'less')
 ```
 
 ### Example 7.2.3
@@ -712,8 +798,7 @@ aggregated_z(xbar = 27, sd = sqrt(20), n = 10L, null.value = 30, alternative = '
 Page 228 (10th ed); Page 206 (11th ed)
 
 ```{r}
-EXA_C07_S02_03 |> head(n = 3L)
-t.test(EXA_C07_S02_03$DAYS, mu = 15)
+EXA_C07_S02_03$DAYS |> t.test(mu = 15)
 ```
 
 ### Example 7.2.4
@@ -721,7 +806,7 @@ t.test(EXA_C07_S02_03$DAYS, mu = 15)
 Page 231 (10th ed); Page 209 (11th ed)
 
 ```{r}
-aggregated_z(xbar = 146, sd = 27, n = 157L, null.value = 140, alternative = 'greater')
+z_test(xbar = 146, sd = 27, n = 157L, null.value = 140, alternative = 'greater')
 ```
 
 ### Example 7.2.5
@@ -732,6 +817,11 @@ Page 232 (10th ed); Page 210 (11th ed)
 d725 = c(33.38, 32.15, 34.34, 33.95, 33.46, 34.13, 33.99, 34.10, 33.85, 34.23, 34.45, 34.19, 33.97, 32.73, 34.05) 
 d725 |> t.test(mu = 34.5)
 ```
+### Exercise 7.2.15
+Page 235
+```{r}
+EXR_C07_S02_15$Age |> t.test(mu = 30, alternative = 'less')
+```
 
 ## Section 7.3
 
@@ -740,7 +830,7 @@ d725 |> t.test(mu = 34.5)
 Page 237 (10th ed), Page 213 (11th ed)
 
 ```{r}
-aggregated_z(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L), null.value = 0)
+z_test(xbar = c(4.5, 3.4), sd = sqrt(c(1, 1.5)), n = c(12L, 15L), null.value = 0)
 ```
 
 ### Example 7.3.2
@@ -757,7 +847,7 @@ EXA_C07_S03_02 |>
 Page 240 (10th ed), Page 217 (11th ed)
 
 ```{r}
-aggregated_t(xbar = c(19.16, 9.53), xsd = c(5.29, 2.69), n = c(15L, 30L), null.value = 0)
+t_test(xbar = c(19.16, 9.53), xsd = c(5.29, 2.69), n = c(15L, 30L), null.value = 0)
 ```
 
 ### Example 7.3.4
@@ -765,9 +855,22 @@ aggregated_t(xbar = c(19.16, 9.53), xsd = c(5.29, 2.69), n = c(15L, 30L), null.v
 Page 242 (10th ed), Page 219 (11th ed)
 
 ```{r}
-aggregated_z(xbar = c(59.01, 46.61), sd = c(44.89, 34.85), n = c(53L, 54L), null.value = 0,
+z_test(xbar = c(59.01, 46.61), sd = c(44.89, 34.85), n = c(53L, 54L), null.value = 0,
   alternative = 'greater')
 ```
+
+### Exercise 7.3.4
+
+Page 246
+
+```{r}
+e734 = EXR_C07_S03_04 |>
+  within(expr = {
+    Group <- structure(Group, levels = c('PH', 'NT'), class = 'factor')
+  }) 
+t.test(Length ~ Group, data = e734, alternative = 'greater')
+```
+
 
 ## Section 7.4
 
@@ -790,6 +893,23 @@ Page 258 (10th ed), Page 232 (11th ed)
 prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater') 
 ```
 
+### Exercise 7.5.4
+Page 260, 
+```{r}
+prop_CLT(x = 175L, n = 250L, null.value = .6, alternative = 'greater', conf.level = .99)
+```
+### Exercise 7.5.5
+Page 260
+```{r}
+prop_CLT(x = 25L, n = 250L, null.value = .15, alternative = 'less')
+```
+
+### Exercise 7.5.6
+Page 260
+```{r}
+prop_CLT(x = 238L, n = 250L, null.value = .9, alternative = 'greater')
+```
+
 ## Section 7.6
 
 ### Example 7.6.1
@@ -807,7 +927,7 @@ prop_CLT(x = c(24L, 11L), n = c(44L, 29L), null.value = 0, alternative = 'greate
 Page 264 (10th ed), Page 238 (11th ed)
 
 ```{r}
-aggregated_var(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
+var_test(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
 ```
 
 ## Section 7.8
@@ -817,7 +937,7 @@ aggregated_var(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
 Page 268 (10th ed), Page 242 (11th ed)
 
 ```{r}
-aggregated_var(xsd = c(30.62, 11.37), n = 6L, null.value = 1, alternative = 'greater')
+var_test(xsd = c(30.62, 11.37), n = 6L, null.value = 1, alternative = 'greater')
 ```
 
 ### Example 7.8.2
@@ -826,7 +946,7 @@ Page 270 (10th ed),
 
 ```{r}
 EXA_C07_S03_02 |>
-  with(var.test(x = CONTROL, y = SCI))
+  with(expr = var.test(x = CONTROL, y = SCI))
 ```
 
 ## Section 7.9
@@ -876,9 +996,7 @@ boxplot(selenium ~ type, data = EXA_C08_S02_01, main = 'Figure 8.2.7')
 
 ```{r}
 aov_d821 = aov(selenium ~ type, data = EXA_C08_S02_01)
-# ?stats::aov # analysis-of-variance model
 aov_d821 |> anova() 
-# ?stats::anova # ANOVA table
 ```
 
 ### Example 8.2.2
@@ -940,10 +1058,7 @@ d842 = EXA_C08_S04_02 |>
 d842 |> head(n = 3L)
 ```
 
-Hypotheses: 
--   Main effect of 'treatment';
--   Main effect of 'time';
--   Interaction between 'treatment' and 'time'
+Hypotheses: - Main effect of 'treatment'; - Main effect of 'time'; - Interaction between 'treatment' and 'time'
 
 ```{r}
 d842 |> 
@@ -968,6 +1083,7 @@ d842 |>
 ```
 
 An equivalent ANOVA model
+
 ```{r}
 d842 |> 
   aov(formula = OralScores ~ treatment * time + subject) |> 
@@ -1534,8 +1650,7 @@ chisq.test(t1351, correct = FALSE)
 Page 691,
 
 ```{r}
-head(EXA_C13_S06_01)
-with(EXA_C13_S06_01, wilcox.test(X, Y, exact = FALSE, alternative = 'less'))
+EXA_C13_S06_01 |> with(expr = wilcox.test(X, Y, exact = FALSE, alternative = 'less'))
 ```
 
 ## Section 13.7
@@ -1556,15 +1671,15 @@ ks.test(EXA_C13_S07_01$GLUCOSE, y = pnorm, mean = 80, sd = 6)
 Page 705 (10th ed), Page 611 (11th ed)
 
 ```{r}
-(d1381 = data.frame(Air = c(12.22, 28.44, 28.13, 38.69, 54.91),
-                    Benzaldehyde = c(3.68, 4.05, 6.47, 21.12, 3.33),
-                    Acetaldehyde = c(54.36, 27.87, 66.81, 46.27, 30.19))) # Table 13.8.1
-with(data = reshape2::melt(
-  data = d1381, 
-  id.vars = NULL, 
-  value.name = 'Eosinophil', 
-  variable.name = 'Exposure'
-), expr = kruskal.test(x = Eosinophil, g = Exposure))
+data.frame(Air = c(12.22, 28.44, 28.13, 38.69, 54.91), 
+           Benzaldehyde = c(3.68, 4.05, 6.47, 21.12, 3.33), 
+           Acetaldehyde = c(54.36, 27.87, 66.81, 46.27, 30.19)) |>
+  reshape2::melt(
+    id.vars = NULL, 
+    value.name = 'Eosinophil', 
+    variable.name = 'Exposure'
+  ) |>
+  with(expr = kruskal.test(x = Eosinophil, g = Exposure))
 ```
 
 ### Example 13.8.2;
@@ -1572,13 +1687,13 @@ with(data = reshape2::melt(
 Page 708 (10th ed), Page 613 (11th ed)
 
 ```{r}
-head(EXA_C13_S08_02)
-with(data = reshape2::melt(
-  data = EXA_C13_S08_02, 
-  id.vars = NULL, 
-  value.name = 'Value', 
-  variable.name = 'Hospital'
-), expr = kruskal.test(x = Value, g = Hospital))
+EXA_C13_S08_02 |>
+  reshape2::melt(
+    id.vars = NULL, 
+    value.name = 'Value', 
+    variable.name = 'Hospital'
+  ) |>
+  with(expr = kruskal.test(x = Value, g = Hospital))
 ```
 
 ## Section 13.9
@@ -1588,11 +1703,9 @@ with(data = reshape2::melt(
 Page 713 (10th ed); Page 618 (11th ed)
 
 ```{r}
-head(EXA_C13_S09_01)
-m1391 = as.matrix(EXA_C13_S09_01[LETTERS[1:3]], rownames.force = TRUE)
-names(dimnames(m1391)) = c('Therapist', 'Model')
-m1391 # Table 13.9.1
-friedman.test(m1391)
+EXA_C13_S09_01[LETTERS[1:3]] |>
+  as.matrix(rownames.force = TRUE) |>
+  friedman.test()
 ```
 
 ### Example 13.9.2;
@@ -1600,11 +1713,9 @@ friedman.test(m1391)
 Page 715 (10th ed); Page 620 (11th ed)
 
 ```{r}
-head(EXA_C13_S09_02)
-m1392 = as.matrix(EXA_C13_S09_02[LETTERS[1:4]], rownames.force = TRUE)
-names(dimnames(m1392)) = c('Animal', 'Dose')
-m1392 # Table 13.9.2
-friedman.test(m1392)
+EXA_C13_S09_02[LETTERS[1:4]] |>
+  as.matrix(rownames.force = TRUE) |>
+  friedman.test()
 ```
 
 ## Section 13.10
@@ -1614,8 +1725,7 @@ friedman.test(m1392)
 Page 720,
 
 ```{r}
-head(EXA_C13_S10_01, n = 3L)
-with(EXA_C13_S10_01, cor.test(X, Y, method = 'spearman'))
+EXA_C13_S10_01 |> with(expr = cor.test(X, Y, method = 'spearman'))
 ```
 
 ### Example 13.10.2;
@@ -1623,8 +1733,7 @@ with(EXA_C13_S10_01, cor.test(X, Y, method = 'spearman'))
 Page 722,
 
 ```{r}
-head(EXA_C13_S10_02, n = 3L)
-with(EXA_C13_S10_02, cor.test(V2, V3, method = 'spearman', exact = FALSE))
+EXA_C13_S10_02 |> with(expr = cor.test(V2, V3, method = 'spearman', exact = FALSE))
 ```
 
 ## Section 13.11
@@ -1650,7 +1759,6 @@ mblm::mblm(testosterone ~ citricAcid, repeated = FALSE) |> summary() # Figure 13
 Page 756 (10th ed), Page 652 (11th ed).
 
 ```{r}
-EXA_C14_S03_01 |> head(n = 3L)
 d1431 = EXA_C14_S03_01 |> 
   within(expr = {
     TIME = .difftime(TIME, units = 'months')
@@ -1663,7 +1771,8 @@ head(d1431$OS)
 Table 14.3.2
 
 ```{r}
-summary(sf_1431 <- survfit(OS ~ TUMOR, data = d1431))
+sf_1431 = survfit(OS ~ TUMOR, data = d1431)
+sf_1431 |> summary()
 ```
 
 Figure 14.3.1
@@ -1706,34 +1815,34 @@ survdiff(OS ~ TUMOR, data = d1431)
 Page 769 (10th ed), Page 663 (11th ed)
 
 ```{r}
-head(EXA_C14_S05_01)
-head(d1451 <- within(EXA_C14_S05_01, expr = {
-  time = .difftime(time, units = 'weeks')
-  PFS = Surv(time, status)
-  drug = relevel(structure(drug, levels = c('Opiate', 'Other'), class = 'factor'), ref = 'Other')
-}))
+
+d1451 = EXA_C14_S05_01 |> 
+  within(expr = {
+    time = .difftime(time, units = 'weeks')
+    PFS = Surv(time, status)
+    drug = relevel(structure(drug, levels = c('Opiate', 'Other'), class = 'factor'), ref = 'Other')
+})
 ```
 
 ```{r}
-summary(model1_1451 <- coxph(PFS ~ drug + age, data = d1451))
+model1_1451 = coxph(PFS ~ drug + age, data = d1451)
+model1_1451 |> summary()
 ```
 
-'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.407, p \< .001) With 'proportional hazard' assumption, we don't need to discuss Opiate vs. Other at any specific time point
+'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.407, $p < .001$) With 'proportional hazard' assumption, we don't need to discuss Opiate vs. Other at any specific time point
 
 ```{r}
-confint(model1_1451)
+model1_1451 |> confint()
 ```
 
 'age' is not significant (p = .772), so it should be removed from the model
 
 ```{r}
-summary(model2_1451 <- coxph(PFS ~ drug, data = d1451))
-confint(model2_1451)
+model2_1451 = coxph(PFS ~ drug, data = d1451)
+model2_1451 |> summary()
+model2_1451 |> confint()
 ```
 
-'Opiate' has higher hazard compared to Drug='Other' (hazard ratio (HR) = 9.923, p \< .001)
-
-plot
 
 ```{r}
 sf_1451 = survfit(PFS ~ drug, data = d1451)

@@ -13,9 +13,11 @@
 #' contingency table of two Boolean variables.
 #' The endpoint (i.e., disease) is on rows and the test/risk on columns.
 #' 
+#' @param nm \link[base]{length}-2 \link[base]{character} \link[base]{vector}
+#' 
 #' @details
 #' 
-#' Function [binTab] creates a \eqn{2\times 2} test-&-disease contingency table with layout
+#' Function [binTab()] creates a \eqn{2\times 2} test-&-disease contingency table with layout
 #' \tabular{lcc}{
 #'  \tab Test (\eqn{-}) \tab Test (\eqn{+}) \cr
 #' Disease (\eqn{-}) \tab \eqn{x_{--}} \tab \eqn{x_{-+}} \cr
@@ -43,7 +45,7 @@
 #' @keywords internal
 #' @importFrom stats setNames
 #' @export
-binTab <- function(x) {
+binTab <- function(x, nm = c('Endpoint', 'Test or Risk')) {
   
   if (!is.matrix(x) || (typeof(x) != 'integer') || any(dim(x) != 2L)) stop('input must be 2*2 integer matrix')
   
@@ -51,20 +53,24 @@ binTab <- function(x) {
   
   if (!length(dnm)) {
     
-    dimnames(x) <- list(Endpoint = c('(-)', '(+)'), 'Test or Risk' = c('(-)', '(+)'))
+    dimnames(x) <- list(c('(-)', '(+)'), c('(-)', '(+)')) |> setNames(nm = nm)
     
   } else {
 
-    if (!length(names(dnm))) {
-      names(dnm) <- c('Endpoint', 'Test or Risk') 
-    } #else # do nothing
+    ndnm <- names(dnm)
+    if (!length(ndnm)) {
+      names(dimnames(x)) <- nm
+    } else if (!all(nzchar(ndnm))) {
+      id <- !nzchar(ndnm)
+      names(dimnames(x))[id] <- nm[id]
+    } # else do nothing
     
-    dimnames(x)[] <- dnm |> lapply(FUN = \(nm) {
-      if (!length(nm)) return(c('(-)', '(+)'))
-      if (!all(nzchar(nm))) stop('do not allow zchar in rownames or colnames')
-      if (!(nm[1L] %in% c('FALSE', '(-)'))) nm[1L] <- paste(nm[1L], '(-)')
-      if (!(nm[2L] %in% c('TRUE', '(+)'))) nm[2L] <- paste(nm[2L], '(+)')
-      return(nm)
+    dimnames(x)[] <- dnm |> lapply(FUN = \(i) {
+      if (!length(i)) return(c('(-)', '(+)'))
+      if (!all(nzchar(i))) stop('do not allow zchar in rownames or colnames')
+      if (!(i[1L] %in% c('FALSE', '(-)'))) i[1L] <- paste(i[1L], '(-)')
+      if (!(i[2L] %in% c('TRUE', '(+)'))) i[2L] <- paste(i[2L], '(+)')
+      return(i)
     })
     
   }

@@ -20,7 +20,7 @@
 #' @param sig.level \link[base]{numeric} scalar, significance level (i.e., Type-I-error rate), default \eqn{.05}
 #' 
 #' @details 
-#' Function [power_z] calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
+#' Function [power_z()] calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test
 #' \itemize{
 #' \item{\eqn{H_0: \mu = \mu_0} vs. \eqn{H_A: \mu \neq \mu_0}, if `alternative = 'two.sided'`}
 #' \item{\eqn{H_0: \mu \leq \mu_0} vs. \eqn{H_A: \mu > \mu_0}, if `alternative = 'greater'`}
@@ -33,6 +33,7 @@
 #' 
 #' @seealso \link[stats]{power.t.test}
 #' 
+#' @keywords internal
 #' @importFrom stats pnorm
 #' @export
 power_z <- function(
