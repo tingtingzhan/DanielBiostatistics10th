@@ -400,6 +400,45 @@ ppv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 npv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 ```
 
+## Review
+
+### Review 3
+Page 85 (10th ed)
+```{r}
+c(319L, 130L, 88L, 41L, 738L, 329L, 402L, 95L) |>
+  array(dim = c(4L, 2L), dimnames = list(
+    MaritalStatus = c('Currently Married', 'Divorced', 'Widowed', 'Unmarried'),
+    Ethnicity = c('Hispanic', 'Non-Hispanic'))) |>
+  as.table() |>
+  as_flextable()
+```
+
+### Review 5
+Page 87 (10th ed) 
+```{r}
+c(9L, 20L, 5L, 4L, 4L, 2L, 17L, 3L, 7L, 13L, 6L, 15L, 8L, 4L, 9L, 17L, 52L, 16L, 15L, 26L) |>
+  array(dim = c(5L, 3L), dimnames = list(
+    Personality = c('O', 'A', 'S', 'N', 'U'), 
+    Group = c('ATPD (1)', 'PS (2)', 'BSAD (3)'))) |>
+  as.table() |> 
+  as_flextable()
+```
+
+### Review 9
+Page 88 (10th ed)
+```{r}
+r39 = c(115849L, 112L, 2244L, 2991L) |>
+  matrix(nrow = 2L, dimnames = list(
+    'CancerInRegistry' = c('No', 'Yes'),
+    'CancerReported' = c('No', 'Yes'))) |>
+  binTab()
+r39 |> as_flextable()
+```
+```{r}
+r39 |> summary()
+```
+
+
 ## Large Data Set
 
 Page 90
@@ -638,6 +677,104 @@ pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE) |>
   label_percent(accuracy = .01)()
 ```
 
+
+## Review
+
+### Review 15
+Page 130
+```{r}
+dbinom(x = 7L, size = 10L, prob = .35) |> 
+  label_percent(accuracy = .1)()
+pbinom(q = 5L, size = 10L, prob = .35, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)()
+dbinom(x = 0L, size = 10L, prob = .35) |> 
+  label_percent(accuracy = .1)()
+(pbinom(q = 6L, size = 10L, prob = .35) - pbinom(q = 2L, size = 10L, prob = .35)) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 17
+Page 130, 
+```{r}
+dpois(10L, lambda = 15.8) |> 
+  label_percent(accuracy = .1)()
+(ppois(15L, lambda = 15.8) - ppois(4L, lambda = 15.8)) |> 
+  label_percent(accuracy = .1)()
+ppois(10L, lambda = 15.8, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)()
+ppois(7L, lambda = 15.8) |> 
+  label_percent(accuracy = .1)()
+(ppois(11L, lambda = 15.8) - ppois(8L, lambda = 15.8)) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 19
+Page 131, 
+```{r}
+pbinom(6L, size = 8L, prob = .8) |> 
+  label_percent(accuracy = .1)()
+pbinom(6L, size = 8L, prob = .8, lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)()
+dbinom(8L, size = 8L, prob = .8) |> 
+  label_percent(accuracy = .1)()
+pbinom(3L, size = 8L, prob = .8) |> 
+  label_percent(accuracy = .1)()
+(pbinom(7L, size = 8L, prob = .8) - pbinom(3L, size = 8L, prob = .8)) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 20
+
+Page 131 (10th ed)
+```{r}
+dpois(0L, lambda = 1.3) |> 
+  label_percent(accuracy = .1)()
+ppois(1L, lambda = 1.3) |> 
+  label_percent(accuracy = .1)()
+ppois(4L, lambda = 1.3) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 23
+Page 131 (10th ed), 
+```{r}
+pnorm(200, mean = 500, sd = sqrt(1e4)) |> 
+  label_percent(accuracy = .1)()
+pnorm(650, mean = 500, sd = sqrt(1e4), lower.tail = FALSE) |> 
+  label_percent(accuracy = .1)()
+(pnorm(675, mean = 500, sd = sqrt(1e4)) - pnorm(350, mean = 500, sd = sqrt(1e4))) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 26
+Page 132 (10th ed), 
+```{r}
+(rev426 = qnorm((1-.754)/2, lower.tail = FALSE))
+(pnorm(rev426) - pnorm(-rev426)) |> 
+  label_percent(accuracy = .1)()
+```
+
+### Review 27
+Page 132 (10th ed)
+```{r}
+qnorm(.0094, mean = 100, sd = 15, lower.tail = TRUE)
+qnorm(.1093, mean = 100, sd = 15, lower.tail = FALSE)
+qnorm(.5+.4778, mean = 100, sd = 15, lower.tail = TRUE) 
+qnorm(.9660+((1-.9660)/2), mean = 100, sd = 15, lower.tail = TRUE) 
+```
+
+### Review 28
+Page 132 (10th ed)
+```{r}
+# (40-mu)/sigma = qnorm(.0080)
+(mu428 = 40 - qnorm(.0080) * 10)
+qnorm(.0080, mean = mu428, sd = 10, lower.tail = TRUE)
+```
+
+
+
+
+
 # Chapter 5, *Some Important Sampling Distributions*
 
 ## Section 5.3
@@ -723,6 +860,62 @@ Page 155 (10th ed),
 ```{r}
 prop_CLT(phat = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 'less')
 ```
+
+## Review
+
+### Review 11
+Page 158 (10th ed).
+```{r}
+pnorm(25, mean = 23.1, sd = 3.7/sqrt(45L), lower.tail = FALSE)
+```
+```{r}
+z_test(xbar = 25, n = 45L, sd = 3.7, null.value = 23.1, alternative = 'greater')
+```
+
+### Review 12
+Page 158 (10th ed).
+
+```{r}
+pnorm(24, mean = 24.7, sd = 3.3/sqrt(50L), lower.tail = TRUE) |> 
+  label_percent(accuracy = .1)()
+```
+```{r}
+z_test(xbar = 24, n = 50L, sd = 3.3, null.value = 24.7, alternative = 'less')
+```
+
+### Review 13
+Page 158 (10th ed).
+```{r}
+z_test(xbar = 3, n = c(45L, 50L), sd = c(3.7, 3.3), null.value = c(23.1, 24.7), alternative = 'greater')
+```
+
+### Review 14
+Page 158 (10th ed)
+
+### Review 17
+Page 159, 
+```{r}
+prop_CLT(phat = .25, n = 65L, null.value = .19, alternative = 'greater')
+```
+### Review 18
+Page 159, 
+```{r}
+prop_CLT(phat = .2, n = 220L, null.value = .17, alternative = 'greater')
+```
+### Review 19
+Page 159, 
+```{r}
+prop_CLT(phat = .2, n = 250L, null.value = .23, alternative = 'less')
+```
+### Review 20
+Page 159
+```{r}
+prop_CLT(phat = .05, n = c(250L, 220L), null.value = c(.23, .17), alternative = 'less')
+```
+
+### Review 21
+(not done)
+
 
 # Chapter 6, *Estimation*
 

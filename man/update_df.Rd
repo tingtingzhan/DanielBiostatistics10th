@@ -9,7 +9,10 @@ update_df(x, restriction)
 \arguments{
 \item{x}{returned object of function \link[stats]{chisq.test}}
 
-\item{restriction}{\link[base]{integer} scalar, number of additional restrictions}
+\item{restriction}{\link[base]{integer} scalar,
+number of additional restrictions.
+Or, \link[base]{character} \link[base]{vector},
+brief explanation of each additional restriction.}
 }
 \description{
 Additional Restriction on \link[stats]{chisq.test}
