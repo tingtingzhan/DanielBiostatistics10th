@@ -72,7 +72,7 @@ var_test <- function(
       if (n0 != 1L) stop('`null.value` must be len-1 for ', method)
       null.value <- setNames(null.value, nm = 'variance')
       v_stat <- setNames((df * xvar) / null.value, nm = 'Chi-Squared')
-      pval <- unname(pchisq(v_stat, df = df))
+      pval <- pchisq(v_stat, df = df) |> unname()
     }
     switch(alternative, two.sided = {
       if (has_null) pval <- 2 * min(pval, 1-pval)

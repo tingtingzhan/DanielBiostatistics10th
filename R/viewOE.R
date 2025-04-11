@@ -38,3 +38,33 @@ viewOE <- function(x) {
 }
 
 
+
+#' @title Additional Restriction on \link[stats]{chisq.test}
+#' 
+#' @param x returned object of function \link[stats]{chisq.test}
+#' 
+#' @param restriction \link[base]{integer} scalar, number of additional restrictions
+#' 
+#' @keywords internal
+#' @export
+update_df <- function(x, restriction) {
+  
+  if (length(restriction) != 1L || !is.integer(restriction) || is.na(restriction) || restriction <= 0L || restriction > x$parameter) stop('illegal additional `restriction`')
+  
+  x$parameter[] <- x$parameter - restriction
+  
+  x$p.value <- x$statistic |> 
+    pchisq(df = x$parameter, lower.tail = FALSE) |>
+    unname()
+  
+  x$method <- paste(x$method, sprintf(fmt = 'Additional Restriction: %d', restriction), sep = '\n\n')
+  
+  return(x)
+  
+}
+
+
+
+
+
+

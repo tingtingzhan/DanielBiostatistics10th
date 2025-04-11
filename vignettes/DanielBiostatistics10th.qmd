@@ -53,6 +53,7 @@ c(
   '`$`', 'Extract parts of an object', '`` ?base::`$` ``',
   '`aov`, `anova`', 'Analysis-of-variance (ANOVA) model; ANOVA table', '`?stats::aov`; `?stats::anova`',
   '`CRAN`, `R`', 'The Comprehensive R Archive Network', '<https://cran.r-project.org>',
+  '`chisq.test`', 'Pearson\'s Chi-squared Test', '`?stats::chisq.test`',
   '`class`', 'Object class', '`?base::class`',
   '`cut`', 'Convert numeric to factor', '`?base::cut`; `?base::cut.default`',
   '`data.frame`', 'Data frame', '`?base::data.frame`',
@@ -160,10 +161,13 @@ EXA_C01_S04_01$AGE |>
 ```
 
 ### Exercise 2.3.1
+
 Page 30
+
 ```{r}
 EXR_C02_S03_01$pindex |> viewStats()
 ```
+
 ```{r}
 EXR_C02_S03_01$pindex |>
   cut(breaks = seq.int(0, 3, by = .5), right = FALSE, ordered_result = TRUE) |>
@@ -171,7 +175,9 @@ EXR_C02_S03_01$pindex |>
 ```
 
 ### Exercise 2.3.2
+
 Page 31
+
 ```{r}
 EXR_C02_S03_02$sizes |>
   cut(breaks = seq(0, 30, by = 5), right = FALSE, ordered_result = TRUE) |>
@@ -179,10 +185,13 @@ EXR_C02_S03_02$sizes |>
 ```
 
 ### Exercise 2.3.3
+
 Page 32
+
 ```{r}
 EXR_C02_S03_03$bmi |> viewStats()
 ```
+
 ```{r}
 EXR_C02_S03_03$bmi |>
   cut(breaks = seq.int(20, 55, by = 5), right = FALSE, ordered_result = TRUE) |>
@@ -190,24 +199,24 @@ EXR_C02_S03_03$bmi |>
 ```
 
 ### Exercise 2.3.11
+
 Page 36
+
 ```{r}
 EXR_C02_S03_11$SRratio |> viewStats()
 ```
+
 ```{r}
 EXR_C02_S03_11$SRratio |>
   cut(breaks = seq(0, 1.2, by = .1), right = TRUE, ordered_result = TRUE) |>
   viewFreq()
 ```
+
 ```{r}
 EXR_C02_S03_11$SRratio |>
   cut(breaks = seq(0, 1.2, by = .1), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
-
-
-
-
 
 ## Section 2.4 *Descriptive Statistics: Measures of Central Tendency*
 
@@ -287,10 +296,10 @@ d351 |> as_flextable()
 d351 |> summary(prevalence = .113)
 ```
 
-
-
 ### Exercise 3.5.1
+
 Page 83 (10th ed)
+
 ```{r}
 e351 = c(1380L - 21L, 775L - 744L, 21L, 744L) |> 
   matrix(ncol = 2L) |>
@@ -300,7 +309,9 @@ e351 |> summary(prevalence = c(.0001, .001, .01, .1))
 ```
 
 ### Exercise 3.5.2
+
 Page 83 (10th ed)
+
 ```{r}
 e352 = c(18L, 5L, 10L, 38L) |>
   matrix(ncol = 2L) |>
@@ -308,10 +319,15 @@ e352 = c(18L, 5L, 10L, 38L) |>
 e352 |> as_flextable()
 e351 |> summary()
 ```
+
 ### Exercise 3.5.3
+
 Page 83 (10th ed)
+
 ```{r}
 ppv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
+```
+```{r}
 npv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 ```
 
@@ -819,8 +835,11 @@ Page 232 (10th ed); Page 210 (11th ed)
 d725 = c(33.38, 32.15, 34.34, 33.95, 33.46, 34.13, 33.99, 34.10, 33.85, 34.23, 34.45, 34.19, 33.97, 32.73, 34.05) 
 d725 |> t.test(mu = 34.5)
 ```
+
 ### Exercise 7.2.15
+
 Page 235
+
 ```{r}
 EXR_C07_S02_15$Age |> t.test(mu = 30, alternative = 'less')
 ```
@@ -870,9 +889,11 @@ e734 = EXR_C07_S03_04 |>
   within(expr = {
     Group <- structure(Group, levels = c('PH', 'NT'), class = 'factor')
   }) 
-t.test(Length ~ Group, data = e734, alternative = 'greater')
 ```
 
+```{r}
+t.test(Length ~ Group, data = e734, alternative = 'greater')
+```
 
 ## Section 7.4
 
@@ -896,18 +917,25 @@ prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater')
 ```
 
 ### Exercise 7.5.4
-Page 260, 
+
+Page 260,
+
 ```{r}
 prop_CLT(x = 175L, n = 250L, null.value = .6, alternative = 'greater', conf.level = .99)
 ```
+
 ### Exercise 7.5.5
+
 Page 260
+
 ```{r}
 prop_CLT(x = 25L, n = 250L, null.value = .15, alternative = 'less')
 ```
 
 ### Exercise 7.5.6
+
 Page 260
+
 ```{r}
 prop_CLT(x = 238L, n = 250L, null.value = .9, alternative = 'greater')
 ```
@@ -1136,7 +1164,7 @@ plot(AT ~ Waist, data = EXA_C09_S03_01,
 Page 432 (10th ed), Page 372 (11th ed) Table 9.4.1. Page 434 (10th ed).
 
 ```{r}
-anova(m931)
+m931 |> anova()
 ```
 
 ### Example 9.4.2
@@ -1144,13 +1172,13 @@ anova(m931)
 Page 436 (10th ed), Page 375 (11th ed)
 
 ```{r}
-summary(m931)
+m931 |> summary()
 ```
 
 Page 438 (10th ed).
 
 ```{r}
-confint(m931)
+m931 |> confint()
 ```
 
 ### Example 9.4.3
@@ -1162,7 +1190,7 @@ Page 376 (11th ed). Omitted
 Page 440 (10th ed). Page 379 (11th ed)
 
 ```{r}
-plot(m931, which = 1, main = 'Figure 9.4.8 (10th) or 9.4.9 (11th)')
+m931 |> plot(which = 1, main = 'Figure 9.4.8 (10th) or 9.4.9 (11th)')
 ```
 
 ## Section 9.7
@@ -1177,14 +1205,20 @@ EXA_C09_S07_01 |> head(n = 3L)
 
 ```{r}
 plot(CV ~ HEIGHT, data = EXA_C09_S07_01, xlab = 'Height (cm)', ylab = 'Cv (units)')
+```
+
+```{r}
 m971 = lm(CV ~ HEIGHT, data = EXA_C09_S07_01)
-summary(m971)
+```
+
+```{r}
+m971 |> summary()
 ```
 
 Figure 9.7.3; Page 450 (10th ed)
 
 ```{r}
-anova(m971)
+m971 |> anova()
 ```
 
 ### Example 9.7.2
@@ -1192,7 +1226,7 @@ anova(m971)
 Page 452 (10th ed), Page 390 (11th ed)
 
 ```{r}
-cor(EXA_C09_S07_01); 
+EXA_C09_S07_01 |> cor()
 ```
 
 Figure 9.7.4, 9.7.5.
@@ -1220,7 +1254,7 @@ Page 505 (10th ed), Page 430 (11th ed)
 Page 506 (10th ed), Page 431 (11th ed)
 
 ```{r}
-pairs(EXA_C10_S03_01, main = 'Figure 10.3.1')
+EXA_C10_S03_01 |> pairs(main = 'Figure 10.3.1')
 ```
 
 see 'Multiple R-squared' (not 'Adjusted R-squared')
@@ -1231,13 +1265,15 @@ see 'Coefficients:'
 
 ```{r}
 m1031 = lm(CDA ~ AGE + EDLEVEL, data = EXA_C10_S03_01)
-summary(m1031)
+```
+```{r}
+m1031 |> summary()
 ```
 
 confidence interval for beta's;
 
 ```{r}
-confint(m1031)
+m1031 |> confint()
 ```
 
 ## Section 10.4
@@ -1252,8 +1288,12 @@ Page 509 (10th ed), Page 434 (11th ed)
 
 ```{r}
 (newd_1031 = data.frame(AGE = 68, EDLEVEL = 12))
-predict(m1031, newdata = newd_1031, interval = 'prediction')
-predict(m1031, newdata = newd_1031, interval = 'confidence')
+```
+```{r}
+m1031 |> predict(newdata = newd_1031, interval = 'prediction')
+```
+```{r}
+m1031 |> predict(newdata = newd_1031, interval = 'confidence')
 ```
 
 ## Section 10.6
@@ -1371,25 +1411,36 @@ d1141 = c(92L, 21L, 15L, 20L) |>
     Sex = c('Male', 'Female')
   )) |>
   as.table()
-as_flextable(d1141) # Table 11.4.2
 ```
 
 ```{r}
-d1141a = d1141 |> 
+d1141 |> as_flextable()
+```
+
+```{r}
+(d1141a = d1141 |> 
   as.data.frame.table() |> 
   within(expr = {
     OCAD = (OCAD == 'Present')
     Sex = factor(Sex, levels = c('Female', 'Male'))
-  })
-d1141a
+  }))
 ```
 
 ```{r}
 m1141 = glm(OCAD ~ Sex, family = binomial, weights = Freq, data = d1141a)
-summary(m1141) # Figure 11.4.1
-exp(m1141$coefficients[2L]) # exp(beta_M)
-exp(confint(m1141)) # confidence interval of exp(beta)
-predict(m1141, newdata = data.frame(Sex = setNames(nm = c('Male', 'Female'))), type = 'response')
+```
+
+```{r}
+m1141 |> summary()
+```
+```{r}
+m1141$coefficients[2L] |> exp() # exp(beta_M)
+```
+```{r}
+m1141 |> confint() |> exp() # confidence interval of exp(beta)
+```
+```{r}
+m1141 |> predict(newdata = data.frame(Sex = setNames(nm = c('Male', 'Female'))), type = 'response')
 ```
 
 ### Example 11.4.2
@@ -1399,9 +1450,17 @@ Page 573,
 ```{r}
 head(EXA_C11_S04_02)
 summary(m1142 <- glm(ATT ~ AGE, family = binomial, data = EXA_C11_S04_02)) # Figure 11.4.2
-exp(m1142$coefficients[2L])
-exp(confint(m1142))
-car::Anova(m1142) # Optional
+```
+```{r}
+m1142$coefficients[2L] |> exp()
+```
+
+```{r}
+#| message: false
+m1142 |> confint() |> exp()
+```
+```{r}
+m1142 |> car::Anova() # Optional
 ```
 
 ### Example 11.4.3
@@ -1410,9 +1469,11 @@ Page 576,
 
 ```{r}
 head(REV_C11_24)
-summary(glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24)) # Figure 11.4.4
+glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24) |> 
+  summary() # Figure 11.4.4
 # Predictor TRYPT should be removed from model due to p-value \approx 1 
-summary(glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24)) 
+glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24) |> 
+  summary() 
 ```
 
 ### Example 11.4.4-11.4.5
@@ -1420,9 +1481,9 @@ summary(glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24))
 Page 578-579
 
 ```{r}
-DescTools::PseudoR2(m1142, which = 'CoxSnell')
-DescTools::PseudoR2(m1142, which = 'Nagelkerke')
+m1142 |> DescTools::PseudoR2(which = c('CoxSnell', 'Nagelkerke'))
 ```
+
 
 # Chapter 12:
 
@@ -1436,18 +1497,20 @@ Page 605 (10th ed)
 d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
 d1231 = c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L) |>
   setNames(nm = cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE) |> levels())
-(m = d1231 |> chisq.test(p = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31))))
 ```
 
--3L: three restrictions (explained on Page 608) (1) making sum(xo) == sum(xe) (2) estimating mean (3) estimating sd.
+Two restrictions (explained on Page 608) in addition to making sum(xo) == sum(xe): (1) estimating mean (2) estimating sd.
+
 ```{r}
-m$statistic |> unname() |> pchisq(df = length(d1231) - 3L, lower.tail = FALSE)
+#| warning: false
+(m = d1231 |> 
+   chisq.test(p = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31))) |>
+   update_df(restriction = 2L))
 ```
 
 ```{r}
 m |> viewOE()
 ```
-
 
 ### Example 12.3.2
 
@@ -1458,17 +1521,27 @@ Page 609 (10th ed),
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
 (p = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
-p1232 = c(
+(p1232 = c(
   pbinom(1L, size = 25L, prob = p),
   dbinom(2:9, size = 25L, prob = p),
-  pbinom(9, size = 25L, prob = p, lower.tail = FALSE))
-(m = o1232 |> 
-  chisq.test(p = p1232))
-m |> viewOE()
-m$statistic |> unname() |> pchisq(df = length(o1232) - 2L, lower.tail = FALSE)
+  pbinom(9, size = 25L, prob = p, lower.tail = FALSE)))
 ```
 
--2L: two restrictions (explained on Page 611) (1) making sum(o) == sum(e) (2) estimating $p$
+One restrictions (explained on Page 611) in addition to making sum(o) == sum(e): estimating $p$
+
+```{r}
+#| warning: false
+(m1 = o1232 |> 
+  chisq.test(p = p1232) |>
+  update_df(restriction = 1L))
+```
+
+```{r}
+m1 |> viewOE()
+```
+
+
+
 
 ### Example 12.3.3
 
@@ -1477,14 +1550,19 @@ Page 611 (10th ed),
 ```{r}
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
-p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
-           ppois(7L, lambda = 3, lower.tail = FALSE))
-(m = o_1233 |>
-  chisq.test(p = p_1233))
-m |> viewOE()
+(p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
+           ppois(7L, lambda = 3, lower.tail = FALSE)))
 ```
 
--1L: one restrictions (1) making sum(xo) == sum(xe)
+```{r}
+#| warning: false
+(m = o_1233 |>
+  chisq.test(p = p_1233))
+```
+
+```{r}
+m |> viewOE()
+```
 
 
 ### Example 12.3.4
@@ -1493,7 +1571,12 @@ Page 614 (10th ed), Page 531 (11th ed)
 
 ```{r}
 d1234 = c('Dec 05' = 62L, 'Jan 06' = 84L, 'Feb 06' = 17L, 'Mar 06' = 16L, 'Apr 06' = 21L)
+```
+
+```{r}
 (m = d1234 |> chisq.test())
+```
+```{r}
 m |> viewOE()
 ```
 
@@ -1504,6 +1587,8 @@ Page 616 (10th ed), Page 533 (11th ed)
 ```{r}
 (m = c(dominant = 43L, heterozygous = 125L, recessive = 32L) |> 
    chisq.test(p = c(1, 2, 1), rescale.p = TRUE))
+```
+```{r}
 m |> viewOE()
 ```
 
@@ -1518,8 +1603,14 @@ d1241 = c(260L, 15L, 7L, 299L, 41L, 14L) |>
   array(dim = c(3L, 2L), dimnames = list(
     Race = c('White', 'Black', 'Other'),
     FolicAcid = c('TRUE', 'FALSE')))
+```
+
+```{r}
 d1241 |> as.table() |> as_flextable()
-d1241 |> chisq.test() # ?stats::chisq.test
+```
+
+```{r}
+d1241 |> chisq.test()
 ```
 
 ### Example 12.4.2
@@ -1531,8 +1622,17 @@ d1242 = c(131L, 14L, 52L, 36L) |>
   array(dim = c(2L, 2L), dimnames = list(
     Type = c('Faller', 'Non-Faller'),
     LifestyleChange = c('TRUE', 'FALSE')))
+```
+
+```{r}
 d1242 |> as.table() |> as_flextable()
+```
+
+```{r}
 d1242 |> chisq.test(correct = FALSE)
+```
+
+```{r}
 d1242 |> chisq.test(correct = TRUE)
 ```
 
@@ -1547,7 +1647,13 @@ d1251 = c(21L, 19L, 75L, 77L) |>
   array(dim = c(2L, 2L), dimnames = list(
     Group = c('Narcoleptic', 'Healthy'),
     Migraine = c('TRUE', 'FALSE')))
+```
+
+```{r}
 d1251 |> as.table() |> as_flextable()
+```
+
+```{r}
 d1251 |> chisq.test(correct = FALSE)
 ```
 
@@ -1562,7 +1668,13 @@ d1262 = c(2L, 8L, 7L, 4L) |>
   array(dim = c(2L, 2L), dimnames = list(
     Group = c('PI Naive', 'PA Experienced'),
     Regimen2yr = c('TRUE', 'FALSE')))
+```
+
+```{r}
 d1262 |> as.table() |> as_flextable()
+```
+
+```{r}
 d1262 |> fisher.test()
 ```
 
@@ -1576,10 +1688,18 @@ Page 644 (10th ed),
 d1271 = c(22L, 18L, 216L, 199L) |>
   array(dim = c(2L, 2L), dimnames = list(
     Exercising = c('Extreme', 'No'),
-    PretermLabor = c('Cases', 'Noncases'))) |>
-  as.table()
-d1271 |> as_flextable()
+    PretermLabor = c('Cases', 'Noncases')))
+```
+
+```{r}
+d1271 |> as.table() |> as_flextable()
+```
+
+```{r}
 d1271 |> DescTools::RelRisk(conf.level = .95)
+```
+
+```{r}
 d1271 |> fisher.test()
 ```
 
@@ -1588,9 +1708,17 @@ d1271 |> fisher.test()
 Page 647 (10th ed),
 
 ```{r}
-d1272 = as.table(array(c(64L, 68L, 342L, 3496L), dim = c(2L, 2L), dimnames = list(
-  SmkPregnancy = c('Smoked Throughout', 'Never Smoked'), Obesity = c('Cases', 'Noncases'))))
-d1272 |> as_flextable()
+d1272 = c(64L, 68L, 342L, 3496L) |>
+  array(dim = c(2L, 2L), dimnames = list(
+    SmkPregnancy = c('Smoked Throughout', 'Never Smoked'),
+    Obesity = c('Cases', 'Noncases')))
+```
+
+```{r}
+d1272 |> as.table() |> as_flextable()
+```
+
+```{r}
 d1272 |> fisher.test()
 ```
 
@@ -1604,13 +1732,19 @@ d1273 = c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L) |>
   HTN = c('Present', 'Absent'), 
   OCAD = c('Cases', 'Controls'), 
   Age = c('<=55', '>55')))
+```
+
+```{r}
 d1273 |> addmargins(margin = 1:2)
+```
+
+```{r}
 d1273 |> mantelhaen.test()
 ```
 
 # Chapter 13: *Nonparametric and Distribution-Free Statistics*
 
-## Section 13.3
+## Section 13.3 *The Sign Test*
 
 ### Example 13.3.1
 
@@ -1632,7 +1766,7 @@ EXA_C13_S03_02 |>
   })
 ```
 
-## Section 13.4
+## Section 13.4 *The Wilcoxon Signed-Rank Test for Location*
 
 ### Example 13.4.1
 
@@ -1643,7 +1777,7 @@ c(4.91, 4.10, 6.74, 7.27, 7.42, 7.50, 6.56, 4.64, 5.98, 3.14, 3.23, 5.80, 6.17, 
   wilcox.test(mu = 5.05)
 ```
 
-## Section 13.5
+## Section 13.5 *The Median Test*
 
 ### Example 13.5.1
 
@@ -1657,11 +1791,17 @@ t1351 = EXA_C13_S05_01 |>
     rownames(tmp) = paste('Number of scores', c('above', 'below'), 'median')
     as.table(tmp)
   }) 
-t1351 |> as_flextable() # Table 13.5.2
+```
+
+```{r}
+t1351 |> as_flextable()
+```
+
+```{r}
 t1351 |> chisq.test(correct = FALSE)
 ```
 
-## Section 13.6
+## Section 13.6 *The Mann-Whitney Test*
 
 ### Example 13.6.1;
 
@@ -1766,6 +1906,9 @@ Page 728-729,
 ```{r}
 testosterone = c(230, 175, 315, 290, 275, 150, 360, 425)
 citricAcid = c(421, 278, 618, 482, 465, 105, 550, 750)
+```
+
+```{r}
 robslopes::TheilSen(x = citricAcid, y = testosterone, verbose = FALSE)
 # textbook uses *central* median of ordered pairs, while ?robslopes::TheilSen uses *upper* median
 ```
@@ -1777,7 +1920,7 @@ mblm::mblm(testosterone ~ citricAcid, repeated = FALSE) |>
 
 # Chapter 14: *Survival Analysis*
 
-## Section 14.3
+## Section 14.3 *The Kaplan–Meier Procedure*
 
 ### Example 14.3.1
 
@@ -1789,7 +1932,13 @@ d1431 = EXA_C14_S03_01 |>
     TIME = .difftime(TIME, units = 'months')
     OS = Surv(time = TIME, event = (VITAL != 'ned'))
   })
+```
+
+```{r}
 class(d1431$OS)
+```
+
+```{r}
 head(d1431$OS)
 ```
 
@@ -1797,6 +1946,9 @@ Table 14.3.2
 
 ```{r}
 sf_1431 = survfit(OS ~ TUMOR, data = d1431)
+```
+
+```{r}
 sf_1431 |> summary()
 ```
 
@@ -1823,7 +1975,7 @@ sf_1431 |>
   survminer::ggsurvplot(title = 'Figure 14.3.1')
 ```
 
-## Section 14.4
+## Section 14.4 *Comparing Survival Curves*
 
 ### Example 14.4.1
 
@@ -1833,7 +1985,7 @@ Page 764 (10th ed), Page 659 (11th ed)
 survdiff(OS ~ TUMOR, data = d1431)
 ```
 
-## Section 14.5
+## Section 14.5 *Cox Regression: The Proportional Hazards Model*
 
 ### Example 14.5.1
 
@@ -1844,7 +1996,9 @@ d1451 = EXA_C14_S05_01 |>
   within(expr = {
     time = .difftime(time, units = 'weeks')
     PFS = Surv(time, status)
-    drug = relevel(structure(drug, levels = c('Opiate', 'Other'), class = 'factor'), ref = 'Other')
+    drug = drug |>
+      structure(levels = c('Opiate', 'Other'), class = 'factor') |>
+      relevel(ref = 'Other')
 })
 ```
 
@@ -1866,7 +2020,6 @@ model2_1451 = coxph(PFS ~ drug, data = d1451)
 model2_1451 |> summary()
 model2_1451 |> confint()
 ```
-
 
 ```{r}
 sf_1451 = survfit(PFS ~ drug, data = d1451)
