@@ -677,6 +677,42 @@ pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE) |>
   label_percent(accuracy = .01)()
 ```
 
+## Exercise
+
+### Exercise 4.4.4
+Page 113, 
+```{r}
+dpois(1L, lambda = .5) |> 
+  label_percent(accuracy = .01)()
+```
+```{r}
+dpois(0L, lambda = .5) |> 
+  label_percent(accuracy = .01)()
+```
+```{r}
+dpois(4L, lambda = .5) |> 
+  label_percent(accuracy = .01)()
+```
+```{r}
+ppois(0L, lambda = .5, lower.tail = FALSE) |> 
+  label_percent(accuracy = .01)()
+```
+
+### Exercise 4.6.11
+Page 122
+```{r}
+qnorm(.0055)
+```
+### Exercise 4.6.12
+Page 122.
+
+P(-2.67<=Z<=z) = .9718 
+```{r}
+# pnorm(z) - pnorm(-2.67) = .9718
+qnorm(.9718 + pnorm(-2.67))
+```
+
+
 
 ## Review
 
@@ -807,6 +843,20 @@ Page 127 (11th ed)
   label_percent(accuracy = .1)()
 ```
 
+### Exercise 5.3.7
+Page 145, 
+```{r}
+(pnorm(q = 55, mean = 50, sd = 16/sqrt(64L)) - pnorm(q = 45, mean = 50, sd = 16/sqrt(64L))) |> 
+  label_percent(accuracy = .1)()
+```
+
+```{r}
+pnorm(q = 53, mean = 50, sd = 16/sqrt(64L), lower.tail = FALSE)  |> 
+  label_percent(accuracy = .1)()
+```
+
+
+
 ## Section 5.4
 
 ### Example 5.4.1
@@ -860,6 +910,11 @@ Page 155 (10th ed),
 ```{r}
 prop_CLT(phat = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 'less')
 ```
+
+
+
+
+
 
 ## Review
 
@@ -951,6 +1006,18 @@ Page 169 (10th ed), Page 150 (11th ed)
 
 ```{r}
 z_test(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd = sqrt(.36))
+```
+
+### Exercise 6.2.1
+Page 171, 
+```{r}
+z_test(xbar = 90, sd = 10, n = 49L, conf.level = .9)
+```
+```{r}
+z_test(xbar = 90, sd = 10, n = 49L, conf.level = .95)
+```
+```{r}
+z_test(xbar = 90, sd = 10, n = 49L, conf.level = .99)
 ```
 
 ## Section 6.3
@@ -1066,7 +1133,15 @@ Page 200 (10th ed),
 var_test(xsd = c(8.1, 5.9), n = c(16L, 4L))
 ```
 
-library(DanielBiostatistics10th)
+
+
+
+
+
+
+
+
+
 
 ## Large Data Sets
 
@@ -1355,6 +1430,20 @@ seq.int(from = 50, to = 70, by = 5) |>
    power_z(null.value = 65, sd = 15, n = 20L, sig.level = .01, alternative = 'less')
 ```
 
+### Exercise 7.9.1
+Page 277
+```{r}
+power_z(x = c(510, 520, 540), null.value = 516, sd = 32, n = 16L, alternative = 'greater')
+```
+
+
+### Exercise 7.9.3
+Page 277, 
+```{r}
+power_z(x = c(4, 4.5, 4.75, 5), null.value = 4.25, sd = 1.8, n = 81L, sig.level = .01, alternative = 'greater')
+```
+
+
 ## Section 7.10
 
 ### Example 7.10.1
@@ -1366,6 +1455,55 @@ Page 278 (10th ed),
   power_z(55, null.value = 65, sd = 15, n = x, sig.level = .01, alternative = 'less')$power - .95
 }, interval = c(0, 50))$root)
 power_z(55, null.value = 65, sd = 15, n = ceiling(n_d7101), sig.level = .01, alternative = 'less')
+```
+
+### Exercise 7.10.2
+Page 279, 
+```{r}
+(n_e7102 = uniroot(f = function(x) {
+  power_z(4.52, null.value = 4.5, sd = .02, n = x, sig.level = .01, alternative = 'greater')$power - .95
+}, interval = c(0, 50))$root)
+```
+The required sample size to achieve 95% power at 4.52 is 15.77, or 16 as an integer. The rejection region is (-Inf, 4.51)
+```{r}
+qnorm(p = .01, mean = 4.5, sd = .02/sqrt(ceiling(n_e7102)), lower.tail = FALSE)
+```
+
+
+## Review
+
+### Review 18
+Page 283, 
+
+Let group 1 be IVF and group 2 be spontaneous conception
+```{r}
+t_test(xbar = c(3071, 3172), xsd = c(761, 702), n = c(163L, 321L), 
+             null.value = 0, alternative = 'less')
+```
+
+
+### Review 19
+Page 283
+```{r}
+REV_C07_19 |> with(expr = t.test(Before, After, alternative = 'greater', paired = TRUE))
+```
+
+### Review 20
+Page 284
+```{r}
+t_test(xbar = c(5.56, 4.40), xsd = c(0.84, 0.57), n = c(40L, 57L), null.value = 0, alternative = 'two.sided')
+```
+
+### Review 25
+Page 284
+```{r}
+prop_CLT(x = 27L, n = 90L, null.value = .25, alternative = 'greater')
+```
+
+### Review 44
+Page 290
+```{r}
+REV_C07_44 |> head(n = 3L)
 ```
 
 
@@ -2027,7 +2165,9 @@ abline(a = cf1121[1L], b = cf1121[2L], col = 'blue') # regression line for non-s
 abline(a = cf1121[1L] + cf1121[3L], b = cf1121[2L], col = 'magenta') 
 ```
 
-### Example 11.2.3; Page 551,
+### Example 11.2.3
+
+Page 551,
 
 ```{r}
 d1123 = EXA_C11_S02_03 |> 
@@ -2039,6 +2179,31 @@ m1123 |> summary() # Figure 11.2.5
 m1123 |> confint()
 car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
             xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
+```
+
+### Exercise 11.2.2
+Page 557
+```{r}
+EXR_C11_S02_02 |> head(n = 3L)
+```
+```{r}
+e1122 = EXR_C11_S02_02 |>
+  within(expr = {
+    DISEASE = structure(DISEASE, levels = c('Cholelithiasis', 'GallbladderCancer'), class = 'factor')
+  })
+```
+```{r}
+car::scatterplot(MDA ~ CYTO | DISEASE, data = e1122, regLine = TRUE, smooth = FALSE,
+                 xlab = 'Cytochrome P-450 (nmol/mg)', ylab = 'Melonaldehyde (\u03bcg/mg)')
+```
+```{r}
+lm(MDA ~ CYTO * DISEASE, data = e1122) |> summary() 
+```
+```{r}
+lm(MDA ~ CYTO + DISEASE, data = e1122) |> summary()
+```
+```{r}
+lm(MDA ~ DISEASE, data = e1122) |> summary()
 ```
 
 ## Section 11.3
@@ -2156,6 +2321,52 @@ Page 578-579
 ```{r}
 m1142 |> DescTools::PseudoR2(which = c('CoxSnell', 'Nagelkerke'))
 ```
+
+
+### Exercise 11.4.1
+Page 581
+```{r}
+e1141 = c(611L, 68L, 308L, 37L) |> 
+  array(dim = c(2L, 2L), dimnames = list(
+    Victimizated = c('No', 'Yes'), 
+    Sex = c('Women', 'Man')
+  )) |> 
+  as.table()
+```
+```{r}
+e1141 |> as_flextable()
+```
+```{r}
+e1141 |> 
+  as.data.frame.table() |> 
+  within(expr = {
+    Victimizated = (Victimizated == 'Yes')
+  }) |> 
+  glm(formula = Victimizated ~ Sex, family = binomial, weights = Freq) |> 
+  summary()
+```
+
+
+
+### Exercise 11.4.2
+Page 581, 
+```{r}
+EXR_C11_S04_02 |> head(n = 3L)
+```
+```{r}
+e1142 = glm(PART ~ INDEX, family = binomial, data = EXR_C11_S04_02)
+e1142 |> summary()
+```
+```{r}
+e1142$coefficients |> exp()
+```
+```{r}
+e1142 |> confint() |> exp()
+```
+
+
+
+
 
 
 ## Large Data Sets
@@ -2448,6 +2659,50 @@ d1273 |> addmargins(margin = 1:2)
 ```{r}
 d1273 |> mantelhaen.test()
 ```
+
+## Review
+
+### Review 17
+Page 659, 
+
+```{r}
+r1217 = c(72L, 54L, 16L, 8L, 230L, 192L, 63L, 15L) |>
+  array(dim = c(4L, 2L), dimnames = list(
+    BloodGroup = c('O', 'A', 'B', 'AB'), 
+    Antigen = c('Carriers', 'Noncarriers'))
+  ) |> 
+  as.table()
+```
+
+```{r}
+r1217 |> as_flextable()
+```
+
+```{r}
+r1217 |> chisq.test()
+```
+
+
+### Review 37 
+Page 664, 
+```{r}
+r1237 = c(29L, 9L, 123L-29L, 192L-123L-9L) |>
+  array(dim = c(2L, 2L), dimnames = list(
+    Gender = c('Male', 'Female'), Drug = c('Yes', 'No')
+  )) |> 
+  as.table()
+```
+```{r}
+r1237 |> as_flextable()
+```
+```{r}
+r1237 |> chisq.test()
+```
+
+
+
+
+
 
 ## Large Data Sets
 
