@@ -1,4 +1,4 @@
-SUBJ,A,B,C,D,E
+SUBJ,Gender,Smoking,Drinking,Respiratory,HighBloodPres
 1,1,1,0,0,0
 2,0,0,2,1,0
 3,0,1,2,0,0

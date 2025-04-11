@@ -43,21 +43,36 @@ viewOE <- function(x) {
 #' 
 #' @param x returned object of function \link[stats]{chisq.test}
 #' 
-#' @param restriction \link[base]{integer} scalar, number of additional restrictions
+#' @param restriction \link[base]{integer} scalar, 
+#' number of additional restrictions. 
+#' Or, \link[base]{character} \link[base]{vector},
+#' brief explanation of each additional restriction.
 #' 
 #' @keywords internal
 #' @export
 update_df <- function(x, restriction) {
   
-  if (length(restriction) != 1L || !is.integer(restriction) || is.na(restriction) || restriction <= 0L || restriction > x$parameter) stop('illegal additional `restriction`')
+  if (is.integer(restriction)) {
+    if (length(restriction) != 1L || is.na(restriction) || restriction <= 0L || restriction > x$parameter) stop('illegal additional `restriction`')
+    nrestr <- restriction
+    restriction <- character()
+  } else if (is.character(restriction)) {
+    nrestr <- length(restriction)
+    if (!nrestr || anyNA(restriction) || !all(nzchar(restriction)) || nrestr > x$parameter) stop('illegal additional `restriction`')
+  }
   
-  x$parameter[] <- x$parameter - restriction
+  x$parameter[] <- x$parameter - nrestr
   
   x$p.value <- x$statistic |> 
     pchisq(df = x$parameter, lower.tail = FALSE) |>
     unname()
   
-  x$method <- paste(x$method, sprintf(fmt = 'Additional Restriction: %d', restriction), sep = '\n\n')
+  txt_restr <- c(
+    sprintf(fmt = 'Additional Restriction: %d', nrestr), 
+    sprintf(fmt = '\u2b51 %s', restriction) # !length(restriction) compatible
+  )
+  
+  x$method <- c(x$method, '', txt_restr)
   
   return(x)
   

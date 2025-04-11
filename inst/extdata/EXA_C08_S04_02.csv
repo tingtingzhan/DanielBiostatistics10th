@@ -1,4 +1,4 @@
-subject,treatment,totalC1,totalC2,totalC3,totalC4
+subject,treatment,baseline,wk2,wk4,wk6
 1,1,6,6,6,7
 2,1,9,6,10,9
 3,1,7,9,17,19
