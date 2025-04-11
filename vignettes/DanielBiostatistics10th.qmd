@@ -1766,8 +1766,11 @@ Page 728-729,
 ```{r}
 testosterone = c(230, 175, 315, 290, 275, 150, 360, 425)
 citricAcid = c(421, 278, 618, 482, 465, 105, 550, 750)
-robslopes::TheilSen(x = citricAcid, y = testosterone)
+robslopes::TheilSen(x = citricAcid, y = testosterone, verbose = FALSE)
 # textbook uses *central* median of ordered pairs, while ?robslopes::TheilSen uses *upper* median
+```
+
+```{r}
 mblm::mblm(testosterone ~ citricAcid, repeated = FALSE) |> 
   summary() # Figure 13.11.1 (11th ed)
 ```
