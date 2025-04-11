@@ -3,7 +3,7 @@
 inst/extdeveloper
 inst/extlecturer
 inst/extsolution
-inst/extR
+inst/extdata
 ^CRAN-SUBMISSION$
 vignettes/.*_files
 vignettes/.*.html
