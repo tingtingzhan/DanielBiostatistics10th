@@ -63,7 +63,7 @@ power_z <- function(
       
     }, 'greater' = {
       rr <- qnorm(p = sig.level, mean = null.value, sd = std.err, lower.tail = FALSE) # P(X_bar > rr) = sig.level
-      ret <- pnorm(q = unclass(rr), mean = x, sd = std.err, lower.tail = FALSE) # one-sided P(White)
+      ret <- pnorm(q = rr, mean = x, sd = std.err, lower.tail = FALSE) # one-sided P(White)
       attr(ret, which = 'reject') <- sprintf(fmt = '>%.3f', rr)
     })
     

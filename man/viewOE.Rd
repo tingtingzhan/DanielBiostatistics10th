@@ -2,22 +2,19 @@
 % Please edit documentation in R/viewOE.R
 \name{viewOE}
 \alias{viewOE}
-\title{Chapter 12: \eqn{\chi^2} Distribution and the Analysis of Frequencies}
+\title{View Observed and Expected Frequency Table}
 \usage{
-viewOE(O, prob)
+viewOE(x)
 }
 \arguments{
-\item{O}{\link[base]{integer} vector, observed counts}
-
-\item{prob}{\link[base]{numeric} vector, anticipated probability.
-If missing (default), an uniform distribution across all categories are used.}
+\item{x}{returned object of function \link[stats]{chisq.test}}
 }
 \value{
-Function \code{\link[=viewOE]{viewOE()}} prints a table with observed and expected frequencies, as well as
+Function \code{\link[=viewOE]{viewOE()}} returns a \link[flextable]{flextable} of
+observed and expected frequencies, as well as
 the category-wise \eqn{\chi^2} statistics.
-A \link[base]{double} vector of the category-wise \eqn{\chi^2} statistics is returned invisibly.
 }
 \description{
-Functions for Chapter 12, \emph{The Chi-Square Distribution and the Analysis of Frequencies}.
+View Observed and Expected Frequency Table
 }
 \keyword{internal}

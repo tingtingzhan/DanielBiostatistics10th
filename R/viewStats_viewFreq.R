@@ -60,7 +60,7 @@ viewStats <- function(x, na.rm = TRUE) {
 #' Function [viewFreq()] returns a \link[flextable]{flextable}
 #' 
 #' @keywords internal
-#' @importFrom flextable flextable autofit
+#' @importFrom flextable flextable autofit align set_header_labels
 #' @export
 viewFreq <- function(x) {
   
@@ -71,14 +71,20 @@ viewFreq <- function(x) {
   n <- sum(f)
   
   data.frame(
-    ' ' = names(f),
-    'Frequency' = sprintf(fmt = '%d (%.2f%%)', f, 100 * f/n), 
-    'Cummulative Frequency' = sprintf(fmt = '%d (%.2f%%)', cf, 100 * cf/n),
-    'Reversed Cummulative Frequency' = sprintf(fmt = '%d (%.2f%%)', rcf, 100 * rcf/n),
-    check.names = FALSE
+    nm = names(f),
+    f = sprintf(fmt = '%d (%.2f%%)', f, 100 * f/n), 
+    cf = sprintf(fmt = '%d (%.2f%%)', cf, 100 * cf/n),
+    rcf = sprintf(fmt = '%d (%.2f%%)', rcf, 100 * rcf/n)
   ) |> 
     flextable() |>
-    autofit()
+    set_header_labels(
+      nm = ' ',
+      f = 'Frequency', 
+      cf = 'Cummulative\nFrequency', 
+      rcf = 'Reversed\nCummulative\nFrequency'
+    ) |> 
+    autofit() |>
+    align(align = 'right', part = 'all')
 
 }
 
