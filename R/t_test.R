@@ -109,6 +109,7 @@ t_test <- function(
   
   cint <- xbar0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
+  class(cint) <- c('conf.int', class(cint))
   if (!has_null) return(cint)
   
   ret <- list(

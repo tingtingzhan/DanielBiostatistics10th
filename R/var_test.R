@@ -111,6 +111,7 @@ var_test <- function(
   
   cint <- unname(cint)
   attr(cint, which = 'conf.level') <- conf.level
+  class(cint) <- c('conf.int', class(cint))
   if (!has_null) return(cint)
   
   ret <- list(

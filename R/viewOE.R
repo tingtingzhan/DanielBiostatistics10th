@@ -22,7 +22,7 @@ viewOE <- function(x) {
   data.frame(
     nm = O |> names(),
     o = O,
-    e = sprintf(fmt = '%.2f (%.2f%%)', E, 1e2*E/sum(O)),
+    e = sprintf(fmt = '%.2f (%.1f%%)', E, 1e2*E/sum(O)),
     chisq = ((O-E)^2/E) |> sprintf(fmt = '%.3f')
   ) |> 
     flextable() |>

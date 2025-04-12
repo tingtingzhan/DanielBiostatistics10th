@@ -131,6 +131,7 @@ prop_CLT <- function(x, n, obs, phat = x/n, null.value, alternative = c('two.sid
   
   cint <- phat0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
+  class(cint) <- c('conf.int', class(cint))
   if (!has_null) return(cint)
   
   ret <- list(

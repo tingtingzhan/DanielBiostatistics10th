@@ -6,6 +6,8 @@
 #' 
 #' \eqn{z}-test from aggregated statistics
 #' 
+#' @param obs \link[base]{numeric} \link[base]{vector}, observations
+#' 
 #' @param xbar \link[base]{numeric} scalar \eqn{\bar{x}} or 
 #' \link[base]{length}-2 \link[base]{vector} \eqn{(\bar{x}_1, \bar{x}_2)}. 
 #' In the case of two-sample tests, this could also be a \link[base]{numeric} scalar \eqn{\bar{x}_1-\bar{x}_2}.
@@ -45,8 +47,9 @@
 #' @importFrom stats pnorm setNames
 #' @export
 z_test <- function(
-    xbar, 
-    n, 
+    xbar = mean(obs), 
+    n = length(obs), 
+    obs,
     sd, 
     null.value, 
     alternative = c('two.sided', 'less', 'greater'), 
@@ -103,6 +106,7 @@ z_test <- function(
   
   cint <- xbar0 + cint0 * std.err
   attr(cint, which = 'conf.level') <- conf.level
+  class(cint) <- c('conf.int', class(cint))
   if (!has_null) return(cint)
   
   ret <- list(
@@ -119,7 +123,17 @@ z_test <- function(
 }
 
 
-
+#' @method print conf.int
+#' @export
+print.conf.int <- function(x, digits = getOption('digits'), ...) {
+  # see inside ?stats:::print.htest
+  cat(format(100 * attr(x, which = 'conf.level', exact = TRUE)), 
+      ' percent confidence interval:\n', 
+      ' ', 
+      paste(format(x[1:2], digits = digits), collapse = ' '), 
+      '\n', 
+      sep = '')
+}
 
 
 

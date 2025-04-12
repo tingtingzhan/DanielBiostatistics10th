@@ -5,8 +5,9 @@
 \title{\eqn{z}-test from Aggregated Statistics}
 \usage{
 z_test(
-  xbar,
-  n,
+  xbar = mean(obs),
+  n = length(obs),
+  obs,
   sd,
   null.value,
   alternative = c("two.sided", "less", "greater"),
@@ -22,6 +23,8 @@ In the case of two-sample tests, this could also be a \link[base]{numeric} scala
 \item{n}{\link[base]{integer} scalar \eqn{n} or
 \link[base]{length}-2 \link[base]{vector} \eqn{(n_1, n_2)},
 sample size(s)}
+
+\item{obs}{\link[base]{numeric} \link[base]{vector}, observations}
 
 \item{sd}{\link[base]{numeric} scalar \eqn{\sigma} or
 \link[base]{length}-2 \link[base]{vector} \eqn{(\sigma_1, \sigma_2)},

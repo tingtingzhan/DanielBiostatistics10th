@@ -101,23 +101,13 @@ EXA_C01_S04_01 |> class()
 ```
 
 ```{r}
-EXA_C01_S04_01 |> dim()
-```
-
-```{r}
 EXA_C01_S04_01 |> head(n = 3L)
 ```
 
-```{r}
-EXA_C01_S04_01 |> names()
-```
 
 ```{r}
-(nr = EXA_C01_S04_01 |> nrow())
-```
-
-```{r}
-set.seed(12); EXA_C01_S04_01[sample.int(n = nr, size = 10L), ] |> sort_by(y = ~ SUBJ)
+set.seed(12); EXA_C01_S04_01[sample.int(n = nrow(EXA_C01_S04_01), size = 10L), ] |> 
+  sort_by(y = ~ SUBJ)
 ```
 
 ### Example 1.4.2
@@ -156,7 +146,7 @@ Page 23 (10th ed); Page 22 (11th ed).
 
 ```{r}
 EXA_C01_S04_01$AGE |>
-  cut(breaks = seq.int(from=30, to=90, by=10), right = FALSE, ordered_result = TRUE) |>
+  cut(breaks = seq.int(from = 30, to = 90, by = 10), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
 
@@ -406,7 +396,7 @@ npv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 Page 85 (10th ed)
 ```{r}
 c(319L, 130L, 88L, 41L, 738L, 329L, 402L, 95L) |>
-  array(dim = c(4L, 2L), dimnames = list(
+  matrix(nrow = 4L, dimnames = list(
     MaritalStatus = c('Currently Married', 'Divorced', 'Widowed', 'Unmarried'),
     Ethnicity = c('Hispanic', 'Non-Hispanic'))) |>
   as.table() |>
@@ -416,10 +406,10 @@ c(319L, 130L, 88L, 41L, 738L, 329L, 402L, 95L) |>
 ### Review 5
 Page 87 (10th ed) 
 ```{r}
-c(9L, 20L, 5L, 4L, 4L, 2L, 17L, 3L, 7L, 13L, 6L, 15L, 8L, 4L, 9L, 17L, 52L, 16L, 15L, 26L) |>
-  array(dim = c(5L, 3L), dimnames = list(
-    Personality = c('O', 'A', 'S', 'N', 'U'), 
-    Group = c('ATPD (1)', 'PS (2)', 'BSAD (3)'))) |>
+c(9L, 20L, 5L, 4L, 4L, 2L, 17L, 3L, 7L, 13L, 6L, 15L, 8L, 4L, 9L) |>
+  matrix(nrow = 5L, dimnames = list(
+    Personality = c('Obsessoid', 'Asthenic / Low Self-Confident', 'Asthenic / High Self-Confident', 'Nervous / Tense', 'Undeterminable'), 
+    Group = c('ATPD', 'PS', 'BSAD'))) |>
   as.table() |> 
   as_flextable()
 ```
@@ -617,6 +607,10 @@ Page 120 (10th ed), Page 106 (11th ed)
 ```{r}
 (pnorm(2.55) - pnorm(-2.55)) |> 
   label_percent(accuracy = .1)()
+```
+
+
+```{r}
 (1 - 2 * pnorm(-2.55)) |> 
   label_percent(accuracy = .1)() # alternative solution
 ```
@@ -765,7 +759,7 @@ Page 131 (10th ed)
 ```{r}
 dpois(0L, lambda = 1.3) |> 
   label_percent(accuracy = .1)()
-ppois(1L, lambda = 1.3) |> 
+ppois(0L, lambda = 1.3, lower.tail = FALSE) |> 
   label_percent(accuracy = .1)()
 ppois(4L, lambda = 1.3) |> 
   label_percent(accuracy = .1)()
@@ -830,16 +824,16 @@ Page 143 (10th ed)
 ```{r}
 (pnorm(125, mean = 120, sd = 15/sqrt(50)) - pnorm(115, mean = 120, sd = 15/sqrt(50))) |> 
   label_percent(accuracy = .1)()
-(z_test(125, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value - 
-  z_test(115, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value) |> 
+(z_test(xbar = 125, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value - 
+  z_test(xbar = 115, sd = 15, n = 50L, null.value = 120, alternative = 'less')$p.value) |> 
   label_percent(accuracy = .1)()
 ```
 
 Page 127 (11th ed)
 
 ```{r}
-(z_test(110, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value - 
-  z_test(95, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value) |> 
+(z_test(xbar = 110, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value - 
+  z_test(xbar = 95, sd = 20, n = 50L, null.value = 100, alternative = 'less')$p.value) |> 
   label_percent(accuracy = .1)()
 ```
 
@@ -1005,7 +999,7 @@ z_test(xbar = 17.2, n = 35L, sd = 8, conf.level = .9)
 Page 169 (10th ed), Page 150 (11th ed)
 
 ```{r}
-z_test(xbar = mean(EXA_C06_S02_04$ACTIVITY), n = nrow(EXA_C06_S02_04), sd = sqrt(.36))
+z_test(obs = EXA_C06_S02_04$ACTIVITY, sd = sqrt(.36))
 ```
 
 ### Exercise 6.2.1
@@ -1136,9 +1130,76 @@ var_test(xsd = c(8.1, 5.9), n = c(16L, 4L))
 
 
 
+## Review
+
+### Review 18
+Page 206, 
+```{r}
+t_test(xbar = c(3.85, 2.8), n = c(21L, 16L), xsd = c(1.95, 1.7), conf.level = .95)
+```
 
 
+```{r}
+t_test(xbar = c(3.85, 2.8), n = c(21L, 16L), xsd = c(1.95, 1.7), conf.level = .95, var.equal = TRUE)
+```
 
+
+### Review 20
+Page 206, 
+```{r}
+t_test(xbar = c(95, 125), n = c(35L, 35L), xsd = c(25, 30), conf.level = .95)
+```
+
+
+```{r}
+t_test(xbar = c(95, 125), n = c(35L, 35L), xsd = c(25, 30), conf.level = .95, var.equal = TRUE)
+```
+
+
+### Review 23
+Page 207, 
+```{r}
+REV_C06_23 |> head(n = 3L)
+```
+
+
+```{r}
+t.test(Hours ~ Group, data = REV_C06_23, var.equal = TRUE) 
+```
+
+
+### Review 24
+Page 207, 
+```{r}
+z_test(xbar = c(358, 483), sd = c(308, 144), n = c(52L, 53L), conf.level = .99)
+```
+
+### Review 25
+Page 207, 
+```{r}
+t_test(xbar = 435, n = 34L, xsd = 215, conf.level = .95)
+```
+
+### Review 26
+Page 207, 
+```{r}
+prop_CLT(phat = c(.293, .173), n = c(220L, 106L), conf.level = .95)
+```
+
+
+### Review 28
+Page 208, 
+```{r}
+r628 = REV_C06_28 |>
+  within(expr = {
+    Group = structure(Group, levels = c('MyocardialInfarction', 'Healthy'), class = 'factor')
+  })
+```
+
+
+```{r}
+t.test(LA ~ Group, data = r628) 
+```
 
 
 
@@ -1263,8 +1324,8 @@ z_test(xbar = 146, sd = 27, n = 157L, null.value = 140, alternative = 'greater')
 Page 232 (10th ed); Page 210 (11th ed)
 
 ```{r}
-d725 = c(33.38, 32.15, 34.34, 33.95, 33.46, 34.13, 33.99, 34.10, 33.85, 34.23, 34.45, 34.19, 33.97, 32.73, 34.05) 
-d725 |> t.test(mu = 34.5)
+c(33.38, 32.15, 34.34, 33.95, 33.46, 34.13, 33.99, 34.10, 33.85, 34.23, 34.45, 34.19, 33.97, 32.73, 34.05) |> 
+  t.test(mu = 34.5)
 ```
 
 ### Exercise 7.2.15
@@ -1433,14 +1494,16 @@ seq.int(from = 50, to = 70, by = 5) |>
 ### Exercise 7.9.1
 Page 277
 ```{r}
-power_z(x = c(510, 520, 540), null.value = 516, sd = 32, n = 16L, alternative = 'greater')
+c(510, 520, 540) |>
+  power_z(null.value = 516, sd = 32, n = 16L, alternative = 'greater')
 ```
 
 
 ### Exercise 7.9.3
 Page 277, 
 ```{r}
-power_z(x = c(4, 4.5, 4.75, 5), null.value = 4.25, sd = 1.8, n = 81L, sig.level = .01, alternative = 'greater')
+c(4, 4.5, 4.75, 5) |>
+  power_z(null.value = 4.25, sd = 1.8, n = 81L, sig.level = .01, alternative = 'greater')
 ```
 
 
@@ -1681,10 +1744,102 @@ EXA_C08_S05_02 |>
   anova()
 ```
 
+## Review
 
-library(DanielBiostatistics10th)
-library(reshape2)
-library(multcomp)
+
+### Review 13
+Page 376
+```{r}
+REV_C08_13 |> head(n = 3L)
+```
+```{r}
+r813 = REV_C08_13 |> 
+  within(expr = {
+    Group = factor(Group, levels = unique.default(Group))
+  })
+```
+
+```{r}
+boxplot(Count ~ Group, data = r813)
+```
+
+```{r}
+aov_r813 = aov(Count ~ Group, data = r813)
+aov_r813 |> anova()
+```
+
+```{r}
+aov_r813 |> TukeyHSD()
+```
+
+
+
+### Review 14
+Page 377, 
+```{r}
+REV_C08_14 |> head(n = 3L)
+```
+
+```{r}
+r814 = REV_C08_14 |> 
+  within(expr = {
+    GROUP = structure(GROUP, levels = c('Control', 'Sham', 'OMT'), class = 'factor')
+  })
+```
+
+```{r}
+boxplot(SCALE ~ GROUP, data = r814)
+```
+
+```{r}
+aov_r814 = aov(SCALE ~ GROUP, data = r814)
+aov_r814 |> anova()
+```
+
+```{r}
+aov_r814 |> TukeyHSD()
+```
+
+
+
+### Review 16
+Page 379 (10th ed), 
+```{r}
+REV_C08_16 |> head(n = 3L)
+```
+
+```{r}
+aov(Count ~ Sens * Treat, data = REV_C08_16) |> 
+  anova()
+```
+
+```{r}
+aov(Count ~ Sens + Treat, data = REV_C08_16) |>
+  anova()
+```
+
+
+
+### Review 17
+Page 380, 
+```{r}
+REV_C08_17 |> head(n = 3L)
+```
+
+```{r}
+REV_C08_17 |> 
+  within(expr = {
+    SMOKE = structure(SMOKE, levels = c('none', 'light', 'heavy'), class = 'factor')
+    VEG = structure(as.integer(gsub('^ve', replacement = '', VEG)), levels = c('fewest', 'medium', 'most'), class = 'factor')
+  }) |>
+  aov(formula = AMP ~ SMOKE * VEG) |> 
+  anova()
+```
+
+
+
+
+
 
 ## Large Data Sets
 
@@ -1761,7 +1916,7 @@ aov_CSF |> TukeyHSD()
 
 ### Question 5
 ```{r}
-LDS_C08_RBCDATA |> head()
+LDS_C08_RBCDATA |> head(n = 3L)
 ```
 ```{r}
 RBCDATA = LDS_C08_RBCDATA |>
@@ -1905,6 +2060,127 @@ Page 453, when the hypothesized rho ss a nonzero value; R does not have a functi
 
 library(DanielBiostatistics10th)
 library(reshape2)
+
+
+
+library(DanielBiostatistics10th)
+
+
+## Review
+### Review 17
+Page 465, 
+```{r}
+REV_C09_17 |> head(n = 3L)
+```
+
+
+```{r}
+plot(BOARD ~ AVG, data = REV_C09_17)
+```
+
+
+```{r}
+lm(BOARD ~ I(AVG - 85), data = REV_C09_17) |> 
+  summary() # ideally
+```
+
+
+```{r}
+lm2_917 = lm(BOARD ~ AVG, data = REV_C09_17)  # also acceptable
+lm2_917 |> summary()
+```
+
+
+```{r}
+plot(BOARD ~ AVG, data = REV_C09_17); abline(reg = lm2_917)
+```
+
+
+
+### Review 18
+Page 466, 
+```{r}
+REV_C09_18 |> head(n = 3L)
+```
+
+
+```{r}
+lm(ATT ~ AGE, data = REV_C09_18) |> summary()
+```
+
+
+```{r}
+plot(ATT ~ AGE, data = REV_C09_18)
+```
+
+
+```{r}
+cor.test(~ ATT + AGE, data = REV_C09_18)
+```
+
+
+```{r}
+lm(SOC ~ AGE, data = REV_C09_18) |> 
+  summary()
+```
+
+
+```{r}
+plot(SOC ~ AGE, data = REV_C09_18)
+```
+
+
+```{r}
+cor.test(~ SOC + AGE, data = REV_C09_18)
+```
+
+
+```{r}
+lm(HYP ~ AGE, data = REV_C09_18) |> summary()
+```
+
+
+```{r}
+plot(HYP ~ AGE, data = REV_C09_18)
+```
+
+
+```{r}
+cor.test(~ HYP + AGE, data = REV_C09_18)
+```
+
+
+### Review 29
+Page 471, 
+```{r}
+REV_C09_29 |> head(n = 3L)
+```
+
+Use all 85 pairs of measurements (textbook asks you to select the subset of B<1000; ignore)
+```{r}
+# r929b <- subset(REV_C09_29, Standard < 1000)
+```
+
+```{r}
+m_r929 = lm(New ~ Standard, data = REV_C09_29)
+m_r929 |> summary()
+```
+
+```{r}
+m_r929 |> confint()
+```
+
+
+```{r}
+plot(New ~ Standard, data = REV_C09_29); abline(m_r929)
+```
+
+
+
+
+
+
+
 
 ## Large Data Sets
 
@@ -2150,19 +2426,21 @@ Page 545,
 ```{r}
 d1121 = EXA_C11_S02_01 |>
   within(expr = {
-    SMOKE = as.logical(SMOKE)
+    SMOKE = ifelse(SMOKE, yes = 'Yes', no = 'No')
   })
-xlab1121 = 'Length of gestation (weeks)'; ylab1121 = 'Birth weight (grams)'
-car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
-            xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.1')
+```
+```{r}
+car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, smooth = FALSE,
+                 xlab = 'Length of gestation (weeks)', ylab = 'Birth weight (grams)')
+```
+```{r}
 m1121 = lm(GRAMS ~ WEEKS + SMOKE, data = d1121)
-m1121 |> summary() # Figure 11.2.2
+```
+```{r}
+m1121 |> summary()
+```
+```{r}
 m1121 |> confint()
-car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, regLine = FALSE, smooth = FALSE,
-            xlab = xlab1121, ylab = ylab1121, main = 'Figure 11.2.3')
-(cf1121 = m1121$coefficients)
-abline(a = cf1121[1L], b = cf1121[2L], col = 'blue') # regression line for non-smoking mothers
-abline(a = cf1121[1L] + cf1121[3L], b = cf1121[2L], col = 'magenta') 
 ```
 
 ### Example 11.2.3
@@ -2178,7 +2456,7 @@ m1123 = lm(EFFECT ~ AGE * METHOD, data = d1123)
 m1123 |> summary() # Figure 11.2.5
 m1123 |> confint()
 car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
-            xlab = 'Age', ylab = 'Treatment effectiveness', main = 'Figure 11.2.6')
+                 xlab = 'Age', ylab = 'Treatment effectiveness')
 ```
 
 ### Exercise 11.2.2
@@ -2193,7 +2471,7 @@ e1122 = EXR_C11_S02_02 |>
   })
 ```
 ```{r}
-car::scatterplot(MDA ~ CYTO | DISEASE, data = e1122, regLine = TRUE, smooth = FALSE,
+car::scatterplot(MDA ~ CYTO | DISEASE, data = e1122, smooth = FALSE,
                  xlab = 'Cytochrome P-450 (nmol/mg)', ylab = 'Melonaldehyde (\u03bcg/mg)')
 ```
 ```{r}
@@ -2230,7 +2508,7 @@ Page 572,
 
 ```{r}
 d1141 = c(92L, 21L, 15L, 20L) |> 
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     OCAD = c('Present', 'Absent'), 
     Sex = c('Male', 'Female')
   )) |>
@@ -2327,7 +2605,7 @@ m1142 |> DescTools::PseudoR2(which = c('CoxSnell', 'Nagelkerke'))
 Page 581
 ```{r}
 e1141 = c(611L, 68L, 308L, 37L) |> 
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     Victimizated = c('No', 'Yes'), 
     Sex = c('Women', 'Man')
   )) |> 
@@ -2364,6 +2642,92 @@ e1142$coefficients |> exp()
 e1142 |> confint() |> exp()
 ```
 
+## Review
+
+
+### Review 15
+Page 585 (10th ed) 
+
+```{r}
+REV_C11_15 |> head(n = 3L)
+```
+
+```{r}
+lm(CARDIAC ~ VO2 * GROUP, data = REV_C11_15) |> summary()
+```
+
+```{r}
+m1115 = lm(CARDIAC ~ VO2 + GROUP, data = REV_C11_15)
+m1115 |> summary()
+```
+
+```{r}
+m1115 |> confint()
+```
+
+```{r}
+car::scatterplot(CARDIAC ~ VO2 | GROUP, data = REV_C11_15, smooth = FALSE,
+                 xlab = 'Oxygen Consumption (VO2)', ylab = 'Cardiac Output (L/min)')
+```
+
+
+### Review 16
+
+Page 585 (10th ed) 
+```{r}
+REV_C11_16 |> head(n = 3L)
+```
+
+```{r}
+m1116 = lm(POTAS ~ WATER * SEX, data = REV_C11_16)
+m1116 |> summary()
+```
+
+```{r}
+car::scatterplot(POTAS ~ WATER | SEX, data = REV_C11_16, smooth = FALSE,
+                 xlab = 'Total Body Water (L)', ylab = 'Total Body Potassium (mEq)')
+```
+
+
+
+### Review 17
+Page 586
+```{r}
+REV_C11_17 |> head(n = 3L)
+```
+```{r}
+car::scatterplot(WEIGHT ~ WEEKS | HOSP, data = REV_C11_17, smooth = FALSE)
+```
+
+```{r}
+lm(WEIGHT ~ WEEKS * HOSP, dat = REV_C11_17) |> 
+  summary()
+```
+
+
+
+### Review 23
+
+Page 589, 
+```{r}
+REV_C11_23 |> head(n = 3L)
+```
+
+```{r}
+car::scatterplot(V ~ W | GROUP, data = REV_C11_23, smooth = FALSE)
+```
+
+```{r}
+lm(V ~ W * GROUP, data = REV_C11_23) |>
+  summary()
+```
+
+
+### Review 24
+
+Page 590.
+
+see Example 11.4.3
 
 
 
@@ -2422,11 +2786,18 @@ d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
 d1231 = c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L)
 names(d1231) = cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE) |> levels()
 ```
+```{r}
+p1231 = d1231_b |> 
+  pnorm(mean = 198.67, sd = 41.31) |> 
+  diff()
+p1231 |> 
+  label_percent(accuracy = .1)()
+```
 
 ```{r}
 #| warning: false
 (m = d1231 |> 
-   chisq.test(p = diff.default(pnorm(q = d1231_b, mean = 198.67, sd = 41.31))) |>
+   chisq.test(p = p1231) |>
    update_df(restriction = c('estimating mean', 'estimating sd')))
 ```
 
@@ -2442,11 +2813,17 @@ Page 609 (10th ed),
 # 100 doctors, 25 patients per doctor
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
+```
+
+
+```{r}
 (p = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
-(p1232 = c(
+p1232 = c(
   pbinom(1L, size = 25L, prob = p),
   dbinom(2:9, size = 25L, prob = p),
-  pbinom(9, size = 25L, prob = p, lower.tail = FALSE)))
+  pbinom(9, size = 25L, prob = p, lower.tail = FALSE))
+p1232 |>
+  label_percent(accuracy = .1)()
 ```
 
 ```{r}
@@ -2467,14 +2844,21 @@ Page 611 (10th ed),
 ```{r}
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
-(p_1233 = c(dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
-           ppois(7L, lambda = 3, lower.tail = FALSE)))
+```
+
+
+```{r}
+p1233 = c(
+  dpois(0:7, lambda = 3), # lambda = 3 is provided by the textbook
+  ppois(7L, lambda = 3, lower.tail = FALSE))
+p1233 |>
+  label_percent(accuracy = .1)()
 ```
 
 ```{r}
 #| warning: false
 (m = o_1233 |>
-  chisq.test(p = p_1233))
+  chisq.test(p = p1233))
 ```
 
 ```{r}
@@ -2518,7 +2902,7 @@ Page 621 (10th ed)
 
 ```{r}
 d1241 = c(260L, 15L, 7L, 299L, 41L, 14L) |>
-  array(dim = c(3L, 2L), dimnames = list(
+  matrix(nrow = 3L, dimnames = list(
     Race = c('White', 'Black', 'Other'),
     FolicAcid = c('TRUE', 'FALSE')))
 ```
@@ -2537,7 +2921,7 @@ Page 626 (10th ed),
 
 ```{r}
 d1242 = c(131L, 14L, 52L, 36L) |>
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     Type = c('Faller', 'Non-Faller'),
     LifestyleChange = c('TRUE', 'FALSE')))
 ```
@@ -2562,7 +2946,7 @@ Page 631 (10th ed),
 
 ```{r}
 d1251 = c(21L, 19L, 75L, 77L) |>
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     Group = c('Narcoleptic', 'Healthy'),
     Migraine = c('TRUE', 'FALSE')))
 ```
@@ -2583,7 +2967,7 @@ Page 638 (10th ed),
 
 ```{r}
 d1262 = c(2L, 8L, 7L, 4L) |>
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     Group = c('PI Naive', 'PA Experienced'),
     Regimen2yr = c('TRUE', 'FALSE')))
 ```
@@ -2604,7 +2988,7 @@ Page 644 (10th ed),
 
 ```{r}
 d1271 = c(22L, 18L, 216L, 199L) |>
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     Exercising = c('Extreme', 'No'),
     PretermLabor = c('Cases', 'Noncases')))
 ```
@@ -2627,7 +3011,7 @@ Page 647 (10th ed),
 
 ```{r}
 d1272 = c(64L, 68L, 342L, 3496L) |>
-  array(dim = c(2L, 2L), dimnames = list(
+  matrix(nrow = 2L, dimnames = list(
     SmkPregnancy = c('Smoked Throughout', 'Never Smoked'),
     Obesity = c('Cases', 'Noncases')))
 ```
@@ -2647,9 +3031,9 @@ Page 650-652 (10th ed),
 ```{r}
 d1273 = c(21L, 16L, 11L, 6L, 50L, 18L, 14L, 6L) |> 
   array(dim = c(2L, 2L, 2L), dimnames = list(
-  HTN = c('Present', 'Absent'), 
-  OCAD = c('Cases', 'Controls'), 
-  Age = c('<=55', '>55')))
+    HTN = c('Present', 'Absent'), 
+    OCAD = c('Cases', 'Controls'), 
+    Age = c('<=55', '>55')))
 ```
 
 ```{r}
@@ -2667,15 +3051,13 @@ Page 659,
 
 ```{r}
 r1217 = c(72L, 54L, 16L, 8L, 230L, 192L, 63L, 15L) |>
-  array(dim = c(4L, 2L), dimnames = list(
+  matrix(nrow = 4L, dimnames = list(
     BloodGroup = c('O', 'A', 'B', 'AB'), 
-    Antigen = c('Carriers', 'Noncarriers'))
-  ) |> 
-  as.table()
+    Antigen = c('Carriers', 'Noncarriers'))) 
 ```
 
 ```{r}
-r1217 |> as_flextable()
+r1217 |> as.table() |> as_flextable()
 ```
 
 ```{r}
@@ -2687,13 +3069,10 @@ r1217 |> chisq.test()
 Page 664, 
 ```{r}
 r1237 = c(29L, 9L, 123L-29L, 192L-123L-9L) |>
-  array(dim = c(2L, 2L), dimnames = list(
-    Gender = c('Male', 'Female'), Drug = c('Yes', 'No')
-  )) |> 
-  as.table()
+  matrix(nrow = 2L, dimnames = list(Gender = c('Male', 'Female'), Drug = c('Yes', 'No')))
 ```
 ```{r}
-r1237 |> as_flextable()
+r1237 |> as.table() |> as_flextable()
 ```
 ```{r}
 r1237 |> chisq.test()
@@ -2719,7 +3098,7 @@ SMOKING1 = LDS_C12_SMOKING |>
     Drinking = structure(Drinking + 1L, levels = c('None', 'Light', 'Heavy'), class = 'factor')
     Respiratory = ifelse(Respiratory, yes = 'yes', no = 'no')
     HighBloodPres = ifelse(HighBloodPres, yes = 'yes', no = 'no')
-})
+  })
 ```
 
 ### Question 1
@@ -3050,3 +3429,65 @@ another fancy plot
 sf_1451 |> 
   survminer::ggsurvplot(title = 'Figure 14.5.1')
 ```
+
+
+## Review
+
+### Review 11
+Page 774, 
+```{r}
+REV_C14_11 |> head(n = 3L)
+```
+
+```{r}
+r1411 = REV_C14_11 |> 
+  subset(subset = (GRADE != '0')) |> # no death for `Grade == 0`
+  within(expr = {
+    OS = Surv(DAYS, OUTCOME); DAYS = OUTCOME = NULL
+    GRADE = factor(GRADE)
+  })
+```
+
+
+```{r}
+m1411 = coxph(OS ~ GRADE, data = r1411)
+```
+```{r}
+m1411 |> summary()
+```
+
+
+```{r}
+survfit(OS ~ GRADE, data = r1411) |> autoplot()
+```
+
+
+### Review 12
+
+Page 775, 
+
+```{r}
+REV_C14_12 |> head(n = 3L)
+```
+
+
+```{r}
+r1412 = REV_C14_12 |> 
+  within(expr = {
+    OS = Surv(MONTHS, STATUS == 'D'); MONTHS = STATUS = NULL
+    NUMBER = factor(NUMBER)
+  })
+m1412 = coxph(OS ~ NUMBER, data = r1412)
+```
+
+
+```{r}
+m1412 |> summary()
+```
+
+
+```{r}
+survfit(OS ~ NUMBER, data = r1412) |> autoplot()
+```
+
+
