@@ -76,7 +76,7 @@ c(
   '`sd`', 'Standard deviation', '`?stats::sd`',
   '`search`', 'Search path', '`?base::search`',
   '`seed`', 'Random number generation seed', '`?base::set.seed`',
-  '`seq`, `seq.int`', 'Sequence generation', '`?base::seq`; `?base::seq.int`',
+  '`seq`', 'Sequence generation', '`?base::seq`',
   '`skewness`', 'Skewness', '`?e1071::skewness`',
   '`sort`', 'Sorting vectors', '`?base::sort`',
   '`table`', 'Cross tabulation', '`?base::table`',
@@ -115,7 +115,7 @@ set.seed(12); EXA_C01_S04_01[sample.int(n = nrow(EXA_C01_S04_01), size = 10L), ]
 Page 11 (10th ed), Page 10 (11th ed).
 
 ```{r}
-EXA_C01_S04_01[seq.int(from = 4L, to = 166L, by = 18L), ]
+EXA_C01_S04_01[seq(from = 4L, to = 166L, by = 18L), ]
 ```
 
 # Chapter 2: *Descriptive Statistics*
@@ -146,7 +146,7 @@ Page 23 (10th ed); Page 22 (11th ed).
 
 ```{r}
 EXA_C01_S04_01$AGE |>
-  cut(breaks = seq.int(from = 30, to = 90, by = 10), right = FALSE, ordered_result = TRUE) |>
+  cut(breaks = seq(from = 30, to = 90, by = 10), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
 
@@ -160,7 +160,7 @@ EXR_C02_S03_01$pindex |> viewStats()
 
 ```{r}
 EXR_C02_S03_01$pindex |>
-  cut(breaks = seq.int(0, 3, by = .5), right = FALSE, ordered_result = TRUE) |>
+  cut(breaks = seq(0, 3, by = .5), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
 
@@ -184,7 +184,7 @@ EXR_C02_S03_03$bmi |> viewStats()
 
 ```{r}
 EXR_C02_S03_03$bmi |>
-  cut(breaks = seq.int(20, 55, by = 5), right = FALSE, ordered_result = TRUE) |>
+  cut(breaks = seq(20, 55, by = 5), right = FALSE, ordered_result = TRUE) |>
   viewFreq()
 ```
 
@@ -1478,7 +1478,7 @@ EXA_C07_S03_02 |>
 Page 272 (10th ed), Page 245 (11th ed). Table 7.9.1
 
 ```{r}
-seq.int(from = 16, to = 19, by = .5) |>
+seq(from = 16, to = 19, by = .5) |>
   power_z(null.value = 17.5, sd = 3.6, n = 100L)
 ```
 
@@ -1487,7 +1487,7 @@ seq.int(from = 16, to = 19, by = .5) |>
 Page 276 (10th ed), Page 248 (11th ed)
 
 ```{r}
-seq.int(from = 50, to = 70, by = 5) |>
+seq(from = 50, to = 70, by = 5) |>
    power_z(null.value = 65, sd = 15, n = 20L, sig.level = .01, alternative = 'less')
 ```
 
@@ -2782,7 +2782,7 @@ lm(Protein ~ IdealBW + Group, data = LDS_C11_WGTLOSS) |>
 Page 605 (10th ed)
 
 ```{r}
-d1231_b = c(-Inf, seq.int(from = 125, to = 275, by = 25), Inf)
+d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
 d1231 = c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L)
 names(d1231) = cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE) |> levels()
 ```
