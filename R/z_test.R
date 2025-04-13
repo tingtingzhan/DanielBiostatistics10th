@@ -4,7 +4,7 @@
 #' 
 #' @description 
 #' 
-#' \eqn{z}-test from aggregated statistics
+#' \eqn{z}-test from aggregated statistics.
 #' 
 #' @param obs \link[base]{numeric} \link[base]{vector}, observations
 #' 

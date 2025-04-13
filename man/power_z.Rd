@@ -2,7 +2,7 @@
 % Please edit documentation in R/power_z.R
 \name{power_z}
 \alias{power_z}
-\title{Chapter 7: Power Curve}
+\title{Power Curve of One-Sample \eqn{z}-Test}
 \usage{
 power_z(
   x,
@@ -32,7 +32,7 @@ Function \code{\link[=power_z]{power_z()}} returns a \code{'power_z'} object,
 which inherits from \code{'power.htest'} class.
 }
 \description{
-Functions for Chapter 7, \emph{Hypothesis Testing}.
+Power curve of one-sample \eqn{z}-test.
 }
 \details{
 Function \code{\link[=power_z]{power_z()}} calculates the powers at each element of the alternative parameters \eqn{\mu_1}, for one-sample \eqn{z}-test

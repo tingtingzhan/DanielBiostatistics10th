@@ -2,7 +2,7 @@
 % Please edit documentation in R/prop_CLT.R
 \name{prop_CLT}
 \alias{prop_CLT}
-\title{Chapter 5, 6 and 7}
+\title{\eqn{z}-test on Proportion, using Central Limit Theorem}
 \usage{
 prop_CLT(
   x,
@@ -23,8 +23,7 @@ number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)}
 \link[base]{length}-2 \link[base]{vector} \eqn{(n_1, n_2)},
 sample size(s)}
 
-\item{obs}{\link[base]{vector}, observations,
-currently used only in one-sample \eqn{z}-test on proportion \link{prop_CLT}}
+\item{obs}{\link[base]{logical} \link[base]{vector}, observations}
 
 \item{phat}{\link[base]{numeric} scalar \eqn{\hat{p}} or
 \link[base]{length}-2 \link[base]{vector} \eqn{(\hat{p}_1, \hat{p}_2)}.
@@ -48,9 +47,7 @@ Function \code{\link[=prop_CLT]{prop_CLT()}} returns an \link[stats:prop.test]{h
 otherwise returns a length-two \link[base]{numeric} vector.
 }
 \description{
-Functions for Chapter 5, \emph{Some Important Sampling Distributions},
-Chapter 6, \emph{Estimation} and
-Chapter 7, \emph{Hypothesis Testing}.
+\eqn{z}-test on proportion, using Central Limit Theorem.
 }
 \details{
 Function \code{\link[=prop_CLT]{prop_CLT()}} performs one- or two-sample \eqn{z}-test on proportion(s),

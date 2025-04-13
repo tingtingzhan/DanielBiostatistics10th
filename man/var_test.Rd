@@ -6,8 +6,9 @@
 or Two-Sample \eqn{F}-test, on Variances}
 \usage{
 var_test(
-  xsd,
-  n,
+  xsd = sd(obs),
+  n = length(obs),
+  obs,
   null.value,
   alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95,
@@ -22,6 +23,8 @@ sample standard deviation(s)}
 \item{n}{\link[base]{integer} scalar \eqn{n} or
 \link[base]{length}-2 \link[base]{vector} \eqn{(n_1, n_2)},
 sample size(s)}
+
+\item{obs}{\link[base]{numeric} \link[base]{vector}, observations}
 
 \item{null.value}{(optional) \link[base]{numeric} scalar or \link[base]{length}-2 \link[base]{vector}.
 Null value(s) of the population variance(s) (ratio)

@@ -1,10 +1,10 @@
 
 
-#' @title Chapter 7: Power Curve
+#' @title Power Curve of One-Sample \eqn{z}-Test
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 7, \emph{Hypothesis Testing}.
+#' Power curve of one-sample \eqn{z}-test.
 #' 
 #' @param x \link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis
 #' 

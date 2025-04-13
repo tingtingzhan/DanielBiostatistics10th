@@ -47,7 +47,7 @@ Function \code{\link[=z_test]{z_test()}} returns an \code{'htest'} object when \
 otherwise returns a length-two \link[base]{numeric} vector.
 }
 \description{
-\eqn{z}-test from aggregated statistics
+\eqn{z}-test from aggregated statistics.
 }
 \details{
 Function \code{\link[=z_test]{z_test()}} performs one- or two-sample \eqn{z}-test

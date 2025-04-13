@@ -1,18 +1,15 @@
 
 
-#' @title Chapter 5, 6 and 7
+#' @title \eqn{z}-test on Proportion, using Central Limit Theorem
 #' 
 #' @description 
 #' 
-#' Functions for Chapter 5, \emph{Some Important Sampling Distributions},
-#' Chapter 6, \emph{Estimation} and 
-#' Chapter 7, \emph{Hypothesis Testing}.
+#' \eqn{z}-test on proportion, using Central Limit Theorem.
 #' 
 #' @param x \link[base]{integer} scalar or \link[base]{length}-2 \link[base]{vector}, 
 #' number of positive count(s) of binary (i.e., \link[base]{logical}) variable(s)
 #' 
-#' @param obs \link[base]{vector}, observations,
-#' currently used only in one-sample \eqn{z}-test on proportion [prop_CLT]
+#' @param obs \link[base]{logical} \link[base]{vector}, observations
 #' 
 #' @param phat \link[base]{numeric} scalar \eqn{\hat{p}} or 
 #' \link[base]{length}-2 \link[base]{vector} \eqn{(\hat{p}_1, \hat{p}_2)}. 
@@ -129,7 +126,9 @@ prop_CLT <- function(x, n, obs, phat = x/n, null.value, alternative = c('two.sid
     cint0 <- c(-1, 1) * qnorm((1 - conf.level)/2, lower.tail = FALSE)
   })
   
-  cint <- phat0 + cint0 * std.err
+  cint <- (phat0 + cint0 * std.err)
+  cint[1L] <- pmax(cint[1L], 0)
+  cint[2L] <- pmin(cint[2L], 1)
   attr(cint, which = 'conf.level') <- conf.level
   class(cint) <- c('conf.int', class(cint))
   if (!has_null) return(cint)
@@ -138,7 +137,7 @@ prop_CLT <- function(x, n, obs, phat = x/n, null.value, alternative = c('two.sid
     statistic = setNames(zstat, nm = 'z'),
     p.value = pval, 
     conf.int = cint, 
-    null.value = setNames(null_val, nm = switch(length(n), '1' = 'proportion', '2' = 'proportion-difference')),
+    null.value = setNames(null_val, nm = switch(length(n), '1' = 'p', '2' = 'proportion-difference')),
     stderr = std.err, alternative = alternative, method = method, 
     data.name = dname
   )

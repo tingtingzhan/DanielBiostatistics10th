@@ -7,6 +7,8 @@
 #' One-sample \eqn{\chi^2}-test,
 #' or two-sample \eqn{F}-test, on variances.
 #' 
+#' @param obs \link[base]{numeric} \link[base]{vector}, observations
+#' 
 #' @param xsd \link[base]{numeric} scalar \eqn{s} or 
 #' \link[base]{length}-2 \link[base]{vector} \eqn{(s_1, s_2)},
 #' sample standard deviation(s)
@@ -41,8 +43,9 @@
 #' @importFrom stats pchisq pf qchisq qf setNames
 #' @export
 var_test <- function(
-    xsd, 
-    n, 
+    xsd = sd(obs), 
+    n = length(obs), 
+    obs,
     null.value, 
     alternative = c('two.sided', 'less', 'greater'), 
     conf.level = .95, 

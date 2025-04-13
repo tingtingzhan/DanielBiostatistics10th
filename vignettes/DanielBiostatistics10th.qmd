@@ -22,9 +22,13 @@ vignette: >
 
 # Introduction
 
-This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of ***Biostatistics: A Foundation for Analysis in the Health Sciences***, [10th Edition](https://dev.store.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+10th+Edition-p-9781119625506) by Wayne W. Daniel and Chad L. Cross.
+This vignette of package **`DanielBiostatistics10th`** ([CRAN](https://cran.r-project.org/package=DanielBiostatistics10th), [Github](https://github.com/tingtingzhan/DanielBiostatistics10th)) documents the examples of
 
-## Note to Users
+-   ***Biostatistics: A Foundation for Analysis in the Health Sciences***, [10th Edition](https://dev.store.wiley.com/en-us/Biostatistics%3A+A+Foundation+for+Analysis+in+the+Health+Sciences%2C+10th+Edition-p-9781119625506)
+
+by Wayne W. Daniel and Chad L. Cross.
+
+## Note to Students
 
 Examples in this vignette require that the `search` path has
 
@@ -43,46 +47,128 @@ library(knitr) # for tables in this vignette
 #options(mc.cores = 1L) # for CRAN submission
 ```
 
+These are functions defined in package **`DanielBiostatistics10th`**, for each chapter of the book.
+
+### Chapter 2
+
+```{r}
+#| echo: false
+#| results: asis
+c(
+  '`?viewFreq`', 'View frequencies, cumulative frequencies and reversed cumulative frequencies of an `ordered` `factor`', 
+  '`?viewStats`', 'View statistics (e.g., mean, standard deviations, etc.) of `numeric` observations'
+) |>
+  matrix(nrow = 2L, dimnames = list(c('Function', 'Description'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable() 
+```
+
+### Chapter 3
+
+```{r}
+#| echo: false
+#| results: asis
+c(
+  '`?binTab`', '$2\\times 2$ Test-&-Disease or Risk-&-Disease table'
+) |>
+  matrix(nrow = 2L, dimnames = list(c('Function', 'Description'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable() 
+```
+
+### Chapter 5 to 7
+
+```{r}
+#| echo: false
+#| results: asis
+c(
+  '`?z_test`', 'One- or two-sample $z$-test using aggregated statistics',
+  '`?t_test`', 'One- or two-sample $t$-test using aggregated statistics',
+  '`?prop_CLT`', 'One- or two-sample $z$-test on proportion(s) using aggregated statistics, based on Central Limit Theorem',
+  '`?var_test`', 'One-sample $\\chi^2$-test or two-sample $F$-test on variances using aggregated statistics',
+  '`?power_z`', 'Power curve of one-sample $z$-test.'
+) |>
+  matrix(nrow = 2L, dimnames = list(c('Function', 'Description'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable() 
+```
+
+### Chapter 12
+
+```{r}
+#| echo: false
+#| results: asis
+c(
+  '`?viewOE`', 'View **o**bserved and **e**xpected frequencies of Pearson\'s $\\chi^2$-test'
+) |>
+  matrix(nrow = 2L, dimnames = list(c('Function', 'Description'), NULL)) |>
+  t.default() |>
+  as.data.frame.matrix() |> 
+  kable() 
+```
+
 ## Terms and Abbreviations
 
 ```{r}
 #| echo: false
 #| results: asis
 c(
-  '', 'Forward pipe operator', '`?base::pipeOp` introduced in `R` 4.1.0', 
-  '`$`', 'Extract parts of an object', '`` ?base::`$` ``',
-  '`aov`, `anova`', 'Analysis-of-variance (ANOVA) model; ANOVA table', '`?stats::aov`; `?stats::anova`',
-  '`CRAN`, `R`', 'The Comprehensive R Archive Network', '<https://cran.r-project.org>',
-  '`chisq.test`', 'Pearson\'s Chi-squared Test', '`?stats::chisq.test`',
-  '`class`', 'Object class', '`?base::class`',
-  '`cut`', 'Convert numeric to factor', '`?base::cut`; `?base::cut.default`',
-  '`data.frame`', 'Data frame', '`?base::data.frame`',
-  '`dim`', 'Dimensions', '`?base::dim`',
-  '`dbinom`, `pbinom`, `qbinom`', 'Binomial density, probability, quantile', '`?stats::dbinom`',
-  '`dpois`, `ppois`, `qpois`', 'Poisson density, probability, quantile', '`?stats::dpois`',
-  '`dnorm`, `pnorm`, `qnorm`', 'Normal density, probability, quantile', '`?stats::dnorm`',
-  '`factor`', 'Factor', '`?base::factor`',
-  '`flextable`', 'Flexible tables', '`?flextable::flextable`',
-  '`head`, `tail`', 'First or last parts of an object', '`?utils::head`',
-  '`kurtosis`', 'Kurtosis', '`?e1071::kurtosis`',
-  '`matrix`', 'Matrices', '`?base::matrix`',
-  '`mean`', 'Arithmetic mean', '`?base::mean`',
-  '`median`', 'Median', '`?stats::median`',
-  '`Mode`', 'Mode', '`?pracma::Mode`',
-  '`names`', 'Names of an object', '`?base::names`',
-  '`nrow`', 'Number of rows', '`?base::nrow`',
-  '`quantile`', 'Quantile', '`?stats::quantile`',
-  '`sample`, `sample.int`', 'Random samples', '`?base::sample`; `?base::sample.int`', 
-  '`sd`', 'Standard deviation', '`?stats::sd`',
-  '`search`', 'Search path', '`?base::search`',
-  '`seed`', 'Random number generation seed', '`?base::set.seed`',
-  '`seq`', 'Sequence generation', '`?base::seq`',
-  '`skewness`', 'Skewness', '`?e1071::skewness`',
-  '`sort`', 'Sorting vectors', '`?base::sort`',
-  '`table`', 'Cross tabulation', '`?base::table`',
-  '`var`', 'Variance', '`?stats::var`'
+  '', 'Forward [pipe operator](https://search.r-project.org/R/refmans/base/html/pipeOp.html) introduced in `R` 4.1.0',
+  '`$`', '[Extract](https://search.r-project.org/R/refmans/base/html/Extract.html) parts of an object',
+  '[`abline`](https://search.r-project.org/R/refmans/graphics/html/abline.html)', 'Add straight line (by intercept and slope) to a plot',
+  '[`aov`](https://search.r-project.org/R/refmans/stats/html/aov.html), [`anova`](https://search.r-project.org/R/refmans/stats/html/anova.html)', 'Analysis-of-variance (ANOVA) model; ANOVA table',
+  '[`boxplot`](https://search.r-project.org/R/refmans/graphics/html/boxplot.html)', 'Box plot',
+  '`CRAN`, `R`', '[The Comprehensive R Archive Network](https://cran.r-project.org)',
+  '[`chisq.test`](https://search.r-project.org/R/refmans/stats/html/chisq.test.html)', 'Pearson\'s $\\chi^2$-test',
+  '[`class`](https://search.r-project.org/R/refmans/base/html/class.html)', 'Object class',
+  '[`confint`](https://search.r-project.org/R/refmans/stats/html/confint.html)', 'Confidence intervals for model parameters',
+  '[`cut`](https://search.r-project.org/R/refmans/base/html/cut.html)', 'Convert numeric to factor',
+  '[`data.frame`](https://search.r-project.org/R/refmans/base/html/data.frame.html)', 'Data frame',
+  '[`dim`](https://search.r-project.org/R/refmans/base/html/dim.html)', 'Dimensions',
+  '[`dbinom`, `pbinom`, `qbinom`](https://search.r-project.org/R/refmans/stats/html/Binomial.html)', 'Binomial density, probability, quantile',
+  '[`dpois`, `ppois`, `qpois`](https://search.r-project.org/R/refmans/stats/html/Poisson.html)', 'Poisson density, probability, quantile',
+  '[`dnorm`, `pnorm`, `qnorm`](https://search.r-project.org/R/refmans/stats/html/Normal.html)', 'Normal density, probability, quantile',
+  '[`exp`](https://search.r-project.org/R/refmans/base/html/Log.html)', 'Exponential',
+  '[`factor`](https://search.r-project.org/R/refmans/base/html/factor.html)', 'Factor',
+  '[`fisher.test`](https://search.r-project.org/R/refmans/stats/html/fisher.test.html)', 'Fisher\'s exact test', 
+  '[`flextable`](https://search.r-project.org/CRAN/refmans/flextable/html/flextable.html)', 'Flexible tables',
+  '[`glm`](https://search.r-project.org/R/refmans/stats/html/glm.html)', 'Generalized linear model',
+  '[`head`, `tail`](https://search.r-project.org/R/refmans/utils/html/head.html)', 'First or last parts of an object',
+  '[`kurtosis`](https://search.r-project.org/CRAN/refmans/e1071/html/kurtosis.html)', 'Kurtosis',
+  '[`label_percent`](https://search.r-project.org/CRAN/refmans/scales/html/label_percent.html)', 'Label for percentages',
+  '[`lm`](https://search.r-project.org/R/refmans/stats/html/lm.html)', 'Linear model',
+  '[`log`](https://search.r-project.org/R/refmans/base/html/Log.html)', 'Logarithm',
+  '[`matrix`](https://search.r-project.org/R/refmans/base/html/matrix.html)', 'Matrices',
+  '[`mean`](https://search.r-project.org/R/refmans/base/html/mean.html)', 'Arithmetic mean',
+  '[`median`](https://search.r-project.org/R/refmans/stats/html/median.html)', 'Median',
+  '[`Mode`](https://search.r-project.org/CRAN/refmans/pracma/html/mode.html)', 'Mode',
+  '[`names`](https://search.r-project.org/R/refmans/base/html/names.html)', 'Names of an object',
+  '[`nrow`](https://search.r-project.org/R/refmans/base/html/nrow.html)', 'Number of rows',
+  '[`ordered`](https://search.r-project.org/R/refmans/base/html/factor.html)', 'Ordered factor',
+  '[`plot`](https://search.r-project.org/R/refmans/base/html/plot.html)', 'Plot',
+  '[`prop.test`](https://search.r-project.org/R/refmans/stats/html/prop.test.html)', 'Pearson\'s $\\chi^2$-test on proportions',
+  '[`quantile`](https://search.r-project.org/R/refmans/stats/html/quantile.html)', 'Quantile',
+  '[`rep`](https://search.r-project.org/R/refmans/base/html/rep.html)', 'Replicate elements',
+  '[`sample`, `sample.int`](https://search.r-project.org/R/refmans/base/html/sample.html)', 'Random samples', 
+  '[`sd`](https://search.r-project.org/R/refmans/stats/html/sd.html)', 'Standard deviation',
+  '[`search`](https://search.r-project.org/R/refmans/base/html/search.html)', 'Search path',
+  '[`seed`, `set.seed`](https://search.r-project.org/R/refmans/base/html/Random.html)', 'Random number generation seed',
+  '[`seq`](https://search.r-project.org/R/refmans/base/html/seq.html)', 'Sequence generation',
+  '[`skewness`](https://search.r-project.org/CRAN/refmans/e1071/html/skewness.html)', 'Skewness',
+  '[`sort`](https://search.r-project.org/R/refmans/base/html/sort.html)', 'Sorting vectors',
+  '[`summary`](https://search.r-project.org/R/refmans/base/html/summary.html)', 'Summaries of an `R` object',
+  '[`t.test`](https://search.r-project.org/R/refmans/stats/html/t.test.html)', 'Student\'s $t$-test',
+  '[`table`](https://search.r-project.org/R/refmans/base/html/table.html)', 'Cross tabulation',
+  '[`uniroot`](https://search.r-project.org/R/refmans/stats/html/uniroot.html)', 'One dimensional root-finding',
+  '[`var`](https://search.r-project.org/R/refmans/stats/html/cor.html)', 'Variance',
+  '[`var.test`](https://search.r-project.org/R/refmans/stats/html/var.test.html)', '$F$-test to compare variances',
+  '[`with`, `within`](https://search.r-project.org/R/refmans/base/html/with.html)', 'Evaluate an expression in a data environment', 
+  '[`xtabs`](https://search.r-project.org/R/refmans/stats/html/xtabs.html)', 'Cross tabulation'
 ) |>
-  matrix(nrow = 3L, dimnames = list(c('Term / Abbreviation', 'Description', 'Reference'), NULL)) |>
+  matrix(nrow = 2L, dimnames = list(c('Term / Abbreviation', 'Description'), NULL)) |>
   t.default() |>
   as.data.frame.matrix() |> 
   kable() 
@@ -103,7 +189,6 @@ EXA_C01_S04_01 |> class()
 ```{r}
 EXA_C01_S04_01 |> head(n = 3L)
 ```
-
 
 ```{r}
 set.seed(12); EXA_C01_S04_01[sample.int(n = nrow(EXA_C01_S04_01), size = 10L), ] |> 
@@ -247,11 +332,12 @@ EXA_C02_S05_05$GRF |> viewStats()
 
 ## Large Data Set
 
-Page 62, 
+Page 62,
 
 ```{r}
 LDS_C02_NCBIRTH800 |> head(n = 3L)
 ```
+
 ```{r}
 NCBIRTH = within(LDS_C02_NCBIRTH800, expr = {
   sex = structure(sex, levels = c('male', 'female'), class = 'factor')
@@ -274,44 +360,53 @@ NCBIRTH$sex |> table()
 ```{r}
 NCBIRTH$mage |> viewStats()
 ```
+
 ```{r}
 NCBIRTH$weeks |> viewStats()
 ```
+
 ```{r}
 NCBIRTH$gained |> viewStats()
 ```
+
 ```{r}
 NCBIRTH$tounces |> viewStats()
 ```
+
 ```{r}
 NCBIRTH$tgrams |> viewStats()
 ```
+
 ```{r}
 range(NCBIRTH$tounces / NCBIRTH$tgrams)
 NCBIRTH |> 
   with(expr = tounces / tgrams) |> 
   range()
 ```
+
 ```{r}
 NCBIRTH$mage |> boxplot(main = 'mage')
 ```
+
 ```{r}
 NCBIRTH$weeks |> boxplot(main = 'weeks')
 ```
+
 ```{r}
 NCBIRTH$gained |> boxplot(main = 'gained')
 ```
+
 ```{r}
 NCBIRTH$tounces |> boxplot(main = 'tounces')
 ```
+
 ```{r}
 boxplot(tounces ~ smoke, data = NCBIRTH)
 ```
+
 ```{r}
 boxplot(mage ~ marital, data = NCBIRTH)
 ```
-
-
 
 # Chapter 3: *Some Basic Probability Concepts*
 
@@ -393,7 +488,9 @@ npv(prevalence = 1/32000, sensitivity = .927, specificity = .997)
 ## Review
 
 ### Review 3
+
 Page 85 (10th ed)
+
 ```{r}
 c(319L, 130L, 88L, 41L, 738L, 329L, 402L, 95L) |>
   matrix(nrow = 4L, dimnames = list(
@@ -404,7 +501,9 @@ c(319L, 130L, 88L, 41L, 738L, 329L, 402L, 95L) |>
 ```
 
 ### Review 5
-Page 87 (10th ed) 
+
+Page 87 (10th ed)
+
 ```{r}
 c(9L, 20L, 5L, 4L, 4L, 2L, 17L, 3L, 7L, 13L, 6L, 15L, 8L, 4L, 9L) |>
   matrix(nrow = 5L, dimnames = list(
@@ -415,7 +514,9 @@ c(9L, 20L, 5L, 4L, 4L, 2L, 17L, 3L, 7L, 13L, 6L, 15L, 8L, 4L, 9L) |>
 ```
 
 ### Review 9
+
 Page 88 (10th ed)
+
 ```{r}
 r39 = c(115849L, 112L, 2244L, 2991L) |>
   matrix(nrow = 2L, dimnames = list(
@@ -424,23 +525,22 @@ r39 = c(115849L, 112L, 2244L, 2991L) |>
   binTab()
 r39 |> as_flextable()
 ```
+
 ```{r}
 r39 |> summary()
 ```
-
 
 ## Large Data Set
 
 Page 90
 
 ```{r}
-NCBIRTH |> with(expr = table(premie, smoke)) |> as_flextable()
+xtabs(~ premie + smoke, data = NCBIRTH) |> as_flextable()
 ```
 
 ```{r}
-NCBIRTH |> with(expr = table(low, marital)) |> as_flextable()
+xtabs(~ low + marital, data = NCBIRTH) |> as_flextable()
 ```
-
 
 # Chapter 4: *Probability Distributions*
 
@@ -609,7 +709,6 @@ Page 120 (10th ed), Page 106 (11th ed)
   label_percent(accuracy = .1)()
 ```
 
-
 ```{r}
 (1 - 2 * pnorm(-2.55)) |> 
   label_percent(accuracy = .1)() # alternative solution
@@ -674,44 +773,54 @@ pnorm(q = 8.5, mean = 5.4, sd = 1.3, lower.tail = FALSE) |>
 ## Exercise
 
 ### Exercise 4.4.4
-Page 113, 
+
+Page 113,
+
 ```{r}
 dpois(1L, lambda = .5) |> 
   label_percent(accuracy = .01)()
 ```
+
 ```{r}
 dpois(0L, lambda = .5) |> 
   label_percent(accuracy = .01)()
 ```
+
 ```{r}
 dpois(4L, lambda = .5) |> 
   label_percent(accuracy = .01)()
 ```
+
 ```{r}
 ppois(0L, lambda = .5, lower.tail = FALSE) |> 
   label_percent(accuracy = .01)()
 ```
 
 ### Exercise 4.6.11
+
 Page 122
+
 ```{r}
 qnorm(.0055)
 ```
+
 ### Exercise 4.6.12
+
 Page 122.
 
-P(-2.67<=Z<=z) = .9718 
+P(-2.67\<=Z\<=z) = .9718
+
 ```{r}
 # pnorm(z) - pnorm(-2.67) = .9718
 qnorm(.9718 + pnorm(-2.67))
 ```
 
-
-
 ## Review
 
 ### Review 15
+
 Page 130
+
 ```{r}
 dbinom(x = 7L, size = 10L, prob = .35) |> 
   label_percent(accuracy = .1)()
@@ -724,7 +833,9 @@ dbinom(x = 0L, size = 10L, prob = .35) |>
 ```
 
 ### Review 17
-Page 130, 
+
+Page 130,
+
 ```{r}
 dpois(10L, lambda = 15.8) |> 
   label_percent(accuracy = .1)()
@@ -739,7 +850,9 @@ ppois(7L, lambda = 15.8) |>
 ```
 
 ### Review 19
-Page 131, 
+
+Page 131,
+
 ```{r}
 pbinom(6L, size = 8L, prob = .8) |> 
   label_percent(accuracy = .1)()
@@ -756,6 +869,7 @@ pbinom(3L, size = 8L, prob = .8) |>
 ### Review 20
 
 Page 131 (10th ed)
+
 ```{r}
 dpois(0L, lambda = 1.3) |> 
   label_percent(accuracy = .1)()
@@ -766,7 +880,9 @@ ppois(4L, lambda = 1.3) |>
 ```
 
 ### Review 23
-Page 131 (10th ed), 
+
+Page 131 (10th ed),
+
 ```{r}
 pnorm(200, mean = 500, sd = sqrt(1e4)) |> 
   label_percent(accuracy = .1)()
@@ -777,7 +893,9 @@ pnorm(650, mean = 500, sd = sqrt(1e4), lower.tail = FALSE) |>
 ```
 
 ### Review 26
-Page 132 (10th ed), 
+
+Page 132 (10th ed),
+
 ```{r}
 (rev426 = qnorm((1-.754)/2, lower.tail = FALSE))
 (pnorm(rev426) - pnorm(-rev426)) |> 
@@ -785,7 +903,9 @@ Page 132 (10th ed),
 ```
 
 ### Review 27
+
 Page 132 (10th ed)
+
 ```{r}
 qnorm(.0094, mean = 100, sd = 15, lower.tail = TRUE)
 qnorm(.1093, mean = 100, sd = 15, lower.tail = FALSE)
@@ -794,16 +914,14 @@ qnorm(.9660+((1-.9660)/2), mean = 100, sd = 15, lower.tail = TRUE)
 ```
 
 ### Review 28
+
 Page 132 (10th ed)
+
 ```{r}
 # (40-mu)/sigma = qnorm(.0080)
 (mu428 = 40 - qnorm(.0080) * 10)
 qnorm(.0080, mean = mu428, sd = 10, lower.tail = TRUE)
 ```
-
-
-
-
 
 # Chapter 5, *Some Important Sampling Distributions*
 
@@ -838,7 +956,9 @@ Page 127 (11th ed)
 ```
 
 ### Exercise 5.3.7
-Page 145, 
+
+Page 145,
+
 ```{r}
 (pnorm(q = 55, mean = 50, sd = 16/sqrt(64L)) - pnorm(q = 45, mean = 50, sd = 16/sqrt(64L))) |> 
   label_percent(accuracy = .1)()
@@ -848,8 +968,6 @@ Page 145,
 pnorm(q = 53, mean = 50, sd = 16/sqrt(64L), lower.tail = FALSE)  |> 
   label_percent(accuracy = .1)()
 ```
-
-
 
 ## Section 5.4
 
@@ -905,66 +1023,80 @@ Page 155 (10th ed),
 prop_CLT(phat = .05, null.value = c(.34, .26), n = c(250L, 200L), alternative = 'less')
 ```
 
-
-
-
-
-
 ## Review
 
 ### Review 11
+
 Page 158 (10th ed).
+
 ```{r}
 pnorm(25, mean = 23.1, sd = 3.7/sqrt(45L), lower.tail = FALSE)
 ```
+
 ```{r}
 z_test(xbar = 25, n = 45L, sd = 3.7, null.value = 23.1, alternative = 'greater')
 ```
 
 ### Review 12
+
 Page 158 (10th ed).
 
 ```{r}
 pnorm(24, mean = 24.7, sd = 3.3/sqrt(50L), lower.tail = TRUE) |> 
   label_percent(accuracy = .1)()
 ```
+
 ```{r}
 z_test(xbar = 24, n = 50L, sd = 3.3, null.value = 24.7, alternative = 'less')
 ```
 
 ### Review 13
+
 Page 158 (10th ed).
+
 ```{r}
 z_test(xbar = 3, n = c(45L, 50L), sd = c(3.7, 3.3), null.value = c(23.1, 24.7), alternative = 'greater')
 ```
 
 ### Review 14
+
 Page 158 (10th ed)
 
 ### Review 17
-Page 159, 
+
+Page 159,
+
 ```{r}
 prop_CLT(phat = .25, n = 65L, null.value = .19, alternative = 'greater')
 ```
+
 ### Review 18
-Page 159, 
+
+Page 159,
+
 ```{r}
 prop_CLT(phat = .2, n = 220L, null.value = .17, alternative = 'greater')
 ```
+
 ### Review 19
-Page 159, 
+
+Page 159,
+
 ```{r}
 prop_CLT(phat = .2, n = 250L, null.value = .23, alternative = 'less')
 ```
+
 ### Review 20
+
 Page 159
+
 ```{r}
 prop_CLT(phat = .05, n = c(250L, 220L), null.value = c(.23, .17), alternative = 'less')
 ```
 
 ### Review 21
-(not done)
 
+(not done)
 
 # Chapter 6, *Estimation*
 
@@ -1003,13 +1135,17 @@ z_test(obs = EXA_C06_S02_04$ACTIVITY, sd = sqrt(.36))
 ```
 
 ### Exercise 6.2.1
-Page 171, 
+
+Page 171,
+
 ```{r}
 z_test(xbar = 90, sd = 10, n = 49L, conf.level = .9)
 ```
+
 ```{r}
 z_test(xbar = 90, sd = 10, n = 49L, conf.level = .95)
 ```
+
 ```{r}
 z_test(xbar = 90, sd = 10, n = 49L, conf.level = .99)
 ```
@@ -1080,6 +1216,10 @@ Page 187 (10th ed),
 prop_CLT(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
 ```
 
+```{r}
+prop.test(x = c(31L, 53L), n = c(68L, 255L), conf.level = .99)
+```
+
 ## Section 6.7
 
 ### Example 6.7.1
@@ -1114,7 +1254,7 @@ Page 196 (10th ed),
 
 ```{r}
 d691 = c(9.7, 12.3, 11.2, 5.1, 24.8, 14.8, 17.7)
-var_test(xsd = sd(d691), n = length(d691)) |> sqrt()
+var_test(obs = d691) |> sqrt()
 ```
 
 ## Section 6.10
@@ -1127,68 +1267,72 @@ Page 200 (10th ed),
 var_test(xsd = c(8.1, 5.9), n = c(16L, 4L))
 ```
 
-
-
-
 ## Review
 
 ### Review 18
-Page 206, 
+
+Page 206,
+
 ```{r}
 t_test(xbar = c(3.85, 2.8), n = c(21L, 16L), xsd = c(1.95, 1.7), conf.level = .95)
 ```
-
 
 ```{r}
 t_test(xbar = c(3.85, 2.8), n = c(21L, 16L), xsd = c(1.95, 1.7), conf.level = .95, var.equal = TRUE)
 ```
 
-
 ### Review 20
-Page 206, 
+
+Page 206,
+
 ```{r}
 t_test(xbar = c(95, 125), n = c(35L, 35L), xsd = c(25, 30), conf.level = .95)
 ```
-
 
 ```{r}
 t_test(xbar = c(95, 125), n = c(35L, 35L), xsd = c(25, 30), conf.level = .95, var.equal = TRUE)
 ```
 
-
 ### Review 23
-Page 207, 
+
+Page 207,
+
 ```{r}
 REV_C06_23 |> head(n = 3L)
 ```
-
 
 ```{r}
 t.test(Hours ~ Group, data = REV_C06_23, var.equal = TRUE) 
 ```
 
-
 ### Review 24
-Page 207, 
+
+Page 207,
+
 ```{r}
 z_test(xbar = c(358, 483), sd = c(308, 144), n = c(52L, 53L), conf.level = .99)
 ```
 
 ### Review 25
-Page 207, 
+
+Page 207,
+
 ```{r}
 t_test(xbar = 435, n = 34L, xsd = 215, conf.level = .95)
 ```
 
 ### Review 26
-Page 207, 
+
+Page 207,
+
 ```{r}
 prop_CLT(phat = c(.293, .173), n = c(220L, 106L), conf.level = .95)
 ```
 
-
 ### Review 28
-Page 208, 
+
+Page 208,
+
 ```{r}
 r628 = REV_C06_28 |>
   within(expr = {
@@ -1196,51 +1340,64 @@ r628 = REV_C06_28 |>
   })
 ```
 
-
 ```{r}
 t.test(LA ~ Group, data = r628) 
 ```
 
-
-
-
 ## Large Data Sets
 
-Page 210, 
+Page 210,
 
 ### Question 1
 
 #### 1(a)
+
 ```{r}
 NCBIRTH |> with(expr = prop_CLT(obs = (sex == 'male')))
 ```
+
 #### 1(b)
+
 ```{r}
 NCBIRTH$mage |> t.test()
 ```
+
 #### 1(c)
+
 ```{r}
 NCBIRTH$gained |> t.test()
 ```
+
 #### 1(d)
+
 ```{r}
 NCBIRTH |> with(expr = prop_CLT(obs = (smoke == 'smoked')))
 ```
+
 #### 1(e)
+
 ```{r}
 t.test(gained ~ smoke, data = NCBIRTH)
 ```
+
 #### 1(f)
+
 ```{r}
 t.test(tounces ~ marital, data = NCBIRTH)
 ```
+
 #### 1(g)
+
 ```{r}
-prop_CLT(x = 35L, n = c(537L, 263L))
+prop_CLT(x = 35L, n = c(263L, 537L))
 ```
 
+```{r}
+prop.test(x = rep(35L, times = 2L), n = c(263L, 537L))
+```
 
 ### Question 2
+
 ```{r}
 LDS_C06_CHOLEST$CHOLEST |> 
   sample(size = 15L) |> 
@@ -1248,11 +1405,13 @@ LDS_C06_CHOLEST$CHOLEST |>
 ```
 
 ### Question 3
+
 ```{r}
 prop_CLT(obs = (sample(LDS_C06_CHOLEST$CHOLEST, size = 50L) > 225))
 ```
 
 ### Question 4
+
 ```{r}
 LDS_C06_BABYWGTS$WGT |> 
   sample(size = 20L) |>
@@ -1260,6 +1419,7 @@ LDS_C06_BABYWGTS$WGT |>
 ```
 
 ### Question 5
+
 ```{r}
 LDS_C06_BABYWGTS$WGT |>
   sample(size = 35L) |>
@@ -1267,6 +1427,7 @@ LDS_C06_BABYWGTS$WGT |>
 ```
 
 ### Question 6
+
 ```{r}
 LDS_C06_BOYHGTS$HGT |>
   sample(size = 15L) |>
@@ -1274,14 +1435,12 @@ LDS_C06_BOYHGTS$HGT |>
 ```
 
 ### Question 7
+
 ```{r}
 LDS_C06_BOYHGTS$HGT |>
   sample(size = 35L) |>
   t.test(conf.level = .99)
 ```
-
-
-
 
 # Chapter 7: *Hypothesis Testing*
 
@@ -1408,12 +1567,20 @@ Page 258 (10th ed), Page 232 (11th ed)
 prop_CLT(x = 24L, n = 301L, null.value = .063, alternative = 'greater') 
 ```
 
+```{r}
+prop.test(x = 24L, n = 301L, p = .063, alternative = 'greater')
+```
+
 ### Exercise 7.5.4
 
 Page 260,
 
 ```{r}
 prop_CLT(x = 175L, n = 250L, null.value = .6, alternative = 'greater', conf.level = .99)
+```
+
+```{r}
+prop.test(x = 175L, n = 250L, p = .6, alternative = 'greater', conf.level = .99)
 ```
 
 ### Exercise 7.5.5
@@ -1424,12 +1591,20 @@ Page 260
 prop_CLT(x = 25L, n = 250L, null.value = .15, alternative = 'less')
 ```
 
+```{r}
+prop.test(x = 25L, n = 250L, p = .15, alternative = 'less')
+```
+
 ### Exercise 7.5.6
 
 Page 260
 
 ```{r}
 prop_CLT(x = 238L, n = 250L, null.value = .9, alternative = 'greater')
+```
+
+```{r}
+prop.test(x = 238L, n = 250L, p = .9, alternative = 'greater')
 ```
 
 ## Section 7.6
@@ -1442,14 +1617,20 @@ Page 261 (10th ed), Page 235 (11th ed)
 prop_CLT(x = c(24L, 11L), n = c(44L, 29L), null.value = 0, alternative = 'greater')
 ```
 
+```{r}
+prop.test(x = c(24L, 11L), n = c(44L, 29L), alternative = 'greater')
+```
+
 ## Section 7.7
 
 ### Example 7.7.1
 
-Page 264 (10th ed), Page 238 (11th ed)
+Page 264 (10th ed), Page 238 (11th ed).
+
+Textbook has a typo. Sample size should be 17 (instead of 16). Degree of freedom should be 16 (intead of 15).
 
 ```{r}
-var_test(xsd = sd(EXA_C07_S07_01$mass), n = 16L, null.value = 600)
+var_test(obs = EXA_C07_S07_01$mass, null.value = 600)
 ```
 
 ## Section 7.8
@@ -1492,20 +1673,22 @@ seq(from = 50, to = 70, by = 5) |>
 ```
 
 ### Exercise 7.9.1
+
 Page 277
+
 ```{r}
 c(510, 520, 540) |>
   power_z(null.value = 516, sd = 32, n = 16L, alternative = 'greater')
 ```
 
-
 ### Exercise 7.9.3
-Page 277, 
+
+Page 277,
+
 ```{r}
 c(4, 4.5, 4.75, 5) |>
   power_z(null.value = 4.25, sd = 1.8, n = 81L, sig.level = .01, alternative = 'greater')
 ```
-
 
 ## Section 7.10
 
@@ -1521,82 +1704,101 @@ power_z(55, null.value = 65, sd = 15, n = ceiling(n_d7101), sig.level = .01, alt
 ```
 
 ### Exercise 7.10.2
-Page 279, 
+
+Page 279,
+
 ```{r}
 (n_e7102 = uniroot(f = function(x) {
   power_z(4.52, null.value = 4.5, sd = .02, n = x, sig.level = .01, alternative = 'greater')$power - .95
 }, interval = c(0, 50))$root)
 ```
+
 The required sample size to achieve 95% power at 4.52 is 15.77, or 16 as an integer. The rejection region is (-Inf, 4.51)
+
 ```{r}
 qnorm(p = .01, mean = 4.5, sd = .02/sqrt(ceiling(n_e7102)), lower.tail = FALSE)
 ```
 
-
 ## Review
 
 ### Review 18
-Page 283, 
+
+Page 283,
 
 Let group 1 be IVF and group 2 be spontaneous conception
+
 ```{r}
 t_test(xbar = c(3071, 3172), xsd = c(761, 702), n = c(163L, 321L), 
              null.value = 0, alternative = 'less')
 ```
 
-
 ### Review 19
+
 Page 283
+
 ```{r}
 REV_C07_19 |> with(expr = t.test(Before, After, alternative = 'greater', paired = TRUE))
 ```
 
 ### Review 20
+
 Page 284
+
 ```{r}
 t_test(xbar = c(5.56, 4.40), xsd = c(0.84, 0.57), n = c(40L, 57L), null.value = 0, alternative = 'two.sided')
 ```
 
 ### Review 25
+
 Page 284
+
 ```{r}
 prop_CLT(x = 27L, n = 90L, null.value = .25, alternative = 'greater')
 ```
 
+```{r}
+prop.test(x = 27L, n = 90L, p = .25, alternative = 'greater')
+```
+
 ### Review 44
+
 Page 290
+
 ```{r}
 REV_C07_44 |> head(n = 3L)
 ```
 
-
 ## Large Data Sets
 
-Page 299, 
+Page 299,
 
 ### Question 1
 
 ```{r}
 LDS_C07_PCKDATA$A |> shapiro.test()
 ```
+
 ```{r}
 LDS_C07_PCKDATA$B |> shapiro.test()
 ```
+
 ```{r}
 LDS_C07_PCKDATA |> with(expr = t.test(A, B, paired = TRUE))
 ```
+
 ```{r}
 LDS_C07_PCKDATA |> with(expr = t.test(A, B, alternative = 'greater', paired = TRUE))
 ```
 
 ### Question 2
+
 ```{r}
 boxplot(TIME ~ Group, data = LDS_C07_PROTHROM)
 t.test(TIME ~ Group, data = LDS_C07_PROTHROM)
 ```
 
-
 ### Question 3
+
 ```{r}
 plot(SCA ~ NC, data = LDS_C07_HEADCIRC)
 abline(a = 0, b = 1, col = 'red')
@@ -1604,19 +1806,18 @@ LDS_C07_HEADCIRC |> with(expr = t.test(SCA, NC, alternative = 'less', paired = T
 ```
 
 ### Question 4
+
 ```{r}
 boxplot(Hb ~ Group, data = LDS_C07_HEMOGLOB)
 t.test(Hb ~ Group, data = LDS_C07_HEMOGLOB)
 ```
 
 ### Question 5
+
 ```{r}
 boxplot(SCORE ~ Learning, data = LDS_C07_MANDEXT)
 t.test(SCORE ~ Learning, data = LDS_C07_MANDEXT, alternative = 'less')
 ```
-
-
-
 
 # Chapter 8: *Analysis of Variance*
 
@@ -1686,6 +1887,7 @@ Page 352 (10th ed), Page 310 (11th ed).
 ```{r}
 EXA_C08_S04_02 |> head(n = 3L)
 ```
+
 ```{r}
 d842 = EXA_C08_S04_02 |> 
   within(expr = {
@@ -1746,12 +1948,14 @@ EXA_C08_S05_02 |>
 
 ## Review
 
-
 ### Review 13
+
 Page 376
+
 ```{r}
 REV_C08_13 |> head(n = 3L)
 ```
+
 ```{r}
 r813 = REV_C08_13 |> 
   within(expr = {
@@ -1772,10 +1976,10 @@ aov_r813 |> anova()
 aov_r813 |> TukeyHSD()
 ```
 
-
-
 ### Review 14
-Page 377, 
+
+Page 377,
+
 ```{r}
 REV_C08_14 |> head(n = 3L)
 ```
@@ -1800,10 +2004,10 @@ aov_r814 |> anova()
 aov_r814 |> TukeyHSD()
 ```
 
-
-
 ### Review 16
-Page 379 (10th ed), 
+
+Page 379 (10th ed),
+
 ```{r}
 REV_C08_16 |> head(n = 3L)
 ```
@@ -1818,10 +2022,10 @@ aov(Count ~ Sens + Treat, data = REV_C08_16) |>
   anova()
 ```
 
-
-
 ### Review 17
-Page 380, 
+
+Page 380,
+
 ```{r}
 REV_C08_17 |> head(n = 3L)
 ```
@@ -1836,16 +2040,12 @@ REV_C08_17 |>
   anova()
 ```
 
-
-
-
-
-
 ## Large Data Sets
 
-Page 407-408, 
+Page 407-408,
 
 ### Question 1
+
 ```{r}
 MedScore = LDS_C08_MEDSCORES |> 
   within(expr = {
@@ -1858,104 +2058,126 @@ aov(score ~ day * test + ID, data = MedScore) |>
 ```
 
 ### Question 2
+
 ```{r}
 LDS_C08_LSADATA |> head(n = 3L)
 ```
+
 ```{r}
 LSA1 = LDS_C08_LSADATA |>
   reshape2::melt(id.vars = 'subj', variable.name = 'Group', value.name = 'LSA')
 ```
+
 ```{r}
 boxplot(LSA ~ Group, data = LSA1)
 ```
+
 ```{r}
 aov_LSA = aov(LSA ~ Group, data = LSA1)
 aov_LSA |> anova()
 ```
+
 ```{r}
 aov_LSA |> TukeyHSD()
 ```
 
 ### Question 3
+
 ```{r}
 LDS_C08_SACEDATA |> head(n = 3L)
 ```
+
 ```{r}
 SACE = LDS_C08_SACEDATA |>
   reshape2::melt(id.vars = 'OBSERV', variable.name = 'Group', value.name = 'SACE')
 ```
+
 ```{r}
 boxplot(SACE ~ Group, data = SACE)
 ```
+
 ```{r}
 aov_SACE = aov(SACE ~ Group, data = SACE)
 aov_SACE |> anova()
 ```
+
 ```{r}
 aov_SACE |> TukeyHSD()
 ```
 
 ### Question 4
+
 ```{r}
 LDS_C08_CSFDATA |> head(n = 3L)
 ```
+
 ```{r}
 CFA = LDS_C08_CSFDATA |>
   reshape2::melt(id.vars = 'OBSERV', variable.name = 'Disease', value.name = 'CSF')
 ```
+
 ```{r}
 boxplot(CSF ~ Disease, data = CFA)
 ```
+
 ```{r}
 aov_CSF = aov(CSF ~ Disease, data = CFA)
 aov_CSF |> anova() 
 ```
+
 ```{r}
 aov_CSF |> TukeyHSD()
 ```
 
 ### Question 5
+
 ```{r}
 LDS_C08_RBCDATA |> head(n = 3L)
 ```
+
 ```{r}
 RBCDATA = LDS_C08_RBCDATA |>
   reshape2::melt(id.vars = 'OBSERV', variable.name = 'Diet', value.name = 'RBC')
 ```
+
 ```{r}
 boxplot(RBC ~ Diet, data = RBCDATA)
 ```
+
 ```{r}
 aov_RBC = aov(RBC ~ Diet, data = RBCDATA)
 aov_RBC |> anova() 
 ```
+
 ```{r}
 aov_RBC |> TukeyHSD()
 ```
 
 ### Question 6
+
 ```{r}
 LDS_C08_SERUMCHO |> head(n = 3L)
 ```
+
 ```{r}
 SERUMCHO1 = LDS_C08_SERUMCHO |>
   within(expr = {
     SUBJ = factor(SUBJ)
   })
 ```
+
 ```{r}
 SERUMCHO2 = SERUMCHO1 |>
   reshape2::melt(id.var = 'SUBJ', variable.name = 'Diet', value.name = 'SC')
 ```
+
 ```{r}
 aov_SERUMCHO = aov(SC ~ Diet + SUBJ, data = SERUMCHO2) # 'SUBJ' as block factor
 ```
+
 ```{r}
 aov_SERUMCHO |> anova()
 ```
-
-
-
 
 # Chapter 9: *Simple Linear Regression and Correlation*
 
@@ -2057,106 +2279,93 @@ cor.test(~ CV + HEIGHT, data = EXA_C09_S07_01)
 
 Page 453, when the hypothesized rho ss a nonzero value; R does not have a function to do this.
 
+library(DanielBiostatistics10th) library(reshape2)
 
 library(DanielBiostatistics10th)
-library(reshape2)
-
-
-
-library(DanielBiostatistics10th)
-
 
 ## Review
+
 ### Review 17
-Page 465, 
+
+Page 465,
+
 ```{r}
 REV_C09_17 |> head(n = 3L)
 ```
 
-
 ```{r}
 plot(BOARD ~ AVG, data = REV_C09_17)
 ```
-
 
 ```{r}
 lm(BOARD ~ I(AVG - 85), data = REV_C09_17) |> 
   summary() # ideally
 ```
 
-
 ```{r}
 lm2_917 = lm(BOARD ~ AVG, data = REV_C09_17)  # also acceptable
 lm2_917 |> summary()
 ```
 
-
 ```{r}
 plot(BOARD ~ AVG, data = REV_C09_17); abline(reg = lm2_917)
 ```
 
-
-
 ### Review 18
-Page 466, 
+
+Page 466,
+
 ```{r}
 REV_C09_18 |> head(n = 3L)
 ```
-
 
 ```{r}
 lm(ATT ~ AGE, data = REV_C09_18) |> summary()
 ```
 
-
 ```{r}
 plot(ATT ~ AGE, data = REV_C09_18)
 ```
 
-
 ```{r}
 cor.test(~ ATT + AGE, data = REV_C09_18)
 ```
-
 
 ```{r}
 lm(SOC ~ AGE, data = REV_C09_18) |> 
   summary()
 ```
 
-
 ```{r}
 plot(SOC ~ AGE, data = REV_C09_18)
 ```
-
 
 ```{r}
 cor.test(~ SOC + AGE, data = REV_C09_18)
 ```
 
-
 ```{r}
 lm(HYP ~ AGE, data = REV_C09_18) |> summary()
 ```
-
 
 ```{r}
 plot(HYP ~ AGE, data = REV_C09_18)
 ```
 
-
 ```{r}
 cor.test(~ HYP + AGE, data = REV_C09_18)
 ```
 
-
 ### Review 29
-Page 471, 
+
+Page 471,
+
 ```{r}
 REV_C09_29 |> head(n = 3L)
 ```
 
-Use all 85 pairs of measurements (textbook asks you to select the subset of B<1000; ignore)
+Use all 85 pairs of measurements (textbook asks you to select the subset of B\<1000; ignore)
+
 ```{r}
 # r929b <- subset(REV_C09_29, Standard < 1000)
 ```
@@ -2170,77 +2379,78 @@ m_r929 |> summary()
 m_r929 |> confint()
 ```
 
-
 ```{r}
 plot(New ~ Standard, data = REV_C09_29); abline(m_r929)
 ```
 
-
-
-
-
-
-
-
 ## Large Data Sets
 
-Page 485-486, 
+Page 485-486,
 
 ### Question 1
+
 ```{r}
 LDS_C09_CEREBRAL |> head(n = 3L)
 ```
+
 ```{r}
 plot(Pressure ~ Glycerol, data = LDS_C09_CEREBRAL)
 ```
+
 ```{r}
 cor.test(~ Pressure + Glycerol, data = LDS_C09_CEREBRAL)
 ```
+
 ```{r}
 CEREBRAL = lm(Pressure ~ Glycerol, data = LDS_C09_CEREBRAL)
 CEREBRAL |> summary()
 ```
+
 ```{r}
 CEREBRAL |> anova()
 ```
+
 ```{r}
 plot(Pressure ~ Glycerol, data = LDS_C09_CEREBRAL); abline(reg = CEREBRAL, col = 'red')
 ```
+
 ```{r}
 lm(Pressure ~ I(Glycerol - 15), data = LDS_C09_CEREBRAL) |> 
   summary()
 ```
 
 ### Question 2
+
 ```{r}
 LDS_C09_HYPERTEN |> head(n = 3L)
 ```
+
 ```{r}
 HYPERTEN = lm(sbp ~ dbp, data = LDS_C09_HYPERTEN)
 HYPERTEN |> summary()
 ```
+
 ```{r}
 plot(sbp ~ dbp, data = LDS_C09_HYPERTEN)
 abline(reg = HYPERTEN, col = 'red')
 ```
 
 ### Question 3
+
 ```{r}
 LDS_C09_CALCIUM |> head(n = 3L)
 LDS_C09_CALCIUM_a = LDS_C09_CALCIUM |>
   reshape2::melt(id.vars = 'patient', variable.name = 'Prednisolone', value.name = 'BodyCalcium')
 ```
+
 ```{r}
 boxplot(BodyCalcium ~ Prednisolone, data = LDS_C09_CALCIUM_a)
 ```
+
 ```{r}
 CALCIUM = lm(BodyCalcium ~ Prednisolone, data = LDS_C09_CALCIUM_a)
 CALCIUM |> summary()
 ```
-
-
-
-
 
 # Chapter 10: *Multiple Regression and Correlation*
 
@@ -2314,12 +2524,15 @@ Page 511 (10th ed), Page 436 (11th ed)
 EXA_C10_S06_01 |> pairs()
 m1061 = lm(W ~ P + S, data = EXA_C10_S06_01)
 ```
+
 ```{r}
 m1061 |> summary()
 ```
+
 ```{r}
 m1061 |> confint()
 ```
+
 ```{r}
 m1061 |> anova()
 ```
@@ -2332,62 +2545,57 @@ Page 515 (10th ed), Page 440 (11th ed)
 psych::partial.r(EXA_C10_S06_01, x = 2:3, y = 1L)
 ```
 
-
-library(DanielBiostatistics10th)
-library(car)
+library(DanielBiostatistics10th) library(car)
 
 ## Large Data Sets
 
-Page 536, 
+Page 536,
 
 ### Question 1
+
 ```{r}
 LDS_C10_LTEXER |> head(n = 3L)
 ```
 
-
-
 ### Question 2
+
 ```{r}
 LDS_C10_STERLENGTH |> head(n = 3L)
 ```
 
-
 ### Question 3
+
 ```{r}
 LDS_C10_RISKFACT |> head(n = 3L)
 ```
+
 ```{r}
 car::scatterplotMatrix(~ O2 + SBP + TotalChol + HDLChol + TriG, data = LDS_C10_RISKFACT, smooth = FALSE, regLine = FALSE)
 # There are obvious typos in SBP, the corresponding records should be removed
 ```
+
 ```{r}
 LDS_C10_RISKFACT_a = LDS_C10_RISKFACT[-c(
   which.max(LDS_C10_RISKFACT$SBP)
 ), , drop = FALSE]
 ```
+
 ```{r}
 car::scatterplotMatrix(~ O2 + SBP + TotalChol + HDLChol + TriG, data = LDS_C10_RISKFACT_a, smooth = FALSE, regLine = FALSE)
 ```
+
 ```{r}
 lm(O2 ~ SBP + TotalChol + HDLChol + TriG, data = LDS_C10_RISKFACT_a) |> 
   summary()
 ```
 
-
-
 ### Question 4
+
 This is a wong data, omitted in 11th edition.
+
 ```{r}
 LDS_C10_RESPDIS |> head(n = 3L)
 ```
-
-
-
-
-
-
-
 
 # Chapter 11: *Regression Analysis: Some Additional Techniques*
 
@@ -2429,16 +2637,20 @@ d1121 = EXA_C11_S02_01 |>
     SMOKE = ifelse(SMOKE, yes = 'Yes', no = 'No')
   })
 ```
+
 ```{r}
 car::scatterplot(GRAMS ~ WEEKS | SMOKE, data = d1121, smooth = FALSE,
                  xlab = 'Length of gestation (weeks)', ylab = 'Birth weight (grams)')
 ```
+
 ```{r}
 m1121 = lm(GRAMS ~ WEEKS + SMOKE, data = d1121)
 ```
+
 ```{r}
 m1121 |> summary()
 ```
+
 ```{r}
 m1121 |> confint()
 ```
@@ -2460,26 +2672,33 @@ car::scatterplot(EFFECT ~ AGE | METHOD, data = d1123, smooth = FALSE,
 ```
 
 ### Exercise 11.2.2
+
 Page 557
+
 ```{r}
 EXR_C11_S02_02 |> head(n = 3L)
 ```
+
 ```{r}
 e1122 = EXR_C11_S02_02 |>
   within(expr = {
     DISEASE = structure(DISEASE, levels = c('Cholelithiasis', 'GallbladderCancer'), class = 'factor')
   })
 ```
+
 ```{r}
 car::scatterplot(MDA ~ CYTO | DISEASE, data = e1122, smooth = FALSE,
                  xlab = 'Cytochrome P-450 (nmol/mg)', ylab = 'Melonaldehyde (\u03bcg/mg)')
 ```
+
 ```{r}
 lm(MDA ~ CYTO * DISEASE, data = e1122) |> summary() 
 ```
+
 ```{r}
 lm(MDA ~ CYTO + DISEASE, data = e1122) |> summary()
 ```
+
 ```{r}
 lm(MDA ~ DISEASE, data = e1122) |> summary()
 ```
@@ -2493,6 +2712,7 @@ Page 561,
 ```{r}
 EXA_C11_S03_01 |> head(n = 3L)
 ```
+
 ```{r}
 m1131_raw = lm(JOBPER ~ ASRV + ENTH + AMB + COMM + PROB + INIT, data = EXA_C11_S03_01)
 m1131_raw |> summary()
@@ -2541,6 +2761,7 @@ m1141$coefficients[2L] |> exp() # exp(beta_M)
 ```
 
 Confidence interval of $\exp(\mathbf{\beta})$
+
 ```{r}
 #| message: false
 m1141 |> confint() |> exp() 
@@ -2582,11 +2803,13 @@ Page 576,
 ```{r}
 REV_C11_24 |> head(n = 3L)
 ```
+
 ```{r}
 glm(ONSET ~ HIAA + TRYPT, family = binomial, data = REV_C11_24) |> 
   summary() # Figure 11.4.4
 # Predictor TRYPT should be removed from model due to p-value \approx 1 
 ```
+
 ```{r}
 glm(ONSET ~ HIAA, family = binomial, data = REV_C11_24) |> 
   summary() 
@@ -2600,9 +2823,10 @@ Page 578-579
 m1142 |> DescTools::PseudoR2(which = c('CoxSnell', 'Nagelkerke'))
 ```
 
-
 ### Exercise 11.4.1
+
 Page 581
+
 ```{r}
 e1141 = c(611L, 68L, 308L, 37L) |> 
   matrix(nrow = 2L, dimnames = list(
@@ -2611,9 +2835,11 @@ e1141 = c(611L, 68L, 308L, 37L) |>
   )) |> 
   as.table()
 ```
+
 ```{r}
 e1141 |> as_flextable()
 ```
+
 ```{r}
 e1141 |> 
   as.data.frame.table() |> 
@@ -2624,29 +2850,32 @@ e1141 |>
   summary()
 ```
 
-
-
 ### Exercise 11.4.2
-Page 581, 
+
+Page 581,
+
 ```{r}
 EXR_C11_S04_02 |> head(n = 3L)
 ```
+
 ```{r}
 e1142 = glm(PART ~ INDEX, family = binomial, data = EXR_C11_S04_02)
 e1142 |> summary()
 ```
+
 ```{r}
 e1142$coefficients |> exp()
 ```
+
 ```{r}
 e1142 |> confint() |> exp()
 ```
 
 ## Review
 
-
 ### Review 15
-Page 585 (10th ed) 
+
+Page 585 (10th ed)
 
 ```{r}
 REV_C11_15 |> head(n = 3L)
@@ -2670,10 +2899,10 @@ car::scatterplot(CARDIAC ~ VO2 | GROUP, data = REV_C11_15, smooth = FALSE,
                  xlab = 'Oxygen Consumption (VO2)', ylab = 'Cardiac Output (L/min)')
 ```
 
-
 ### Review 16
 
-Page 585 (10th ed) 
+Page 585 (10th ed)
+
 ```{r}
 REV_C11_16 |> head(n = 3L)
 ```
@@ -2688,13 +2917,14 @@ car::scatterplot(POTAS ~ WATER | SEX, data = REV_C11_16, smooth = FALSE,
                  xlab = 'Total Body Water (L)', ylab = 'Total Body Potassium (mEq)')
 ```
 
-
-
 ### Review 17
+
 Page 586
+
 ```{r}
 REV_C11_17 |> head(n = 3L)
 ```
+
 ```{r}
 car::scatterplot(WEIGHT ~ WEEKS | HOSP, data = REV_C11_17, smooth = FALSE)
 ```
@@ -2704,11 +2934,10 @@ lm(WEIGHT ~ WEEKS * HOSP, dat = REV_C11_17) |>
   summary()
 ```
 
-
-
 ### Review 23
 
-Page 589, 
+Page 589,
+
 ```{r}
 REV_C11_23 |> head(n = 3L)
 ```
@@ -2722,36 +2951,33 @@ lm(V ~ W * GROUP, data = REV_C11_23) |>
   summary()
 ```
 
-
 ### Review 24
 
 Page 590.
 
 see Example 11.4.3
 
-
-
-
-
 ## Large Data Sets
 
-Page 596-597, 
+Page 596-597,
 
 ### Question 1
+
 ```{r}
 LDS_C11_AQUATICS |> head(n = 3L)
 ```
 
 ### Question 2
+
 ```{r}
 LDS_C11_TEACHERS |> head(n = 3L)
 ```
 
 ### Question 3
+
 ```{r}
 LDS_C11_WGTLOSS |> head(n = 3L)
 ```
-
 
 ```{r}
 LDS_C11_WGTLOSS$Group |> table()
@@ -2771,8 +2997,6 @@ lm(Protein ~ IdealBW + Group, data = LDS_C11_WGTLOSS) |>
   summary()
 ```
 
-
-
 # Chapter 12:
 
 ## Section 12.3
@@ -2786,6 +3010,7 @@ d1231_b = c(-Inf, seq(from = 125, to = 275, by = 25), Inf)
 d1231 = c(1L, 3L, 8L, 18L, 6L, 4L, 4L, 3L)
 names(d1231) = cut(double(), breaks = d1231_b, right = FALSE, include.lowest = TRUE) |> levels()
 ```
+
 ```{r}
 p1231 = d1231_b |> 
   pnorm(mean = 198.67, sd = 41.31) |> 
@@ -2814,7 +3039,6 @@ Page 609 (10th ed),
 d1232 = c(5L, 6L, 8L, 10L, 10L, 15L, 17L, 10L, 10L, 9L, 0L)
 o1232 = setNames(c(sum(d1232[1:2]), d1232[-(1:2)]), nm = c('0-1', 2:9, '10 or more'))
 ```
-
 
 ```{r}
 (p = sum((0:10) * d1232) / (25 * 100)) # binomial `prob`
@@ -2845,7 +3069,6 @@ Page 611 (10th ed),
 d1233 = c(5L, 14L, 15L, 23L, 16L, 9L, 3L, 3L, 1L, 1L, 0L)
 o_1233 = setNames(c(d1233[1:8], sum(d1233[-(1:8)])), nm = c(0:7, '8 or more'))
 ```
-
 
 ```{r}
 p1233 = c(
@@ -3047,7 +3270,8 @@ d1273 |> mantelhaen.test()
 ## Review
 
 ### Review 17
-Page 659, 
+
+Page 659,
 
 ```{r}
 r1217 = c(72L, 54L, 16L, 8L, 230L, 192L, 63L, 15L) |>
@@ -3064,24 +3288,22 @@ r1217 |> as.table() |> as_flextable()
 r1217 |> chisq.test()
 ```
 
+### Review 37
 
-### Review 37 
-Page 664, 
+Page 664,
+
 ```{r}
 r1237 = c(29L, 9L, 123L-29L, 192L-123L-9L) |>
   matrix(nrow = 2L, dimnames = list(Gender = c('Male', 'Female'), Drug = c('Yes', 'No')))
 ```
+
 ```{r}
 r1237 |> as.table() |> as_flextable()
 ```
+
 ```{r}
 r1237 |> chisq.test()
 ```
-
-
-
-
-
 
 ## Large Data Sets
 
@@ -3090,6 +3312,7 @@ Page 665-666
 ```{r}
 LDS_C12_SMOKING |> head(n = 3L)
 ```
+
 ```{r}
 SMOKING1 = LDS_C12_SMOKING |>
   within(expr = {
@@ -3108,20 +3331,22 @@ SMOKING1 |> with(expr = chisq.test(x = Smoking, y = Respiratory))
 ```
 
 ### Question 2
+
 ```{r}
 SMOKING1 |> with(expr = chisq.test(x = Drinking, y = HighBloodPres))
 ```
 
 ### Question 3
+
 ```{r}
 SMOKING1 |> with(expr = chisq.test(x = Smoking, y = Gender))
 ```
 
 ### Question 4
+
 ```{r}
 SMOKING1 |> with(expr = chisq.test(x = Drinking, y = Gender))
 ```
-
 
 # Chapter 13: *Nonparametric and Distribution-Free Statistics*
 
@@ -3307,7 +3532,6 @@ Page 747
 LDS_C13_KLETTER |> head(n = 3L)
 ```
 
-
 # Chapter 14: *Survival Analysis*
 
 ## Section 14.3 *The Kaplan–Meier Procedure*
@@ -3430,11 +3654,12 @@ sf_1451 |>
   survminer::ggsurvplot(title = 'Figure 14.5.1')
 ```
 
-
 ## Review
 
 ### Review 11
-Page 774, 
+
+Page 774,
+
 ```{r}
 REV_C14_11 |> head(n = 3L)
 ```
@@ -3448,28 +3673,25 @@ r1411 = REV_C14_11 |>
   })
 ```
 
-
 ```{r}
 m1411 = coxph(OS ~ GRADE, data = r1411)
 ```
+
 ```{r}
 m1411 |> summary()
 ```
-
 
 ```{r}
 survfit(OS ~ GRADE, data = r1411) |> autoplot()
 ```
 
-
 ### Review 12
 
-Page 775, 
+Page 775,
 
 ```{r}
 REV_C14_12 |> head(n = 3L)
 ```
-
 
 ```{r}
 r1412 = REV_C14_12 |> 
@@ -3480,14 +3702,10 @@ r1412 = REV_C14_12 |>
 m1412 = coxph(OS ~ NUMBER, data = r1412)
 ```
 
-
 ```{r}
 m1412 |> summary()
 ```
 
-
 ```{r}
 survfit(OS ~ NUMBER, data = r1412) |> autoplot()
 ```
-
-
