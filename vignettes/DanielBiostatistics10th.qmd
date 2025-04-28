@@ -138,6 +138,7 @@ c(
   '[`glm`](https://search.r-project.org/R/refmans/stats/html/glm.html)', 'Generalized linear model',
   '[`head`, `tail`](https://search.r-project.org/R/refmans/utils/html/head.html)', 'First or last parts of an object',
   '[`kurtosis`](https://search.r-project.org/CRAN/refmans/e1071/html/kurtosis.html)', 'Kurtosis',
+  '[`L`](https://adv-r.hadley.nz/vectors-chap.html#atomic-vectors)', '[Integer](https://search.r-project.org/R/refmans/base/html/integer.html) notation',
   '[`label_percent`](https://search.r-project.org/CRAN/refmans/scales/html/label_percent.html)', 'Label for percentages',
   '[`lm`](https://search.r-project.org/R/refmans/stats/html/lm.html)', 'Linear model',
   '[`log`](https://search.r-project.org/R/refmans/base/html/Log.html)', 'Logarithm',
@@ -1150,7 +1151,7 @@ z_test(xbar = 90, sd = 10, n = 49L, conf.level = .95)
 z_test(xbar = 90, sd = 10, n = 49L, conf.level = .99)
 ```
 
-## Section 6.3
+## Section 6.3 The $t$-Distribution
 
 ### Example 6.3.1
 
@@ -1652,7 +1653,7 @@ EXA_C07_S03_02 |>
   with(expr = var.test(x = CONTROL, y = SCI))
 ```
 
-## Section 7.9
+## Section 7.9 The Type II Error and the Power of a Test
 
 ### Example 7.9.1
 
@@ -2720,7 +2721,7 @@ m1131_raw |> summary()
 # the stepwise selection criterion used in MINITAB is not necessarily AIC
 ```
 
-## Section 11.4
+## Section 11.4 Logistic Regression
 
 ### Example 11.4.1
 
@@ -2997,7 +2998,7 @@ lm(Protein ~ IdealBW + Group, data = LDS_C11_WGTLOSS) |>
   summary()
 ```
 
-# Chapter 12:
+# Chapter 12: The $\chi^2$-Distribution and the Analysis of Frequencies
 
 ## Section 12.3
 

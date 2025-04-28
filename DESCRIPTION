@@ -7,7 +7,7 @@ Description: Functions to accompany Wayne W. Daniel's Biostatistics: A
         Foundation for Analysis in the Health Sciences, Tenth Edition.
 License: GPL-2
 Encoding: UTF-8
-Depends: R (>= 4.4)
+Depends: R (>= 4.5)
 Imports: cli, e1071, flextable, pracma
 Suggests: 
     BSDA,
@@ -22,9 +22,7 @@ Suggests:
     scales,
     survival,
     survminer,
-    knitr,
-    quarto,
-    rmarkdown
+    knitr, quarto, rmarkdown
 Authors@R: c(person(given = 'Tingting', family = 'Zhan', role = c('aut',
         'cre'), email = 'tingtingzhan@gmail.com', comment =
         c(ORCID = '0000-0001-9971-4844')))
