@@ -7,3 +7,4 @@ inst/extdata
 ^CRAN-SUBMISSION$
 vignettes/.*_files
 vignettes/.*.html
+vignettes/rsconnect
