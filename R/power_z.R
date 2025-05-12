@@ -77,15 +77,13 @@ power_z <- function(
     mu = mu, 
     null.value = null.value, 
     sd = sd, n = n,
-    #std.err = std.err,
     power = power,
     sig.level = sig.level,
     reject = attr(power, which = 'reject', exact = TRUE),
     alternative = alternative, 
     method = 'One-Sample z-Test'
   )
-  attr(ret, which = 'power.function') <- powerFun
-  class(ret) <- c('power_z', 'power.htest')
+  class(ret) <- 'power.htest'
   return(ret)
 
 }
