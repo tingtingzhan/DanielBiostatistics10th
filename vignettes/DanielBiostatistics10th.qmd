@@ -2357,6 +2357,12 @@ plot(HYP ~ AGE, data = REV_C09_18)
 cor.test(~ HYP + AGE, data = REV_C09_18)
 ```
 
+### Review 19
+
+```{r}
+lm(TIME ~ PROBLEMS, data = REV_C09_19) |> summary()
+```
+
 ### Review 29
 
 Page 471,
@@ -3160,6 +3166,18 @@ d1242 |> chisq.test(correct = FALSE)
 
 ```{r}
 d1242 |> chisq.test(correct = TRUE)
+```
+
+### Exercise 12.4.4
+
+```{r}
+c(17,25,96,97,142,816) |> 
+  array(dim = c(3L, 2L), dimnames = list(
+    Weight = c('Underweight', 'Overweight', 'Appropriate'),
+    Smoking = c('Yes', 'No')
+  )) |>
+  as.table() |>
+  chisq.test()
 ```
 
 ## Section 12.5

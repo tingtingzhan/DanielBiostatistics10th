@@ -5,7 +5,7 @@
 \title{Power Curve of One-Sample \eqn{z}-Test}
 \usage{
 power_z(
-  x,
+  mu,
   null.value,
   sd,
   n,
@@ -14,7 +14,7 @@ power_z(
 )
 }
 \arguments{
-\item{x}{\link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis}
+\item{mu}{\link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis}
 
 \item{null.value}{\link[base]{numeric} scalar, mean parameter \eqn{\mu_0} in the null hypothesis}
 

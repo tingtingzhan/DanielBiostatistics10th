@@ -6,7 +6,7 @@
 #' 
 #' Power curve of one-sample \eqn{z}-test.
 #' 
-#' @param x \link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis
+#' @param mu \link[base]{numeric} \link[base]{vector}, mean parameter(s) \eqn{\mu_1} in the alternative hypothesis
 #' 
 #' @param null.value \link[base]{numeric} scalar, mean parameter \eqn{\mu_0} in the null hypothesis
 #' 
@@ -37,7 +37,7 @@
 #' @importFrom stats pnorm
 #' @export
 power_z <- function(
-    x, 
+    mu, 
     null.value, 
     sd, n, 
     alternative = c('two.sided', 'less', 'greater'), 
@@ -48,22 +48,22 @@ power_z <- function(
   
   std.err <- sd / sqrt(n)
   
-  powerFun <- function(x, alternative) {
+  powerFun <- function(mu, alternative) {
     
     switch(alternative, two.sided = {
       rr <- qnorm(p = c(sig.level/2, 1-sig.level/2), mean = null.value, sd = std.err) # 2-sided rejection region
-      ret <- pnorm(q = rr[1L], mean = x, sd = std.err, lower.tail = TRUE) + # P(White), in left-RR
-        pnorm(q = rr[2L], mean = x, sd = std.err, lower.tail = FALSE) # P(White), in Right-RR  
+      ret <- pnorm(q = rr[1L], mean = mu, sd = std.err, lower.tail = TRUE) + # P(White), in left-RR
+        pnorm(q = rr[2L], mean = mu, sd = std.err, lower.tail = FALSE) # P(White), in Right-RR  
       attr(ret, which = 'reject') <- sprintf(fmt = '<%.3f or >%.3f', rr[1L], rr[2L])
       
     }, 'less' = {
       rr <- qnorm(p = sig.level, mean = null.value, sd = std.err, lower.tail = TRUE) # P(X_bar < rr) = sig.level
-      ret <- pnorm(q = rr, mean = x, sd = std.err, lower.tail = TRUE) # one-sided P(White)
+      ret <- pnorm(q = rr, mean = mu, sd = std.err, lower.tail = TRUE) # one-sided P(White)
       attr(ret, which = 'reject') <- sprintf(fmt = '<%.3f', rr)
       
     }, 'greater' = {
       rr <- qnorm(p = sig.level, mean = null.value, sd = std.err, lower.tail = FALSE) # P(X_bar > rr) = sig.level
-      ret <- pnorm(q = rr, mean = x, sd = std.err, lower.tail = FALSE) # one-sided P(White)
+      ret <- pnorm(q = rr, mean = mu, sd = std.err, lower.tail = FALSE) # one-sided P(White)
       attr(ret, which = 'reject') <- sprintf(fmt = '>%.3f', rr)
     })
     
@@ -71,10 +71,10 @@ power_z <- function(
     
   }
   
-  power <- powerFun(x, alternative = alternative)
+  power <- powerFun(mu, alternative = alternative)
   
   ret <- list(
-    mu = x, 
+    mu = mu, 
     null.value = null.value, 
     sd = sd, n = n,
     #std.err = std.err,
