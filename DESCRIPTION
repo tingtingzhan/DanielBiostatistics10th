@@ -2,7 +2,6 @@ Package: DanielBiostatistics10th
 Type: Package
 Title: Functions for Wayne W. Daniel's Biostatistics, Tenth Edition
 Version: 0.2.6
-Date: 2024-10-15
 Description: Functions to accompany Wayne W. Daniel's Biostatistics: A
         Foundation for Analysis in the Health Sciences, Tenth Edition.
 License: GPL-2
