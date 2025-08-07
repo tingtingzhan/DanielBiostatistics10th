@@ -3,7 +3,6 @@
 S3method(print,conf.int)
 S3method(summary,binTab)
 export(Gosset_Welch)
-export(Sprintf.binTab)
 export(binTab)
 export(npv)
 export(power_z)
