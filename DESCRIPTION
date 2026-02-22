@@ -18,7 +18,6 @@ Suggests:
     psych,
     reshape2,
     robslopes,
-    scales,
     survival,
     survminer,
     knitr, quarto, rmarkdown
