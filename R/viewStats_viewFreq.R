@@ -21,7 +21,6 @@
 #' @keywords internal
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom pracma Mode
-#' @importFrom stats median.default quantile sd var
 #' @export
 viewStats <- function(x, na.rm = TRUE) {
   nm <- deparse(substitute(x))
@@ -60,7 +59,6 @@ viewStats <- function(x, na.rm = TRUE) {
 #' Function [viewFreq()] returns a \link[flextable]{flextable}
 #' 
 #' @keywords internal
-#' @importFrom flextable flextable autofit align set_header_labels
 #' @export
 viewFreq <- function(x) {
   

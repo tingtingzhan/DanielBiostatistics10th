@@ -40,7 +40,6 @@
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @keywords internal
-#' @importFrom stats pchisq pf qchisq qf setNames
 #' @export
 var_test <- function(
     xsd = sd(obs), 

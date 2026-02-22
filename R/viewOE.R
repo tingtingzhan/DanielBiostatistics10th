@@ -10,7 +10,6 @@
 #' the category-wise \eqn{\chi^2} statistics.
 #' 
 #' @keywords internal
-#' @importFrom flextable flextable autofit align set_header_labels
 #' @export
 viewOE <- function(x) {
   

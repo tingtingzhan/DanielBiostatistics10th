@@ -45,7 +45,6 @@
 #' @seealso \link[stats]{t.test}
 #' 
 #' @keywords internal
-#' @importFrom stats pt qt setNames
 #' @export
 t_test <- function(
     xbar, 

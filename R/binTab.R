@@ -43,7 +43,6 @@
 #' matrix(c(7L, 3L, 8L, 6L), nrow = 2L, dimnames = list(X = c('a','b'), NULL)) |> 
 #'  binTab()
 #' @keywords internal
-#' @importFrom stats setNames
 #' @export
 binTab <- function(x, nm = c('Endpoint', 'Test or Risk')) {
   
@@ -117,11 +116,9 @@ binTab <- function(x, nm = c('Endpoint', 'Test or Risk')) {
 #' @examples 
 #' (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 #' binTab(x)
+#' summary(binTab(x))
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
-#' @importFrom flextable as_flextable
-#' @importFrom cli col_green col_cyan col_magenta
-#' @importFrom stats binom.test pnorm qnorm confint
 #' @export summary.binTab
 #' @export
 summary.binTab <- function(
@@ -140,43 +137,65 @@ summary.binTab <- function(
   sens <- x11 / xr[2L]
   spec <- x00 / xr[1L]
   
-  ret <- character(0L)
-  
-  ret <- c(ret, do.call(sprintf, c(list(
-    fmt = 'Sensitivity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)', 
-    1e2 * sens, 
-    sprintf(fmt = '=%d/%d', x11, xr[2L]) |> col_green()
-  ), as.list.default(1e2 * binom.test(x = x11, n = xr[2L])$conf.int))))
-  ret <- c(ret, do.call(sprintf, c(list(
-    fmt = 'Specificity: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
-    1e2 * spec, 
-    sprintf(fmt = '=%d/%d', x00, xr[1L]) |> col_green()
-  ), as.list.default(1e2 * binom.test(x = x00, n = xr[1L])$conf.int))))
+  ret <- data.frame(
+    ' ' = c('Sensitivity', 'Specificity'),
+    Estimated = c(sens, spec) |>
+      scales::label_percent(accuracy = .1)(),
+    From = sprintf(fmt = '%d/%d', c(x11, x00), c(xr[2L], xr[1L])),
+    '95% Exact CI' = c(
+      binom.test(x = x11, n = xr[2L])$conf.int |>
+        scales::label_percent(accuracy = .1)() |>
+        paste(collapse = ', '),
+      binom.test(x = x00, n = xr[1L])$conf.int |>
+        scales::label_percent(accuracy = .1)() |>
+        paste(collapse = ', ')
+    ),
+    check.names = FALSE
+  )
   
   if (!missing(prevalence)) {
+    
     if (!is.double(prevalence) || !length(prevalence) || anyNA(prevalence) ||
         any(prevalence < 0, prevalence > 1)) stop('`prevalence` must be between 0 and 1 (inclusive)')
     ppv_ <- ppv(prevalence, sensitivity = sens, specificity = spec)
     npv_ <- npv(prevalence, sensitivity = sens, specificity = spec)
-    ret <- c(ret, '')
-    ret <- c(ret, sprintf(
-      fmt = 'Positive vs. Negative Predictive Value: %.3g%% vs. %.3g%%, %s', 
-      1e2*ppv_, 1e2*npv_, 
-      sprintf(fmt = 'prevalence %.3g%%', 1e2*prevalence) |> col_cyan()
-    ))
-    ret <- c(ret, '')
+    
+    ret <- ret |> 
+      rbind(. = _, data.frame(
+        ' ' = c('Positive Predictive Value', 'Negative Predictive Value'),
+        Estimated = c(ppv_, npv_) |>
+          scales::label_percent(accuracy = .1)(),
+        From = prevalence |> 
+          scales::label_percent(accuracy = .1, suffix = '% Prevalence')(),
+        '95% Exact CI' = NA_character_,
+        check.names = FALSE 
+      ))
+
   } else {
-    ret <- c(ret, do.call(what = sprintf, c(list(
-      fmt = 'Positive Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
-      1e2 * x11/xc[2L], 
-      sprintf(fmt = '=%d/%d', x11, xc[2L]) |> col_green()
-    ), as.list.default(1e2 * binom.test(x = x11, n = xc[2L])$conf.int))))
-    ret <- c(ret, do.call(what = sprintf, c(list(
-      fmt = 'Negative Predictive Value: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
-      1e2 * x00/xc[1L], 
-      sprintf(fmt = '=%d/%d', x00, xc[1L]) |> col_green()
-    ), as.list.default(1e2 * binom.test(x = x00, n = xc[1L])$conf.int))))
-    ret <- c(ret, '')
+    
+    ret <- ret |> 
+      rbind(. = _, data.frame(
+        ' ' = c('Positive Predictive Value', 'Negative Predictive Value', 'Diagnose Accuracy'),
+        Estimated = c(x11/xc[2L], x00/xc[1L], (x11+x00)/sum(x)) |>
+          scales::label_percent(accuracy = .1)(),
+        From = c(
+          sprintf(fmt = '%d/%d', c(x11, x00), c(xc[2L], xc[1L])),
+          sprintf(fmt = '(%d+%d)/%d', x11, x00, sum(x))
+        ),
+        '95% Exact CI' = c(
+          binom.test(x = x11, n = xc[2L])$conf.int |>
+            scales::label_percent(accuracy = .1)() |>
+            paste(collapse = ', '),
+          binom.test(x = x00, n = xc[1L])$conf.int |>
+            scales::label_percent(accuracy = .1)() |>
+            paste(collapse = ', '),
+          binom.test(x = x11+x00, n = sum(x))$conf.int |>
+            scales::label_percent(accuracy = .1)() |>
+            paste(collapse = ', ')
+        ),
+        check.names = FALSE
+      ))
+
   }
   
   if (FALSE) {
@@ -208,19 +227,35 @@ summary.binTab <- function(
     #  cat('\n')
   } # have not flipped
   
-  ret <- c(ret, do.call(what = sprintf, c(list(
-    fmt = 'Diagnose Accuracy: %.1f%% %s, 95%% exact CI (%.1f%%, %.1f%%)',
-    1e2 * (x11+x00)/sum(x), 
-    sprintf(fmt = '=(%d+%d)/%d', x11, x00, sum(x)) |> col_green()
-  ), as.list.default(1e2 * binom.test(x = x11+x00, n = sum(x))$conf.int))))
-  
-  ret |> cat(sep = '\n')
-  
-  return(invisible(ret))
+  ret |>
+    flextable() |>
+    autofit(part = 'all') |>
+    align(j = 1L, align = c('center'), part = 'all') |>
+    align(j = ret |> seq_along() |> setdiff(y = 1L), align = c('right'), part = 'all')
   
 }
 
 
+
+
+#' @title [as_flextable.binTab()]
+#' 
+#' @param x `binTab`
+#' 
+#' @param ... ..
+#' 
+#' @importFrom patchwork plot_layout
+#' @export as_flextable.binTab
+#' @export
+as_flextable.binTab <- function(x, ...) {
+  t1 <- NextMethod()
+  t2 <- x |>
+    summary.binTab()
+  list(t1, t2) |>
+    lapply(FUN = wrap_flextable) |>
+    Reduce(f = `+`) +
+    plot_layout(ncol = 1L)
+}
 
 
 #' @title Predictive Values

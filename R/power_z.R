@@ -34,7 +34,6 @@
 #' @seealso \link[stats]{power.t.test}
 #' 
 #' @keywords internal
-#' @importFrom stats pnorm
 #' @export
 power_z <- function(
     mu, 

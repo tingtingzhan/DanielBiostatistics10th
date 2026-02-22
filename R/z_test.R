@@ -44,7 +44,6 @@
 #' otherwise returns a length-two \link[base]{numeric} vector.
 #' 
 #' @keywords internal
-#' @importFrom stats pnorm setNames
 #' @export
 z_test <- function(
     xbar = mean(obs), 

@@ -17,6 +17,10 @@
 #' with errata of data.
 #' 
 # @author Tingting Zhan
+#' @import stats
+#' 
+#' @import cli
+#' @import flextable
 #' 
 # @keywords internal
 '_PACKAGE'

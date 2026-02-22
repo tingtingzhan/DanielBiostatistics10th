@@ -30,6 +30,7 @@ Function \link[e1071]{classAgreement} does not provide confidence interval of \e
 \examples{
 (x = array(c(95L, 10L, 31L, 82L), dim = c(2L, 2L)))
 binTab(x)
+summary(binTab(x))
 print(binTab(x), prevalence = c(.0001, .001, .01))
 }
 \references{

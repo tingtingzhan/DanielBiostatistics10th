@@ -44,7 +44,6 @@
 #' @seealso \link[stats]{prop.test}
 #' 
 #' @keywords internal
-#' @importFrom stats pnorm setNames
 #' @export
 prop_CLT <- function(x, n, obs, phat = x/n, null.value, alternative = c('two.sided', 'less', 'greater'), conf.level = .95, ...) {
   
