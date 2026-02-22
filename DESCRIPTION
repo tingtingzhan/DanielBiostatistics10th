@@ -7,7 +7,7 @@ Description: Functions to accompany Wayne W. Daniel's Biostatistics: A
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 4.5)
-Imports: cli, e1071, flextable, pracma, patchwork
+Imports: cli, e1071, flextable, pracma, patchwork, scales
 Suggests: 
     BSDA,
     car,

@@ -140,14 +140,14 @@ summary.binTab <- function(
   ret <- data.frame(
     ' ' = c('Sensitivity', 'Specificity'),
     Estimated = c(sens, spec) |>
-      scales::label_percent(accuracy = .1)(),
+      label_percent(accuracy = .1)(),
     From = sprintf(fmt = '%d/%d', c(x11, x00), c(xr[2L], xr[1L])),
     '95% Exact CI' = c(
       binom.test(x = x11, n = xr[2L])$conf.int |>
-        scales::label_percent(accuracy = .1)() |>
+        label_percent(accuracy = .1)() |>
         paste(collapse = ', '),
       binom.test(x = x00, n = xr[1L])$conf.int |>
-        scales::label_percent(accuracy = .1)() |>
+        label_percent(accuracy = .1)() |>
         paste(collapse = ', ')
     ),
     check.names = FALSE
@@ -164,9 +164,9 @@ summary.binTab <- function(
       rbind(. = _, data.frame(
         ' ' = c('Positive Predictive Value', 'Negative Predictive Value'),
         Estimated = c(ppv_, npv_) |>
-          scales::label_percent(accuracy = .1)(),
+          label_percent(accuracy = .1)(),
         From = prevalence |> 
-          scales::label_percent(accuracy = .1, suffix = '% Prevalence')(),
+          label_percent(accuracy = .1, suffix = '% Prevalence')(),
         '95% Exact CI' = NA_character_,
         check.names = FALSE 
       ))
@@ -177,20 +177,20 @@ summary.binTab <- function(
       rbind(. = _, data.frame(
         ' ' = c('Positive Predictive Value', 'Negative Predictive Value', 'Diagnose Accuracy'),
         Estimated = c(x11/xc[2L], x00/xc[1L], (x11+x00)/sum(x)) |>
-          scales::label_percent(accuracy = .1)(),
+          label_percent(accuracy = .1)(),
         From = c(
           sprintf(fmt = '%d/%d', c(x11, x00), c(xc[2L], xc[1L])),
           sprintf(fmt = '(%d+%d)/%d', x11, x00, sum(x))
         ),
         '95% Exact CI' = c(
           binom.test(x = x11, n = xc[2L])$conf.int |>
-            scales::label_percent(accuracy = .1)() |>
+            label_percent(accuracy = .1)() |>
             paste(collapse = ', '),
           binom.test(x = x00, n = xc[1L])$conf.int |>
-            scales::label_percent(accuracy = .1)() |>
+            label_percent(accuracy = .1)() |>
             paste(collapse = ', '),
           binom.test(x = x11+x00, n = sum(x))$conf.int |>
-            scales::label_percent(accuracy = .1)() |>
+            label_percent(accuracy = .1)() |>
             paste(collapse = ', ')
         ),
         check.names = FALSE

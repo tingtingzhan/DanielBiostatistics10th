@@ -21,6 +21,7 @@
 #' 
 #' @import cli
 #' @import flextable
+#' @import scales
 #' 
 # @keywords internal
 '_PACKAGE'
