@@ -59,6 +59,7 @@ viewStats <- function(x, na.rm = TRUE) {
 #' Function [viewFreq()] returns a \link[flextable]{flextable}
 #' 
 #' @keywords internal
+#' @importFrom flextable flextable set_header_labels autofit align
 #' @export
 viewFreq <- function(x) {
   

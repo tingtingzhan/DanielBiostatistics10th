@@ -8,3 +8,5 @@ inst/extdata
 vignettes/.*_files
 vignettes/.*.html
 vignettes/rsconnect
+^\.positai$
+^\.claude$

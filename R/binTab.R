@@ -119,6 +119,8 @@ binTab <- function(x, nm = c('Endpoint', 'Test or Risk')) {
 #' summary(binTab(x))
 #' print(binTab(x), prevalence = c(.0001, .001, .01))
 #' @keywords internal
+#' @importFrom flextable flextable autofit align
+#' @importFrom scales label_percent
 #' @export summary.binTab
 #' @export
 summary.binTab <- function(
@@ -245,6 +247,7 @@ summary.binTab <- function(
 #' @param ... ..
 #' 
 #' @importFrom patchwork plot_layout
+#' @importFrom flextable as_flextable wrap_flextable
 #' @export as_flextable.binTab
 #' @export
 as_flextable.binTab <- function(x, ...) {
