@@ -67,8 +67,8 @@ binTab <- function(x, nm = c('Endpoint', 'Test or Risk')) {
     dimnames(x)[] <- dnm |> lapply(FUN = \(i) {
       if (!length(i)) return(c('(-)', '(+)'))
       if (!all(nzchar(i))) stop('do not allow zchar in rownames or colnames')
-      if (!(i[1L] %in% c('FALSE', '(-)'))) i[1L] <- paste(i[1L], '(-)')
-      if (!(i[2L] %in% c('TRUE', '(+)'))) i[2L] <- paste(i[2L], '(+)')
+      if (i[1L] %notin% c('FALSE', '(-)')) i[1L] <- paste(i[1L], '(-)')
+      if (i[2L] %notin% c('TRUE', '(+)')) i[2L] <- paste(i[2L], '(+)')
       return(i)
     })
     
