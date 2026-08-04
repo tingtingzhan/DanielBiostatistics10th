@@ -20,14 +20,18 @@ export(viewStats)
 export(z_test)
 import(cli)
 import(stats)
-importFrom(e1071,kurtosis)
-importFrom(e1071,skewness)
-importFrom(flextable,align)
-importFrom(flextable,as_flextable)
-importFrom(flextable,autofit)
-importFrom(flextable,flextable)
-importFrom(flextable,set_header_labels)
-importFrom(flextable,wrap_flextable)
+importFrom(e1071,
+  kurtosis,
+  skewness
+)
+importFrom(flextable,
+  align,
+  as_flextable,
+  autofit,
+  flextable,
+  set_header_labels,
+  wrap_flextable
+)
 importFrom(patchwork,plot_layout)
 importFrom(pracma,Mode)
 importFrom(scales,label_percent)
